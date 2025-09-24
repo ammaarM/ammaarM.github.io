@@ -1,0 +1,18 @@
+{
+  "name": "{{YOUR_NAME}}",
+  "tagline": "{{YOUR_ROLE_OR_TAGLINE}}",
+  "location": "{{YOUR_LOCATION}}",
+  "email": "{{YOUR_EMAIL}}",
+  "github": "https://github.com/{{YOUR_GITHUB_USERNAME}}",
+  "linkedin": "{{YOUR_LINKEDIN_URL}}",
+  "resumeUrl": "/resume/{{YOUR_GITHUB_USERNAME}}-resume.pdf",
+  "theme": {
+    "default": "system",
+    "accent": "blue"
+  },
+  "features": {
+    "enableCaseStudies": true,
+    "enableNowWidget": true,
+    "enableCommandPalette": true
+  }
+}

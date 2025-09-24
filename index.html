@@ -1,108 +1,60 @@
-<!DOCTYPE html>
-
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-
- <style type="text/css">
-   body{
-      background-color:rgb(50,50,50);
-      color:white
-   }
-   a{
-      color:rgb(210,210,255)
-   }
-   img{
-      margin: 15px 15px 15px 15px
-   }
-   hr{
-      border-top: 1px solid gray;
-   }
-   .infotd{
-     vertical-align:top
-   }
- </style>
-</head>
-
-<body style="background-color:rgb(50,50,50); color:white">
-<table width="1000px">
-  <tbody><tr>
-    <td class="infotd">
-      <h3>Ammaar Murshid</h3>
-      <p> 
-	  I am a student at city in 2020, I have been programming with python for 5 years.
-	  </p> 
-    </td>
-    <td>
-	<img src="./template_files/imageofyou.png" width="300px">
-    </td>
-  </tr>
-  <tr>
-    <td colspan="2">
-	<hr>
-    </td>
-  </tr>
-
- <tr>
-  <td class="infotd">
-    <h3>Bootcamp 2020: Brick Breaker Game</h3>
-    <p>
-	My first programming project, concluding the 2 week Programming Bootcamp at 
-	City(2020). This Processing project demonstrates a comprehensive understanding 
-	of the use of classes, loops, and arrays. I have created a Brick Breaker game which 
-	consists of three main parts the paddle, ball, and bricks. Using classes these objects
-	were made with greater needs than any other method. An example of where this is evident is with the bricks,
-	using an array I was able to create multiple bricks witht the same attributes in a grid format.
-	The ball will bounce whenever it hits the walls on the side or the top, but will show a game 
-	over message once it hits the bottom. When a brick is hit by the ball its collision value is
-	set to true and will then be removed.
-    </p>
-
-    <p>
-      Check out the code on Github: <a href="https://github.com/ammaarM/Bootcamp-Project">https://github.com/ammaarM/Bootcamp-Project/</a>
-    </p>
-  </td><td>
-	<video width="429" height="200" controls="">
-	<source src="BootcampProject.mp4" type="video/mp4">
-	</video>
-  </td><td>
-  </td>
-</tr><tr>
- <td colspan="4" align="center">
-	<img src="./template_files/Screenshot 1.png" width="400px">
-	<img src="./template_files/Screenshot 2.png" width="400px">
-	<img src="./template_files/Screenshot 3.png" width="400px">
-	<img src="./template_files/Screenshot 4.png" width="400px">
- </td>
- </tr><tr>
- <td colspan="3" align="center">
-	<img src="./template_files/Screenshot 5.png" width="400px">
-	<img src="./template_files/Screenshot 6.png" width="400px">
-	<img src="./template_files/Screenshot 7.png" width="400px">
- </td>
-</tr>
-<tr>
-    <td colspan="2">
-<hr>
-    </td>
-</tr>
-<tr>
-  <td class="infotd">
-    <h3>Year 1 Java Project: Hollow Knight Game</h3>
-    <p>
-        I have made a java game using the city engine, which is based off the indie game hollowknight.
-        In this game you must find and kill enough enemies to proceed to the next level. With each level trying
-        to get to the enemy becomes harder and harder.
-    </p>
-
-    <p>
-      Check out the code on Github: <a href="https://github.com/ammaarM/Java-CW-year-1">https://github.com/ammaarM/Java-CW-year-1</a>
-    </p>
-  </td><td>
-	<video width="429" height="200" controls="">
-	<source src="HollowKnightDemo.mp4" type="video/mp4">
-	</video>
-  </td><td>
-  </td>
- 
-</tbody></table>
-
-</body></html>
+<!doctype html>
+<html lang="en" data-theme="system">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{YOUR_NAME}} · Portfolio</title>
+    <meta name="description" content="{{YOUR_NAME}} – {{YOUR_ROLE_OR_TAGLINE}} based in {{YOUR_LOCATION}}." />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href="https://{{YOUR_GITHUB_USERNAME}}.github.io" />
+    <meta property="og:title" content="{{YOUR_NAME}} · {{YOUR_ROLE_OR_TAGLINE}}" />
+    <meta property="og:description" content="Portfolio of {{YOUR_NAME}}, {{YOUR_ROLE_OR_TAGLINE}}." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://{{YOUR_GITHUB_USERNAME}}.github.io" />
+    <meta property="og:image" content="/og-cover.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body class="bg-background text-foreground">
+    <a href="#main" class="skip-link">Skip to content</a>
+    <div id="root"></div>
+    <noscript>
+      <style>
+        body {
+          font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+          padding: 2rem;
+          background: #0f172a;
+          color: #e2e8f0;
+        }
+        .card {
+          border-radius: 18px;
+          padding: 1.5rem;
+          margin-bottom: 1.5rem;
+          background: rgba(15, 23, 42, 0.6);
+          border: 1px solid rgba(148, 163, 184, 0.3);
+        }
+      </style>
+      <h1>{{YOUR_NAME}}</h1>
+      <p>{{YOUR_ROLE_OR_TAGLINE}} · {{YOUR_LOCATION}}</p>
+      <p>
+        View <a href="https://github.com/{{YOUR_GITHUB_USERNAME}}?tab=repositories">all projects on GitHub</a> or
+        <a href="mailto:{{YOUR_EMAIL}}">contact me</a>.
+      </p>
+      <div id="noscript-projects"></div>
+      <script type="application/json" id="noscript-projects-data">
+        []
+      </script>
+      <script>
+        const data = JSON.parse(document.getElementById('noscript-projects-data').textContent || '[]');
+        const container = document.getElementById('noscript-projects');
+        container.innerHTML = '<h2>Featured Projects</h2>';
+        data.forEach((project) => {
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.innerHTML = `<h3><a href="${project.html_url}">${project.name}</a></h3><p>${project.description || ''}</p>`;
+          container.appendChild(card);
+        });
+      </script>
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
