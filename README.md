@@ -1,96 +1,52 @@
-# {{YOUR_NAME}} · Portfolio
+# Ultra-lean static portfolio
 
-A modern, performant, and accessible personal portfolio built with React, Vite, and Tailwind CSS. It automatically pulls public repositories from GitHub, supports custom featured projects, and deploys to GitHub Pages with CI/CD.
+This repository hosts a lightweight, accessible personal portfolio for **Abdul Wahid Murshid**. It is crafted with plain HTML, CSS, and JavaScript so it can be deployed directly with GitHub Pages—no build tools required.
 
-## ✨ Features
-
-- React 18 + TypeScript with Vite for fast, modern builds
-- Tailwind CSS + shadcn/ui primitives with 3 accent themes and dark/light/system mode
-- Framer Motion animations (section reveals, hover tilt, page transitions)
-- GitHub REST API integration with filtering, search, and optional case-study pages
-- Markdown-driven hero/about copy and JSON-driven skills + featured projects
-- Command palette (<kbd>⌘</kbd> + <kbd>K</kbd> / <kbd>Ctrl</kbd> + <kbd>K</kbd>) and “Now” activity widget
-- Accessible, semantic layout with skip links and keyboard focus states
-- Print-friendly `/resume` view and animated 404 page
-- GitHub Actions workflow for building, testing, linting, and deploying to `gh-pages`
-
-## 📁 Project structure
+## Project structure
 
 ```
-├── content/              # Editable markdown/JSON content
-├── public/               # Static assets, resume placeholder, sitemap/robots output
-├── scripts/              # Post-build scripts (sitemap/robots)
-├── src/
-│   ├── assets/           # Local fallback images
-│   ├── components/       # UI + feature components (theme toggle, command palette, etc.)
-│   ├── hooks/            # Custom React hooks
-│   ├── lib/              # Data fetching + content utilities
-│   ├── pages/            # Route-level components (home, case-study, resume, 404)
-│   ├── providers/        # Theme context
-│   ├── types/            # Shared TypeScript types
-│   └── data/             # Bundled fallback data
+/
+├── index.html      # Semantic markup + inline critical styles
+├── styles.css      # Main styling (light/dark themes, layout, animations)
+├── script.js       # Theme toggle, reveal animations, GitHub repos
+├── favicon.svg     # Simple gradient monogram icon
+├── robots.txt      # Allow all crawlers + sitemap pointer
+├── sitemap.xml     # Root + section anchors
+└── assets/
+    └── .gitkeep    # Placeholder – add avatar/resume assets here
 ```
 
-## 🚀 Getting started
+## Customisation
 
-1. **Install dependencies**
-   ```bash
-   npm install
-   ```
+- **Identity**: Update text in `index.html` (name, tagline, bio, skills, contact links) as needed.
+- **Avatar**: Drop a square JPG at `assets/avatar.jpg`. The script swaps to initials automatically if the file is missing or fails to load.
+- **Resume**: Upload your PDF resume as `assets/resume.pdf`. The “Download CV” button links to that path.
+- **Skills & content**: Edit section copy, skill chips, and contact details directly in the markup.
+- **Theme defaults**: Change colour tokens in `styles.css` to refresh the palette. The toggle cycles light → dark → system and persists the choice in `localStorage`.
 
-2. **Copy environment variables**
-   ```bash
-   cp .env.example .env
-   ```
-   Update the values with your details (GitHub username, LinkedIn URL, optional analytics ID). If you maintain a private GitHub token for higher rate limits, you can add it under `VITE_GITHUB_TOKEN` (optional).
+## GitHub projects
 
-3. **Run the development server**
-   ```bash
-   npm run dev
-   ```
-   Open [http://localhost:5173](http://localhost:5173) to preview.
+`script.js` fetches the latest repositories for `ammaarM` (excluding forks and archived repos). Results are sorted by stars, then last update, and capped at 12 cards. If the API call fails, a small curated fallback list renders instead. Adjust the username or fallback data inside `script.js` if you fork this project.
 
-4. **Content updates**
-- `content/hero.md` and `content/about.md` control hero/about copy.
-- `content/skills.json` expects a JSON object keyed by category, e.g. `{ "Languages": ["TypeScript", "Python"] }`.
-- `content/featured.json` can include overrides per project (`title`, `description`, `tags`, `image`, `repo`, `homepage`).
-- Replace `public/resume/{{YOUR_GITHUB_USERNAME}}-resume.pdf` with your actual resume.
+## Deployment
 
-5. **Assets to upload locally**
-   - **Avatar:** place a square headshot at `public/avatar.jpg`. The component falls back to a generated gradient if the file is missing.
-   - **Open Graph cover:** add a `public/og-cover.png` (1200×630 recommended) for richer social previews.
-   - You can drop any additional static assets (images, fonts, favicons) into `public/` and reference them directly.
-   - Update `{{YOUR_LINKEDIN_PHOTO_URL}}` in `src/components/avatar.tsx` if you prefer sourcing the avatar from LinkedIn.
+1. Commit your changes to the `main` branch.
+2. In GitHub, open **Settings → Pages** and choose the `main` branch with `/ (root)`.
+3. Save—Pages will publish the site at `https://<username>.github.io/` within a minute or two.
 
-## 🧪 Quality checks
+## Local preview
 
-```bash
-npm run lint      # ESLint + accessibility rules
-npm run test      # Vitest unit tests
-npm run typecheck # TypeScript project references
-npm run build     # Production build + sitemap/robots generation
-```
+Open `index.html` in your browser (double-click or use a static server like `python -m http.server`). No dependencies or build steps are required.
 
-Husky hooks (pre-commit) run `lint-staged` to lint and format staged files automatically.
+## Accessibility & performance notes
 
-## 📦 Deployment
+- Includes a skip link, semantic landmarks, focus outlines, and high-contrast colour pairs.
+- Respects `prefers-reduced-motion` (reveals and transitions are disabled for reduced-motion users).
+- Critical CSS (fonts, layout shell) is inlined in `index.html` to speed up first paint; the rest lives in `styles.css`.
 
-1. Ensure your repository has GitHub Pages enabled on the `gh-pages` branch.
-2. Push to `main` — the GitHub Actions workflow in `.github/workflows/deploy.yml` will install dependencies, run lint/tests/typecheck, build the site, and deploy the contents of `dist/` to `gh-pages`.
-3. Configure your repository settings so Pages serves from the `gh-pages` branch (root directory).
+## TODOs after cloning
 
-## 🔧 Configuration
-
-- **Theme defaults**: Update `content/site.json` to change the default theme mode or accent.
-- **Analytics**: Drop a GA4 or Plausible ID into `VITE_ANALYTICS_ID` and extend `src/utils/analytics.ts` (placeholder file) to send events.
-- **Rate limiting**: For heavy traffic, consider adding a GitHub personal access token to `.env` (e.g., `VITE_GITHUB_TOKEN`) and forwarding it in `fetchGitHubRepos` headers.
-
-## ♿ Accessibility & performance
-
-- Semantic HTML structure with region landmarks and skip links
-- Keyboard-friendly controls, visible focus states, and prefers-reduced-motion support
-- Responsive images, code-splitting, and caching for fast Lighthouse scores (95+ target)
-
-## 🤝 License
-
-MIT — free to remix and adapt. Please attribute back if you use this as a starting point.
+- [ ] Replace placeholder copy with your story and achievements.
+- [ ] Add `assets/avatar.jpg` and ensure it’s optimised for the web.
+- [ ] Upload `assets/resume.pdf` or update the CTA link to your preferred resume host.
+- [ ] Review `robots.txt` and `sitemap.xml` if you change URLs or section IDs.
