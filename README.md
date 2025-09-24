@@ -1,6 +1,6 @@
 # Ultra-lean static portfolio
 
-This repository hosts a lightweight, accessible personal portfolio for **Abdul Wahid Murshid**. It is crafted with plain HTML, CSS, and JavaScript so it can be deployed directly with GitHub Pages—no build tools required.
+This repository hosts a lightweight, accessible personal portfolio. It is crafted with plain HTML, CSS, and JavaScript so it can be deployed directly with GitHub Pages—no build tools required.
 
 ## Project structure
 
