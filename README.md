@@ -4,7 +4,7 @@ This repo is my personal portfolio to showcase projects. You’re welcome to cop
 
 ## Customising
 - Update your name, links, and hero copy in `index.html`.
-- Swap icons or skills in the Skills grid and tweak theme colours in `styles.css`.
+- Swap icons or skills in the Skills grid and tweak theme colours in `styles.css`. Official SVG logos live in `assets/icons/`.
 - Adjust project filters or fallbacks in `script.js`.
 
 ## GitHub Pages
