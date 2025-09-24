@@ -11,19 +11,44 @@
     <link rel="canonical" href="https://ammaarm.github.io/" />
     <link rel="preload" href="favicon.svg" as="image" type="image/svg+xml" />
     <style>
-      :root { font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif; line-height: 1.6; }
-      body { margin: 0; background: #f6f7fb; color: #0b1220; }
-      .skip-link { position: fixed; top: 0.75rem; left: 0.75rem; padding: 0.65rem 1rem; border-radius: 999px; background: #2f6df6; color: #fff; transform: translateY(-140%); transition: transform 160ms ease; z-index: 50; }
-      .skip-link:focus { transform: none; }
-      .container { max-width: 1080px; margin-inline: auto; padding-inline: clamp(1.25rem, 4vw, 3rem); }
+      :root {
+        font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+        line-height: 1.6;
+      }
+      body {
+        margin: 0;
+        background: #f6f7fb;
+        color: #0b1220;
+      }
+      .skip-link {
+        position: fixed;
+        top: 0.75rem;
+        left: 0.75rem;
+        padding: 0.65rem 1rem;
+        border-radius: 999px;
+        background: #2f6df6;
+        color: #fff;
+        transform: translateY(-140%);
+        transition: transform 160ms ease;
+        z-index: 50;
+      }
+      .skip-link:focus {
+        transform: none;
+      }
+      .container {
+        max-width: 1080px;
+        margin-inline: auto;
+        padding-inline: clamp(1.25rem, 4vw, 3rem);
+      }
     </style>
     <link rel="stylesheet" href="styles.css" />
     <script>
       (() => {
         try {
-          const stored = localStorage.getItem('theme-preference');
-          const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-          const mode = stored && stored !== 'system' ? stored : systemDark ? 'dark' : 'light';
+          const storageKey = 'theme-preference';
+          const stored = localStorage.getItem(storageKey);
+          const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const mode = stored || (systemPrefersDark ? 'dark' : 'light');
           document.documentElement.dataset.theme = mode;
         } catch (error) {
           document.documentElement.dataset.theme = 'light';
@@ -66,7 +91,7 @@
     <main id="main">
       <section class="hero" id="hero" data-section="hero" data-reveal tabindex="-1">
         <div class="container hero-content">
-          <div class="avatar" data-initials="AM" data-animate style="--delay:0ms">
+          <div class="avatar" data-initials="AM" data-animate style="--delay:calc(var(--dur-stagger) * 0)">
             <img
               src="https://media.licdn.com/dms/image/v2/D4E03AQEXmnoYFvs5OQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1723628031913?e=1761782400&amp;v=beta&amp;t=8F-vTxYfQQ5GASHGkc58dqKEJlj7CACcOMyppw2039w"
               alt="Portrait of Ammaar Murshid"
@@ -77,13 +102,13 @@
             />
           </div>
           <div class="hero-copy">
-            <p class="hero-kicker" data-animate style="--delay:60ms">Hello, I’m</p>
-            <h1 data-animate style="--delay:120ms">Ammaar Murshid</h1>
-            <p class="hero-tagline" data-animate style="--delay:180ms">Cloud &amp; Platform Engineer</p>
-            <p class="hero-lede" data-animate style="--delay:240ms">
+            <p class="hero-kicker" data-animate style="--delay:calc(var(--dur-stagger) * 1)">Hello, I’m</p>
+            <h1 data-animate style="--delay:calc(var(--dur-stagger) * 2)">Ammaar Murshid</h1>
+            <p class="hero-tagline" data-animate style="--delay:calc(var(--dur-stagger) * 3)">Cloud &amp; Platform Engineer</p>
+            <p class="hero-lede" data-animate style="--delay:calc(var(--dur-stagger) * 4)">
               I design and operate cloud platforms that teams can trust. My work blends automation, observability, and thoughtful enablement so product engineers can ship with confidence.
             </p>
-            <div class="hero-cta" data-animate style="--delay:300ms">
+            <div class="hero-cta" data-animate style="--delay:calc(var(--dur-stagger) * 5)">
               <a class="btn" href="#projects" data-scroll>View Projects</a>
               <a class="btn ghost" href="assets/resume.pdf">Download CV</a>
             </div>
@@ -112,48 +137,70 @@
             <p>A snapshot of the technologies and practices I lean on to deliver dependable platforms.</p>
           </div>
           <div class="skills-grid" role="list">
-            <article class="skill" role="listitem" data-reveal-item>
-              <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 6h24v4H4zm0 8h24v4H4zm0 8h24v4H4z" /></svg>
+            <article class="skill" role="listitem" aria-label="Microsoft Azure" style="--skill-color:#0078D4" data-reveal-item>
+              <svg class="skill-icon" viewBox="0 0 64 64" role="img" aria-hidden="true" focusable="false">
+                <path d="M8 44 26.6 8h19.5L28.6 44H8Zm28.4 0 9-18.1L56 44H36.4Z" fill="currentColor" />
+              </svg>
               <span>Microsoft Azure</span>
             </article>
-            <article class="skill" role="listitem" data-reveal-item>
-              <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3 3 13l13 16 13-16zm0 6.2 6.3 4.8L16 24.3l-6.3-10.3z" /></svg>
+            <article class="skill" role="listitem" aria-label="Terraform" style="--skill-color:#7B42BC" data-reveal-item>
+              <svg class="skill-icon" viewBox="0 0 64 64" role="img" aria-hidden="true" focusable="false">
+                <path d="M28 8 52 22v12L28 20V8Zm-16 8 16 8v12L12 28V16Zm16 20 24 14v12L28 48V36Z" fill="currentColor" />
+              </svg>
               <span>Terraform</span>
             </article>
-            <article class="skill" role="listitem" data-reveal-item>
-              <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 6h20l2 6-12 14L4 12zm5.5 4 4.5 10 4.5-10z" /></svg>
+            <article class="skill" role="listitem" aria-label="PowerShell" style="--skill-color:#5391FE" data-reveal-item>
+              <svg class="skill-icon" viewBox="0 0 64 64" role="img" aria-hidden="true" focusable="false">
+                <path d="m10 16 36-8a4 4 0 0 1 4.8 3l6 26.4A4 4 0 0 1 53 42.6L17 50.6a4 4 0 0 1-4.8-3L6.2 21.2A4 4 0 0 1 10 16Zm15.4 5.8L16.2 32l9.2 6.2 3.2-4.6-4.4-2.8 4.4-3.2-3.2-4.6ZM28 40h12l-1-5H27l1 5Z" fill="currentColor" />
+              </svg>
               <span>PowerShell</span>
             </article>
-            <article class="skill" role="listitem" data-reveal-item>
-              <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 9c0-3 4-5 10-5s10 2 10 5v14c0 3-4 5-10 5S6 26 6 23zm10-7c-4.8 0-8 1.7-8 3.5S11.2 15 16 15s8-1.7 8-3.5S20.8 2 16 2zm0 15c-4.8 0-8-1.7-8-3.5V23c0 1.8 3.2 3.5 8 3.5s8-1.7 8-3.5v-9.5c0 1.8-3.2 3.5-8 3.5z" /></svg>
+            <article class="skill" role="listitem" aria-label="Python" style="--skill-color:#3776AB" data-reveal-item>
+              <svg class="skill-icon" viewBox="0 0 64 64" role="img" aria-hidden="true" focusable="false">
+                <path d="M32 8c-9.8 0-18 2.9-18 12v8h18v4H12c-4 0-6 3.2-6 8s2 8 6 8h9v-6h16c9.8 0 18-2.9 18-12v-8H31.9v-4H52c4 0 6-3.2 6-8s-2-8-6-8h-9v6H32Zm-8 6a2 2 0 1 1 0 4 2 2 0 0 1 0-4Zm16 24a2 2 0 1 1 0 4 2 2 0 0 1 0-4Z" fill="currentColor" />
+              </svg>
               <span>Python</span>
             </article>
-            <article class="skill" role="listitem" data-reveal-item>
-              <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 4h20l-2 9h-7l-1 4h8l-2 9H6l2-9h7l1-4h-8z" /></svg>
+            <article class="skill" role="listitem" aria-label="GitHub Actions CI/CD" style="--skill-color:#2088FF" data-reveal-item>
+              <svg class="skill-icon" viewBox="0 0 64 64" role="img" aria-hidden="true" focusable="false">
+                <path d="M20 18a12 12 0 1 1 20.7 7.5L48 33l2-2 6 6-6 6-2-2-7.3 7.5A12 12 0 1 1 20 46v-9.2c-3-.8-6-3.4-6-7.8 0-5.4 4.6-8.9 9-8.9H24a12 12 0 0 1-4-8Zm6-6a6 6 0 1 0 12 0 6 6 0 0 0-12 0Zm-6 24a6 6 0 1 0 12 0v-6h-6c-2 0-6 1-6 6Zm12 18a6 6 0 1 0 12 0 6 6 0 0 0-12 0Z" fill="currentColor" />
+              </svg>
               <span>GitHub Actions CI/CD</span>
             </article>
-            <article class="skill" role="listitem" data-reveal-item>
-              <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3 3 11v10l13 8 13-8V11zm9 8.4-9 5.6-9-5.6L16 6z" /></svg>
+            <article class="skill" role="listitem" aria-label="Docker" style="--skill-color:#2496ED" data-reveal-item>
+              <svg class="skill-icon" viewBox="0 0 64 64" role="img" aria-hidden="true" focusable="false">
+                <path d="M28 18h8v8h-8v-8Zm-10 0h8v8h-8v-8Zm-10 8h8v8H8v-8Zm10 0h8v8h-8v-8Zm10 0h8v8h-8v-8Zm10 0h8v8h-8v-8Zm18-2c2.3 0 4.6 1 5.8 3.4 2.2 4.3.2 11.6-4.6 15.4C45.6 49.8 38 52 28.4 52 17 52 8.5 47.4 6 39h8v-8h8v8h8v-8h8v8h13.6c1-.9 2.7-2.8 2.4-4.5-.2-1.2-1.2-1.9-3-2-.9 0-1.9.1-2.9.2l.6-6.7A26 26 0 0 1 56 24Z" fill="currentColor" />
+              </svg>
               <span>Docker</span>
             </article>
-            <article class="skill" role="listitem" data-reveal-item>
-              <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 7h20l-3 9 3 9H6l3-9zM11 16l-1.5 4h13L21 16l1.5-4h-13z" /></svg>
+            <article class="skill" role="listitem" aria-label="Kubernetes" style="--skill-color:#326CE5" data-reveal-item>
+              <svg class="skill-icon" viewBox="0 0 64 64" role="img" aria-hidden="true" focusable="false">
+                <path d="M32 8 12 18l-4 18 14 14h20l14-14-4-18L32 8Zm0 10.2 9.1 4.6 2.6 10.8L32 42.8l-11.7-9.2 2.6-10.8L32 18.2Zm0 6.7-3.4 1.7-1 4.3L32 34l4.4-3.1-1-4.3L32 24.9Z" fill="currentColor" />
+              </svg>
               <span>Kubernetes</span>
             </article>
-            <article class="skill" role="listitem" data-reveal-item>
-              <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 6h20v8l-10 12L6 14zm16 4H10l6 8z" /></svg>
+            <article class="skill" role="listitem" aria-label="Windows Server" style="--skill-color:#00ADEF" data-reveal-item>
+              <svg class="skill-icon" viewBox="0 0 64 64" role="img" aria-hidden="true" focusable="false">
+                <path d="M12 12 52 8v20L12 32V12Zm0 20 40 4v20l-40-4V32Z" fill="currentColor" />
+              </svg>
               <span>Windows Server</span>
             </article>
-            <article class="skill" role="listitem" data-reveal-item>
-              <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 8h20v4H6zm0 6h20v10H6z" /></svg>
+            <article class="skill" role="listitem" aria-label="SQL" style="--skill-color:#CC2927" data-reveal-item>
+              <svg class="skill-icon" viewBox="0 0 64 64" role="img" aria-hidden="true" focusable="false">
+                <path d="M32 10c-12 0-20 3.6-20 9v26c0 5.4 8 9 20 9s20-3.6 20-9V19c0-5.4-8-9-20-9Zm0 6c9 0 14 2.2 14 3s-5 3-14 3-14-2.2-14-3 5-3 14-3Zm-14 10c3.4 1.6 8.6 2.4 14 2.4s10.6-.8 14-2.4v4.6c0 .8-5 3-14 3s-14-2.2-14-3V26Zm0 12c3.4 1.6 8.6 2.4 14 2.4s10.6-.8 14-2.4v4.6c0 .8-5 3-14 3s-14-2.2-14-3V38Z" fill="currentColor" />
+              </svg>
               <span>SQL</span>
             </article>
-            <article class="skill" role="listitem" data-reveal-item>
-              <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M8 6h9l7 10-7 10H8l7-10zm5 10-5 7h10z" /></svg>
+            <article class="skill" role="listitem" aria-label="Java" style="--skill-color:#007396" data-reveal-item>
+              <svg class="skill-icon" viewBox="0 0 64 64" role="img" aria-hidden="true" focusable="false">
+                <path d="M34 10c0 4-4.6 6.7-5.8 10.2-1.1 3.3 1.2 6.8 8.6 9.6-8.8.4-14.6-2.5-14.6-7.5C22.2 17 33.9 16 34 10Zm13 30c0 6.6-8.6 10-17 10S16 46.6 16 40c0-3.8 2.7-6.4 6-8.4-1 1.8-1.4 3.4-1 4.8 1 3.6 6.5 5.6 14 5.6s12.8-2 14-5.6c.4-1.4 0-3-1-4.8 3.2 2 6 4.6 6 8.4Zm-17.6-4.6c-5.2-.4-9.2-1.8-11-3.9 1.6-.9 3.4-1.7 5.4-2.4 1.2 1.6 3.6 2.9 6.4 3.5-1.1.9-2.3 1.8-2.8 2.8Zm6.6-2.8c2-.6 3.9-1.4 5.5-2.4-1.8 2-5.8 3.5-11 3.9-.6-1-1.7-1.9-2.8-2.8 2.8-.6 5.2-1.9 6.4-3.5 2 .7 3.8 1.5 5.4 2.4Z" fill="currentColor" />
+              </svg>
               <span>Java</span>
             </article>
-            <article class="skill" role="listitem" data-reveal-item>
-              <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 6h24l-4 8 4 12H4l4-12zM10 12l-2 6h14l-3-6z" /></svg>
+            <article class="skill" role="listitem" aria-label="JavaScript" style="--skill-color:#F7DF1E" data-reveal-item>
+              <svg class="skill-icon" viewBox="0 0 64 64" role="img" aria-hidden="true" focusable="false">
+                <path d="M10 10h44v44H10V10Zm23 32.5c0 4.4-2.6 6.5-6.4 6.5-3.4 0-5.4-1.7-6.5-4l4.4-2.6c.3.9.8 1.6 1.7 1.6s1.2-.5 1.2-1.6V26h5.6v16.5Zm6.6 6.3c-3 0-5.3-1.2-6.7-3.4l4.4-2.6c.7 1 1.5 1.6 2.4 1.6 1 0 1.6-.4 1.6-1.9V26h5.7v16.9c0 4.2-2.5 6.9-7.4 6.9Z" fill="currentColor" />
+              </svg>
               <span>JavaScript</span>
             </article>
           </div>
