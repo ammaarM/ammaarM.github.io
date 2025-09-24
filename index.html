@@ -11,55 +11,12 @@
     <link rel="canonical" href="https://ammaarm.github.io/" />
     <link rel="preload" href="favicon.svg" as="image" type="image/svg+xml" />
     <link rel="stylesheet" href="styles.css" />
-    <style>
-      :root {
-        color-scheme: light dark;
-        font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
-        line-height: 1.5;
-        font-synthesis: none;
-        text-rendering: optimizeLegibility;
-        -webkit-font-smoothing: antialiased;
-        --page-max-width: 1100px;
-        --surface: #f7f8fb;
-        --text-primary: #0f172a;
-        --accent: #2563eb;
-      }
-      body {
-        margin: 0;
-        min-height: 100vh;
-        background: var(--surface);
-        color: var(--text-primary);
-      }
-      a {
-        color: inherit;
-      }
-      .container {
-        max-width: var(--page-max-width);
-        margin: 0 auto;
-        padding: clamp(1.5rem, 3vw, 2.5rem);
-      }
-      .skip-link {
-        position: fixed;
-        top: 0.5rem;
-        left: 0.5rem;
-        padding: 0.75rem 1rem;
-        background: var(--accent);
-        color: #fff;
-        border-radius: 0.75rem;
-        transform: translateY(-150%);
-        transition: transform 150ms ease;
-        z-index: 20;
-      }
-      .skip-link:focus {
-        transform: translateY(0);
-      }
-    </style>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header" data-reveal>
       <div class="container header-inner">
-        <a class="brand" href="#hero" aria-label="Home">
+        <a class="brand" href="#hero" aria-label="Home" data-scroll>
           <span class="brand-monogram" aria-hidden="true">AM</span>
           <span class="brand-text">Ammaar Murshid</span>
         </a>
@@ -75,9 +32,9 @@
         </button>
         <nav class="site-nav" aria-label="Primary">
           <ul>
-            <li><a href="#about">About</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a class="nav-link" href="#about" data-scroll>About</a></li>
+            <li><a class="nav-link" href="#projects" data-scroll>Projects</a></li>
+            <li><a class="nav-link" href="#contact" data-scroll>Contact</a></li>
           </ul>
         </nav>
         <button class="theme-toggle" type="button" aria-label="Toggle dark mode">
@@ -87,33 +44,48 @@
       </div>
     </header>
     <main id="main">
-      <section class="hero" id="hero" data-reveal>
+      <section
+        class="hero"
+        id="hero"
+        data-section="hero"
+        data-reveal
+        tabindex="-1"
+      >
         <div class="container hero-content">
           <div class="avatar" data-initials="AM">
             <img
-              src="assets/avatar.jpg"
+              src="https://media.licdn.com/dms/image/v2/D4E03AQEXmnoYFvs5OQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1723628031913?e=1761782400&amp;v=beta&amp;t=8F-vTxYfQQ5GASHGkc58dqKEJlj7CACcOMyppw2039w"
               alt="Portrait of Ammaar Murshid"
               width="192"
               height="192"
               loading="lazy"
+              decoding="async"
             />
           </div>
           <div class="hero-copy">
             <p class="hero-kicker">Hello, I’m</p>
             <h1>Ammaar Murshid</h1>
             <p class="hero-tagline">Cloud &amp; Platform Engineer</p>
-            <p>
-              I build resilient cloud platforms, automate infrastructure, and
-              partner with teams to deliver secure, scalable products.
+            <p class="hero-lede">
+              I design and operate cloud platforms that teams can trust. My work
+              blends automation, observability, and thoughtful enablement so
+              product engineers can ship with confidence.
             </p>
             <div class="hero-cta">
-              <a class="btn" href="#projects">View Projects</a>
+              <a class="btn" href="#projects" data-scroll>View Projects</a>
               <a class="btn ghost" href="assets/resume.pdf">Download CV</a>
             </div>
           </div>
         </div>
       </section>
-      <section class="about" id="about" aria-labelledby="about-title" data-reveal>
+      <section
+        class="about"
+        id="about"
+        aria-labelledby="about-title"
+        data-section="about"
+        data-reveal
+        tabindex="-1"
+      >
         <div class="container section-content">
           <div class="section-header">
             <h2 id="about-title">About</h2>
@@ -138,7 +110,9 @@
         class="projects"
         id="projects"
         aria-labelledby="projects-title"
+        data-section="projects"
         data-reveal
+        tabindex="-1"
       >
         <div class="container section-content">
           <div class="section-header">
@@ -151,22 +125,27 @@
           <div id="projects-grid" class="projects-grid" role="list"></div>
           <template id="project-card-template">
             <article class="project-card" role="listitem">
-              <header>
-                <h3 class="project-title"></h3>
-                <div class="project-meta">
-                  <span class="project-stars" aria-label="Stars"></span>
+              <div class="project-media" aria-hidden="true">
+                <div class="project-preview" role="presentation"></div>
+              </div>
+              <div class="project-body">
+                <header>
+                  <h3 class="project-title"></h3>
+                  <div class="project-meta">
+                    <span class="project-stars" aria-label="Stars"></span>
+                  </div>
+                </header>
+                <p class="project-description"></p>
+                <div class="project-tags" aria-label="Topics"></div>
+                <div class="project-links">
+                  <a class="text-link project-repo" target="_blank" rel="noreferrer">Repo</a>
+                  <a
+                    class="text-link project-demo"
+                    target="_blank"
+                    rel="noreferrer"
+                    hidden
+                  >Demo</a>
                 </div>
-              </header>
-              <p class="project-description"></p>
-              <div class="project-tags" aria-label="Topics"></div>
-              <div class="project-links">
-                <a class="text-link project-repo" target="_blank" rel="noreferrer">Repo</a>
-                <a
-                  class="text-link project-demo"
-                  target="_blank"
-                  rel="noreferrer"
-                  hidden
-                >Demo</a>
               </div>
             </article>
           </template>
@@ -188,7 +167,9 @@
         class="contact"
         id="contact"
         aria-labelledby="contact-title"
+        data-section="contact"
         data-reveal
+        tabindex="-1"
       >
         <div class="container section-content">
           <div class="section-header">
