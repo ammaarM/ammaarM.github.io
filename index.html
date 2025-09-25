@@ -61,7 +61,17 @@
     <header class="site-header" data-reveal>
       <div class="container header-inner">
         <a class="brand" href="#hero" aria-label="Home" data-scroll>
-          <span class="brand-monogram" aria-hidden="true">AM</span>
+          <span class="avatar avatar--nav" data-avatar data-initials="AM">
+            <img
+              src="https://media.licdn.com/dms/image/v2/D4E03AQEXmnoYFvs5OQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1723628031913?e=1761782400&amp;v=beta&amp;t=8F-vTxYfQQ5GASHGkc58dqKEJlj7CACcOMyppw2039w"
+              alt="Ammaar Murshid avatar"
+              width="64"
+              height="64"
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="avatar-fallback" aria-hidden="true">AM</span>
+          </span>
           <span class="brand-text">Ammaar Murshid</span>
         </a>
         <button
@@ -91,7 +101,7 @@
     <main id="main">
       <section class="hero" id="hero" data-section="hero" data-reveal tabindex="-1">
         <div class="container hero-content">
-          <div class="avatar" data-initials="AM" data-animate style="--delay:calc(var(--dur-stagger) * 0)">
+          <div class="avatar avatar--hero" data-avatar data-initials="AM" data-animate style="--delay:calc(var(--dur-stagger) * 0)">
             <img
               src="https://media.licdn.com/dms/image/v2/D4E03AQEXmnoYFvs5OQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1723628031913?e=1761782400&amp;v=beta&amp;t=8F-vTxYfQQ5GASHGkc58dqKEJlj7CACcOMyppw2039w"
               alt="Portrait of Ammaar Murshid"
@@ -100,6 +110,7 @@
               loading="lazy"
               decoding="async"
             />
+            <span class="avatar-fallback" aria-hidden="true">AM</span>
           </div>
           <div class="hero-copy">
             <p class="hero-kicker" data-animate style="--delay:calc(var(--dur-stagger) * 1)">Hello, I’m</p>
@@ -138,47 +149,47 @@
           </div>
           <div class="skills-grid" role="list">
             <article class="skill" role="listitem" aria-label="Microsoft Azure" style="--skill-color:#0078D4" data-reveal-item>
-              <img class="skill-icon" src="assets/icons/azure.svg" alt="Microsoft Azure logo" title="Microsoft Azure" width="32" height="32" loading="lazy" decoding="async" />
+              <img class="skill-icon" src="assets/icons/azure.svg" alt="Microsoft Azure logo" aria-label="Microsoft Azure logo" title="Microsoft Azure" width="32" height="32" loading="lazy" decoding="async" />
               <span>Microsoft Azure</span>
             </article>
             <article class="skill" role="listitem" aria-label="Terraform" style="--skill-color:#7B42BC" data-reveal-item>
-              <img class="skill-icon" src="assets/icons/terraform.svg" alt="HashiCorp Terraform logo" title="HashiCorp Terraform" width="32" height="32" loading="lazy" decoding="async" />
+              <img class="skill-icon" src="assets/icons/terraform.svg" alt="HashiCorp Terraform logo" aria-label="HashiCorp Terraform logo" title="HashiCorp Terraform" width="32" height="32" loading="lazy" decoding="async" />
               <span>Terraform</span>
             </article>
             <article class="skill" role="listitem" aria-label="PowerShell" style="--skill-color:#5391FE" data-reveal-item>
-              <img class="skill-icon" src="assets/icons/powershell.svg" alt="Microsoft PowerShell logo" title="Microsoft PowerShell" width="32" height="32" loading="lazy" decoding="async" />
+              <img class="skill-icon" src="assets/icons/powershell.svg" alt="Microsoft PowerShell logo" aria-label="Microsoft PowerShell logo" title="Microsoft PowerShell" width="32" height="32" loading="lazy" decoding="async" />
               <span>PowerShell</span>
             </article>
             <article class="skill" role="listitem" aria-label="Python" style="--skill-color:#3776AB" data-reveal-item>
-              <img class="skill-icon" src="assets/icons/python.svg" alt="Python logo" title="Python" width="32" height="32" loading="lazy" decoding="async" />
+              <img class="skill-icon" src="assets/icons/python.svg" alt="Python logo" aria-label="Python logo" title="Python" width="32" height="32" loading="lazy" decoding="async" />
               <span>Python</span>
             </article>
             <article class="skill" role="listitem" aria-label="GitHub Actions CI/CD" style="--skill-color:#2088FF" data-reveal-item>
-              <img class="skill-icon" src="assets/icons/github-actions.svg" alt="GitHub Actions logo" title="GitHub Actions" width="32" height="32" loading="lazy" decoding="async" />
+              <img class="skill-icon" src="assets/icons/github-actions.svg" alt="GitHub Actions logo" aria-label="GitHub Actions logo" title="GitHub Actions" width="32" height="32" loading="lazy" decoding="async" />
               <span>GitHub Actions CI/CD</span>
             </article>
             <article class="skill" role="listitem" aria-label="Docker" style="--skill-color:#2496ED" data-reveal-item>
-              <img class="skill-icon" src="assets/icons/docker.svg" alt="Docker logo" title="Docker" width="32" height="32" loading="lazy" decoding="async" />
+              <img class="skill-icon" src="assets/icons/docker.svg" alt="Docker logo" aria-label="Docker logo" title="Docker" width="32" height="32" loading="lazy" decoding="async" />
               <span>Docker</span>
             </article>
             <article class="skill" role="listitem" aria-label="Kubernetes" style="--skill-color:#326CE5" data-reveal-item>
-              <img class="skill-icon" src="assets/icons/kubernetes.svg" alt="Kubernetes logo" title="Kubernetes" width="32" height="32" loading="lazy" decoding="async" />
+              <img class="skill-icon" src="assets/icons/kubernetes.svg" alt="Kubernetes logo" aria-label="Kubernetes logo" title="Kubernetes" width="32" height="32" loading="lazy" decoding="async" />
               <span>Kubernetes</span>
             </article>
             <article class="skill" role="listitem" aria-label="Windows Server" style="--skill-color:#00ADEF" data-reveal-item>
-              <img class="skill-icon" src="assets/icons/windows-server.svg" alt="Windows Server logo" title="Windows Server" width="32" height="32" loading="lazy" decoding="async" />
+              <img class="skill-icon" src="assets/icons/windows-server.svg" alt="Windows Server logo" aria-label="Windows Server logo" title="Windows Server" width="32" height="32" loading="lazy" decoding="async" />
               <span>Windows Server</span>
             </article>
             <article class="skill" role="listitem" aria-label="SQL Server" style="--skill-color:#CC2927" data-reveal-item>
-              <img class="skill-icon" src="assets/icons/sql.svg" alt="Microsoft SQL Server logo" title="Microsoft SQL Server" width="32" height="32" loading="lazy" decoding="async" />
+              <img class="skill-icon" src="assets/icons/sql.svg" alt="Microsoft SQL Server logo" aria-label="Microsoft SQL Server logo" title="Microsoft SQL Server" width="32" height="32" loading="lazy" decoding="async" />
               <span>SQL</span>
             </article>
             <article class="skill" role="listitem" aria-label="Java" style="--skill-color:#007396" data-reveal-item>
-              <img class="skill-icon" src="assets/icons/java.svg" alt="Java logo" title="Java" width="32" height="32" loading="lazy" decoding="async" />
+              <img class="skill-icon" src="assets/icons/java.svg" alt="Java logo" aria-label="Java logo" title="Java" width="32" height="32" loading="lazy" decoding="async" />
               <span>Java</span>
             </article>
             <article class="skill" role="listitem" aria-label="JavaScript" style="--skill-color:#F7DF1E" data-reveal-item>
-              <img class="skill-icon" src="assets/icons/javascript.svg" alt="JavaScript logo" title="JavaScript" width="32" height="32" loading="lazy" decoding="async" />
+              <img class="skill-icon" src="assets/icons/javascript.svg" alt="JavaScript logo" aria-label="JavaScript logo" title="JavaScript" width="32" height="32" loading="lazy" decoding="async" />
               <span>JavaScript</span>
             </article>
           </div>
@@ -189,6 +200,69 @@
           <div class="section-header" data-reveal-item>
             <h2 id="projects-title">Projects</h2>
             <p>Open-source work fetched live from GitHub with fallbacks for reliability.</p>
+          </div>
+          <div class="featured" data-reveal-item>
+            <h3 class="featured-heading">Featured</h3>
+            <div id="featured-projects" class="featured-grid" role="list" data-reveal-group>
+              <article
+                class="project-card featured-card"
+                role="listitem"
+                data-featured
+                data-featured-name="Birth Plan"
+                data-featured-url="https://www.birthplan.co.uk"
+                data-reveal-item
+              >
+                <div class="project-media">
+                  <span class="project-shimmer" aria-hidden="true"></span>
+                  <img class="project-preview" alt="" loading="lazy" decoding="async" width="640" height="360" />
+                  <div class="project-fallback" hidden></div>
+                </div>
+                <div class="project-body">
+                  <header>
+                    <h3 class="project-title">Birth Plan</h3>
+                    <p class="project-meta">Birth plan website for pregnant women to generate a plan — collaboration project.</p>
+                  </header>
+                  <p class="project-description" id="birth-plan-blurb" tabindex="-1">
+                    Birth Plan helps expectant parents create a calm, shareable birth plan with guided prompts and printable output.
+                    It brings together healthcare guidance, clear design, and empathetic language so families can feel prepared for
+                    labor conversations.
+                  </p>
+                  <div class="project-links featured-links">
+                    <a class="btn" href="https://www.birthplan.co.uk" target="_blank" rel="noreferrer" aria-label="Visit Birth Plan website">Visit site</a>
+                    <a class="btn ghost" href="#birth-plan-blurb" data-scroll>Learn more</a>
+                  </div>
+                </div>
+              </article>
+              <article
+                class="project-card featured-card"
+                role="listitem"
+                data-featured
+                data-featured-name="RepoMerge"
+                data-featured-url="https://www.repomerge.com"
+                data-reveal-item
+              >
+                <div class="project-media">
+                  <span class="project-shimmer" aria-hidden="true"></span>
+                  <img class="project-preview" alt="" loading="lazy" decoding="async" width="640" height="360" />
+                  <div class="project-fallback" hidden></div>
+                </div>
+                <div class="project-body">
+                  <header>
+                    <h3 class="project-title">RepoMerge</h3>
+                    <p class="project-meta">Git repository aggregator for GitHub and GitLab with unified sharing and code search.</p>
+                  </header>
+                  <p class="project-description" id="repomerge-blurb" tabindex="-1">
+                    RepoMerge indexes repositories from GitHub and GitLab into one searchable surface, making it effortless to share
+                    curated collections across teams. It handles authentication, sync scheduling, and fast query responses for
+                    engineering enablement.
+                  </p>
+                  <div class="project-links featured-links">
+                    <a class="btn" href="https://www.repomerge.com" target="_blank" rel="noreferrer" aria-label="Visit RepoMerge website">Visit site</a>
+                    <a class="btn ghost" href="#repomerge-blurb" data-scroll>Learn more</a>
+                  </div>
+                </div>
+              </article>
+            </div>
           </div>
           <div id="projects-grid" class="projects-grid" role="list" data-reveal-item></div>
           <template id="project-card-template">
