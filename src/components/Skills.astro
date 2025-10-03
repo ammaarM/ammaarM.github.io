@@ -1,46 +1,92 @@
 ---
 const skills = [
-  { label: 'Microsoft Azure', icon: '/assets/icons/azure.svg', color: '#0078D4' },
-  { label: 'Terraform', icon: '/assets/icons/terraform.svg', color: '#7B42BC' },
-  { label: 'PowerShell', icon: '/assets/icons/powershell.svg', color: '#5391FE' },
-  { label: 'Python', icon: '/assets/icons/python.svg', color: '#3776AB' },
-  { label: 'GitHub Actions CI/CD', icon: '/assets/icons/github-actions.svg', color: '#2088FF' },
-  { label: 'Docker', icon: '/assets/icons/docker.svg', color: '#2496ED' },
-  { label: 'Kubernetes', icon: '/assets/icons/kubernetes.svg', color: '#326CE5' },
-  { label: 'Windows Server', icon: '/assets/icons/windows-server.svg', color: '#00ADEF' },
-  { label: 'SQL', icon: '/assets/icons/sql.svg', color: '#CC2927' },
-  { label: 'Java', icon: '/assets/icons/java.svg', color: '#007396' },
-  { label: 'JavaScript', icon: '/assets/icons/javascript.svg', color: '#F7DF1E' },
+  {
+    label: "Microsoft Azure",
+    icon: "/assets/icons/Azure.svg",
+    color: "#0078D4",
+  },
+  {
+    label: "Terraform",
+    icon: "/assets/icons/HashiCorp-Terraform.svg",
+    color: "#7B42BC",
+  },
+  {
+    label: "PowerShell",
+    icon: "/assets/icons/Powershell.svg",
+    color: "#5391FE",
+  },
+  {
+    label: "Bash",
+    icon: "/assets/icons/Bash.svg",
+    color: "#5391FE",
+  },
+  { label: "Python", icon: "/assets/icons/Python.svg", color: "#3776AB" },
+  {
+    label: "GitHub Actions CI/CD",
+    icon: "/assets/icons/GitHub-Actions.svg",
+    color: "#2088FF",
+  },
+  { label: "Docker", icon: "/assets/icons/Docker.svg", color: "#2496ED" },
+  {
+    label: "Kubernetes",
+    icon: "/assets/icons/Kubernetes.svg",
+    color: "#326CE5",
+  },
+  {
+    label: "Windows Server",
+    icon: "/assets/icons/Windows-11.svg",
+    color: "#00ADEF",
+  },
+  { label: "SQL", icon: "/assets/icons/SQL-Developer.svg", color: "#CC2927" },
+  { label: "Java", icon: "/assets/icons/Java.svg", color: "#007396" },
+  {
+    label: "JavaScript",
+    icon: "/assets/icons/JavaScript.svg",
+    color: "#F7DF1E",
+  },
 ];
 ---
-<section class="skills" id="skills" aria-labelledby="skills-title" data-section="skills" data-reveal tabindex="-1">
+
+<section
+  class="skills"
+  id="skills"
+  aria-labelledby="skills-title"
+  data-section="skills"
+  data-reveal
+  tabindex="-1"
+>
   <div class="container section-content" data-reveal-group>
     <div class="section-header" data-reveal-item>
       <h2 id="skills-title">Skills</h2>
-      <p>A snapshot of the technologies and practices I lean on to deliver dependable platforms.</p>
+      <p>
+        A snapshot of the technologies and practices I lean on to deliver
+        dependable platforms.
+      </p>
     </div>
     <div class="skills-grid" role="list">
-      {skills.map((skill) => (
-        <article
-          class="skill"
-          role="listitem"
-          aria-label={skill.label}
-          style={{ '--skill-color': skill.color }}
-          data-reveal-item
-        >
-          <img
-            class="skill-icon"
-            src={skill.icon}
-            alt={`${skill.label} logo`}
-            title={skill.label}
-            width="32"
-            height="32"
-            loading="lazy"
-            decoding="async"
-          />
-          <span>{skill.label}</span>
-        </article>
-      ))}
+      {
+        skills.map((skill) => (
+          <article
+            class="skill"
+            role="listitem"
+            aria-label={skill.label}
+            style={{ "--skill-color": skill.color }}
+            data-reveal-item
+          >
+            <img
+              class="skill-icon"
+              src={skill.icon}
+              alt={`${skill.label} logo`}
+              title={skill.label}
+              width="32"
+              height="32"
+              loading="lazy"
+              decoding="async"
+            />
+            <span>{skill.label}</span>
+          </article>
+        ))
+      }
     </div>
   </div>
 </section>
