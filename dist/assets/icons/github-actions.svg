@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <title>GitHub Actions</title>
-  <circle cx="22" cy="18" r="10" fill="#2088FF"/>
-  <path fill="#54AEFF" d="M30 18a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z" opacity=".3"/>
-  <circle cx="48" cy="16" r="6" fill="#2088FF"/>
-  <circle cx="48" cy="32" r="6" fill="#2088FF"/>
-  <circle cx="48" cy="48" r="6" fill="#2088FF"/>
-  <path fill="none" stroke="#2088FF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" d="M28 18h14M28 18c0 15 8 26 20 30"/>
-</svg>
