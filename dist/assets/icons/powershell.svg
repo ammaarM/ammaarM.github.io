@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>Microsoft PowerShell</title>
+  <rect width="56" height="44" x="4" y="10" rx="8" fill="#1F74C1"/>
+  <path fill="#54A3F0" d="M52 12H12a6 6 0 0 0-6 6v28a6 6 0 0 0 6 6h40a6 6 0 0 0 6-6V18a6 6 0 0 0-6-6Z" opacity=".35"/>
+  <path fill="#fff" d="m18 22 17 10-17 10 2.6 4.4 22-14.4-22-14.4zm12 18h16v4H30z"/>
+</svg>

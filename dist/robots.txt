@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://ammaarm.github.io/sitemap.xml

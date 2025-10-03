@@ -1,7 +1,7 @@
 ---
-import '../styles/global.css';
-import SiteHeader from '../components/SiteHeader.astro';
-import SiteFooter from '../components/SiteFooter.astro';
+import "../styles/global.css";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
 
 interface Props {
   title?: string;
@@ -11,18 +11,25 @@ interface Props {
 }
 
 const {
-  title = 'Ammaar Murshid · Cloud & Platform Engineer',
-  description = 'Ammaar Murshid is a cloud and platform engineer building reliable infrastructure and delightful developer experiences.',
-  ogImage = '/images/social-card.svg',
+  title = "Ammaar Murshid · Cloud & Platform Engineer",
+  description = "Ammaar Murshid is a cloud and platform engineer building reliable infrastructure and delightful developer experiences.",
+  ogImage = "/images/social-card.svg",
   canonical,
 } = Astro.props as Props;
 
 const site = Astro.site?.toString();
-const canonicalUrl = canonical ?? (site ? new URL(Astro.url.pathname, site).toString() : undefined);
+const canonicalUrl =
+  canonical ??
+  (site ? new URL(Astro.url.pathname, site).toString() : undefined);
 const pageTitle = title;
-const imageUrl = ogImage.startsWith('http') ? ogImage : site ? new URL(ogImage, site).toString() : ogImage;
+const imageUrl = ogImage.startsWith("http")
+  ? ogImage
+  : site
+    ? new URL(ogImage, site).toString()
+    : ogImage;
 ---
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="en" data-theme="light">
   <head>
     <meta charset="utf-8" />
@@ -44,14 +51,16 @@ const imageUrl = ogImage.startsWith('http') ? ogImage : site ? new URL(ogImage, 
     <slot name="head" />
     <script is:inline>
       (function () {
-        const storageKey = 'theme-preference';
+        const storageKey = "theme-preference";
         try {
           const stored = localStorage.getItem(storageKey);
-          const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-          const mode = stored || (systemPrefersDark ? 'dark' : 'light');
+          const systemPrefersDark = window.matchMedia(
+            "(prefers-color-scheme: dark)"
+          ).matches;
+          const mode = stored || (systemPrefersDark ? "dark" : "light");
           document.documentElement.dataset.theme = mode;
         } catch (error) {
-          document.documentElement.dataset.theme = 'light';
+          document.documentElement.dataset.theme = "light";
         }
       })();
     </script>
@@ -63,6 +72,6 @@ const imageUrl = ogImage.startsWith('http') ? ogImage : site ? new URL(ogImage, 
       <slot />
     </main>
     <SiteFooter />
-    <script type="module" src={Astro.resolve('../scripts/site.ts')}></script>
+    <script type="module" src="../scripts/site.ts"></script>
   </body>
 </html>
