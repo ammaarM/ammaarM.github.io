@@ -1,0 +1,103 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const page = {
+  title: 'BirthPlan · Case study',
+  description: 'Designing a calm birth planning companion with collaborative sharing and printable outputs.',
+};
+
+const livePreview = 'https://www.birthplan.co.uk';
+const repoPreview = 'https://github.com/ammaarM/birth-plan';
+---
+
+<BaseLayout {page}>
+  <section class="case-hero" data-reveal>
+    <div class="container case-hero-inner" data-reveal-group>
+      <div class="prose" data-reveal-item>
+        <h1>BirthPlan</h1>
+        <p class="subtitle">
+          Guiding expectant families through a compassionate, clinician-backed planning experience.
+        </p>
+      </div>
+      <div class="case-hero-media" data-reveal-item>
+        <div class="preview-frame">
+          <iframe
+            src={livePreview}
+            title="BirthPlan live preview"
+            loading="lazy"
+            referrerpolicy="no-referrer"
+            tabindex="-1"
+          ></iframe>
+          <div class="preview-overlay" aria-hidden="true">Live preview</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container case-summary" data-reveal>
+    <div class="case-grid" data-reveal-group>
+      <div class="case-card prose" data-reveal-item>
+        <h2>At a glance</h2>
+        <ul>
+          <li><strong>Role:</strong> Product engineer &amp; UX partner</li>
+          <li><strong>Timeline:</strong> 4 month collaboration</li>
+          <li><strong>Stack:</strong> Next.js, Azure Static Web Apps, Playwright</li>
+        </ul>
+      </div>
+      <div class="case-card prose" data-reveal-item style="--reveal-delay:120ms">
+        <h2>Summary</h2>
+        <p>
+          BirthPlan blends warmth with evidence-based prompts so families can share preferences confidently with their
+          care teams. It auto-formats plans for printing, digital sharing, and quick updates on the go.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="container case-features" data-reveal>
+    <div class="prose" data-reveal-item>
+      <h2>Features</h2>
+      <ul>
+        <li>Guided questionnaire with contextual medical insights and inclusive language.</li>
+        <li>Real-time collaboration link for partners, doulas, and midwives.</li>
+        <li>Accessible exports optimised for hospital systems and offline reference.</li>
+        <li>Playwright regression suite ensuring accessible flows across devices.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="container case-media" data-reveal>
+    <div class="media-grid" data-reveal-group>
+      <figure class="media-card" data-reveal-item>
+        <div class="preview-frame">
+          <iframe
+            src={livePreview}
+            title="BirthPlan application"
+            loading="lazy"
+            referrerpolicy="no-referrer"
+            tabindex="-1"
+          ></iframe>
+          <div class="preview-overlay" aria-hidden="true">Live preview</div>
+        </div>
+        <figcaption>Desktop layout highlighting editable preferences and calming palette.</figcaption>
+      </figure>
+      <figure class="media-card" data-reveal-item style="--reveal-delay:120ms">
+        <div class="preview-frame">
+          <iframe
+            src={repoPreview}
+            title="BirthPlan repository overview"
+            loading="lazy"
+            referrerpolicy="no-referrer"
+            tabindex="-1"
+          ></iframe>
+          <div class="preview-overlay" aria-hidden="true">Repository</div>
+        </div>
+        <figcaption>Collaboration history, accessibility tests, and deployment workflows.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <nav class="container case-ctas" data-reveal>
+    <a class="btn ghost" href="/#projects">Back to Projects</a>
+    <a class="btn" href="https://github.com/ammaarM/birth-plan" target="_blank" rel="noreferrer">View Repo</a>
+  </nav>
+</BaseLayout>

@@ -3,6 +3,7 @@ title: Birth Plan
 description: Birth plan website for pregnant women to generate a plan — collaboration project.
 url: https://www.birthplan.co.uk
 repo: https://github.com/ammaarM/birth-plan
+previewPath: /birthplan
 tech:
   - Next.js
   - Azure Static Web Apps

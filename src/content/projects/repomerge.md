@@ -3,6 +3,7 @@ title: RepoMerge
 description: Git repository aggregator for GitHub and GitLab with unified sharing and code search.
 url: https://www.repomerge.com
 repo: https://github.com/ammaarM/repomerge
+previewPath: /repomerge
 tech:
   - Azure Functions
   - Cosmos DB

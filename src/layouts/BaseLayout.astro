@@ -30,7 +30,7 @@ const imageUrl = ogImage.startsWith("http")
 ---
 
 <!doctype html>
-<html lang="en" data-theme="light">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -50,28 +50,50 @@ const imageUrl = ogImage.startsWith("http")
     {imageUrl && <meta name="twitter:image" content={imageUrl} />}
     <slot name="head" />
     <script is:inline>
-      (function () {
-        const storageKey = "theme-preference";
+      (() => {
+        const docEl = document.documentElement;
+        const storageKey = "theme";
+        const legacyKey = "theme-preference";
+        const systemPrefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)"
+        ).matches;
+        let stored = null;
         try {
-          const stored = localStorage.getItem(storageKey);
-          const systemPrefersDark = window.matchMedia(
-            "(prefers-color-scheme: dark)"
-          ).matches;
-          const mode = stored || (systemPrefersDark ? "dark" : "light");
-          document.documentElement.dataset.theme = mode;
+          stored =
+            localStorage.getItem(storageKey) ??
+            localStorage.getItem(legacyKey);
         } catch (error) {
-          document.documentElement.dataset.theme = "light";
+          stored = null;
         }
+        const sanitized =
+          stored === "dark" || stored === "light" || stored === "system"
+            ? stored
+            : null;
+        const resolved =
+          sanitized === "dark"
+            ? "dark"
+            : sanitized === "light"
+            ? "light"
+            : systemPrefersDark
+            ? "dark"
+            : "light";
+        docEl.dataset.theme = resolved;
       })();
     </script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
     <SiteHeader currentPath={Astro.url.pathname} />
-    <main id="main">
-      <slot />
+    <main id="main" class="layout">
+      <div class="layout-inner">
+        <slot />
+      </div>
     </main>
     <SiteFooter />
+    <script type="module" is:inline>
+      import { initReveal } from "../scripts/reveal";
+      initReveal();
+    </script>
     <script type="module" src="../scripts/site.ts"></script>
   </body>
 </html>

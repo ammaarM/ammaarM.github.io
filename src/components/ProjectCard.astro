@@ -26,22 +26,33 @@ const accentPalette = ['#2f6df6', '#7B42BC', '#2496ED', '#68a0ff', '#3f4a60'];
 const fallbackAccent = accentPalette[Math.abs(data.sortOrder ?? 0) % accentPalette.length];
 
 const tech = data.tech ?? [];
-const image = data.image;
-const imageAlt = data.imageAlt ?? `Preview of ${data.title}`;
 const isFeatured = variant === 'featured';
+const previewPath = data.previewPath;
+const previewTarget = previewPath ?? null;
+
+const cardDelay =
+  variant === 'featured' && typeof data.sortOrder === 'number'
+    ? `${Math.max(0, data.sortOrder) * 80}ms`
+    : undefined;
 ---
-<article class={classes.join(' ')} role="listitem">
+<article
+  class={classes.join(' ')}
+  role="listitem"
+  data-reveal
+  style={cardDelay ? { '--reveal-delay': cardDelay } : undefined}
+>
   <div class="project-media">
-    {image ? (
-      <img
-        class="project-preview"
-        src={image.startsWith('http') || image.startsWith('/') ? image : Astro.resolve(image)}
-        alt={imageAlt}
-        width="640"
-        height="360"
-        loading="lazy"
-        decoding="async"
-      />
+    {previewTarget ? (
+      <div class="project-preview-pane">
+        <iframe
+          src={previewTarget}
+          title={`${data.title} preview`}
+          loading="lazy"
+          referrerpolicy="no-referrer"
+          tabindex="-1"
+        ></iframe>
+        <div class="preview-overlay" aria-hidden="true">Live preview</div>
+      </div>
     ) : (
       <div class="project-fallback" style={{ '--fallback-color': fallbackAccent }} aria-hidden="true">
         <div class="favicon-wrap">
@@ -66,6 +77,14 @@ const isFeatured = variant === 'featured';
       </div>
     )}
     <div class={isFeatured ? 'project-links featured-links' : 'project-links'}>
+      {previewPath && (
+        <a
+          class={isFeatured ? 'btn ghost' : 'text-link'}
+          href={previewPath}
+        >
+          {isFeatured ? 'Case study' : 'Preview'}
+        </a>
+      )}
       {data.url && (
         <a
           class={isFeatured ? 'btn' : 'text-link'}

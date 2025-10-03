@@ -1,0 +1,104 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const page = {
+  title: 'RepoMerge · Case study',
+  description:
+    'How RepoMerge accelerates multi-repository integrations with guided conflict resolution and observability overlays.',
+};
+
+const livePreview = 'https://www.repomerge.com';
+const flowPreview = 'https://github.com/ammaarM/repomerge';
+---
+
+<BaseLayout {page}>
+  <section class="case-hero" data-reveal>
+    <div class="container case-hero-inner" data-reveal-group>
+      <div class="prose" data-reveal-item>
+        <h1>RepoMerge</h1>
+        <p class="subtitle">
+          Accelerating and de-risking large scale repository merges with AI-assisted conflict navigation.
+        </p>
+      </div>
+      <div class="case-hero-media" data-reveal-item>
+        <div class="preview-frame">
+          <iframe
+            src={livePreview}
+            title="RepoMerge live preview"
+            loading="lazy"
+            referrerpolicy="no-referrer"
+            tabindex="-1"
+          ></iframe>
+          <div class="preview-overlay" aria-hidden="true">Live preview</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container case-summary" data-reveal>
+    <div class="case-grid" data-reveal-group>
+      <div class="case-card prose" data-reveal-item>
+        <h2>At a glance</h2>
+        <ul>
+          <li><strong>Role:</strong> Lead platform engineer &amp; product strategist</li>
+          <li><strong>Timeline:</strong> 6 months from discovery to pilot</li>
+          <li><strong>Stack:</strong> Azure Functions, GitHub Apps, Cosmos DB</li>
+        </ul>
+      </div>
+      <div class="case-card prose" data-reveal-item style="--reveal-delay:120ms">
+        <h2>Summary</h2>
+        <p>
+          RepoMerge makes multi-repo migrations feel calm. It orchestrates safe merge previews, semantic diffing, and
+          automated branch protections so teams can iterate quickly without losing historical fidelity.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="container case-features" data-reveal>
+    <div class="prose" data-reveal-item>
+      <h2>Highlights</h2>
+      <ul>
+        <li>Semantic diff prioritisation surfaces conflicts by blast radius and affected services.</li>
+        <li>One-click safety branches with pre-wired GitHub Actions gating critical paths.</li>
+        <li>Observability overlays map CI runs, deploy windows, and rollback levers in one glance.</li>
+        <li>Automated knowledge cards summarise merge context for release managers.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="container case-media" data-reveal>
+    <div class="media-grid" data-reveal-group>
+      <figure class="media-card" data-reveal-item>
+        <div class="preview-frame">
+          <iframe
+            src={livePreview}
+            title="RepoMerge application"
+            loading="lazy"
+            referrerpolicy="no-referrer"
+            tabindex="-1"
+          ></iframe>
+          <div class="preview-overlay" aria-hidden="true">Live preview</div>
+        </div>
+        <figcaption>Dashboard view showing prioritised merge checkpoints.</figcaption>
+      </figure>
+      <figure class="media-card" data-reveal-item style="--reveal-delay:120ms">
+        <div class="preview-frame">
+          <iframe
+            src={flowPreview}
+            title="RepoMerge repository overview"
+            loading="lazy"
+            referrerpolicy="no-referrer"
+            tabindex="-1"
+          ></iframe>
+          <div class="preview-overlay" aria-hidden="true">Repository</div>
+        </div>
+        <figcaption>Conflict resolution workflow, architecture docs, and automation scripts.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <nav class="container case-ctas" data-reveal>
+    <a class="btn ghost" href="/#projects">Back to Projects</a>
+    <a class="btn" href="https://github.com/ammaarM/repomerge" target="_blank" rel="noreferrer">View Repo</a>
+  </nav>
+</BaseLayout>

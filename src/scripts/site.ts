@@ -1,56 +1,26 @@
-const docEl = document.documentElement;
-const storageKey = 'theme-preference';
+import { initTheme, setTheme, type ThemeMode } from './theme';
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
-
-type Theme = 'light' | 'dark';
-
-const getStoredTheme = (): Theme | null => {
-  try {
-    const value = localStorage.getItem(storageKey);
-    return value === 'dark' || value === 'light' ? value : null;
-  } catch (error) {
-    return null;
-  }
-};
-
-const storeTheme = (theme: Theme) => {
-  try {
-    localStorage.setItem(storageKey, theme);
-  } catch (error) {
-    // ignore storage issues
-  }
-};
-
-const applyTheme = (theme: Theme) => {
-  docEl.dataset.theme = theme;
-};
-
-const updateThemeToggle = (button: HTMLButtonElement | null, theme: Theme) => {
-  if (!button) return;
-  const isDark = theme === 'dark';
-  const label = isDark ? 'Activate light theme' : 'Activate dark theme';
-  button.setAttribute('aria-pressed', String(isDark));
-  button.setAttribute('aria-label', label);
-  button.setAttribute('title', label);
-};
-
-const resolveTheme = (): Theme => {
-  const stored = getStoredTheme();
-  if (stored) return stored;
-  return systemTheme.matches ? 'dark' : 'light';
-};
+const mobileQuery = window.matchMedia('(max-width: 768px)');
 
 document.addEventListener('DOMContentLoaded', () => {
   const body = document.body;
   body.classList.add('is-ready');
 
-  const themeToggle = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
+  const themeButtons = Array.from(
+    document.querySelectorAll<HTMLButtonElement>('[data-theme-option]')
+  );
+  const themeLabel = document.querySelector<HTMLElement>('[data-theme-label]');
   const navToggle = document.querySelector<HTMLButtonElement>('[data-nav-toggle]');
   const nav = document.querySelector<HTMLElement>('.site-nav');
-  const navLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('.nav-link'));
-  const sections = Array.from(document.querySelectorAll<HTMLElement>('section[data-section]'));
-  const avatars = Array.from(document.querySelectorAll<HTMLElement>('[data-avatar]'));
+  const navLinks = Array.from(
+    document.querySelectorAll<HTMLAnchorElement>('.nav-link')
+  );
+  const sections = Array.from(
+    document.querySelectorAll<HTMLElement>('section[data-section]')
+  );
+  const avatars = Array.from(
+    document.querySelectorAll<HTMLElement>('[data-avatar]')
+  );
 
   const initAvatars = () => {
     avatars.forEach((avatar) => {
@@ -81,31 +51,40 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
-  const initialTheme = resolveTheme();
-  applyTheme(initialTheme);
-  updateThemeToggle(themeToggle, initialTheme);
-
-  initAvatars();
-
-  themeToggle?.addEventListener('click', () => {
-    const nextTheme: Theme = docEl.dataset.theme === 'dark' ? 'light' : 'dark';
-    applyTheme(nextTheme);
-    storeTheme(nextTheme);
-    updateThemeToggle(themeToggle, nextTheme);
-  });
-
-  const handleSystemTheme = (event: MediaQueryListEvent) => {
-    if (getStoredTheme()) return;
-    const nextTheme: Theme = event.matches ? 'dark' : 'light';
-    applyTheme(nextTheme);
-    updateThemeToggle(themeToggle, nextTheme);
+  const formatLabel = (mode: ThemeMode, theme: 'light' | 'dark') => {
+    if (mode === 'system') {
+      return `Follow system preference (${theme})`;
+    }
+    return `Use ${mode} theme`;
   };
 
-  if (typeof systemTheme.addEventListener === 'function') {
-    systemTheme.addEventListener('change', handleSystemTheme);
-  } else if (typeof systemTheme.addListener === 'function') {
-    systemTheme.addListener(handleSystemTheme);
-  }
+  const updateThemeButtons = (theme: 'light' | 'dark', mode: ThemeMode) => {
+    themeButtons.forEach((button) => {
+      const value = (button.dataset.themeOption as ThemeMode) || 'system';
+      const isActive = value === mode;
+      button.setAttribute('aria-pressed', String(isActive));
+      button.classList.toggle('is-active', isActive);
+      const label = formatLabel(value, theme);
+      button.setAttribute('aria-label', label);
+      button.setAttribute('title', label);
+    });
+    if (themeLabel) {
+      const displayMode =
+        mode === 'system' ? `Auto · ${theme.charAt(0).toUpperCase()}${theme.slice(1)}` : `${theme.charAt(0).toUpperCase()}${theme.slice(1)}`;
+      themeLabel.textContent = displayMode;
+    }
+  };
+
+  initTheme(updateThemeButtons);
+
+  themeButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const value = (button.dataset.themeOption as ThemeMode) || 'system';
+      setTheme(value);
+    });
+  });
+
+  initAvatars();
 
   navToggle?.addEventListener('click', () => {
     const expanded = navToggle.getAttribute('aria-expanded') === 'true';
@@ -121,7 +100,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const highlightSection = (target: HTMLElement | null) => {
     if (!target) return;
     target.classList.add('is-anchor-target');
-    window.setTimeout(() => target.classList.remove('is-anchor-target'), 1400);
+    window.setTimeout(
+      () => target.classList.remove('is-anchor-target'),
+      prefersReducedMotion.matches ? 0 : 900
+    );
   };
 
   const updateActiveNav = (id: string) => {
@@ -151,7 +133,9 @@ document.addEventListener('DOMContentLoaded', () => {
     sections.forEach((section) => observer.observe(section));
   }
 
-  const scrollLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-scroll]'));
+  const scrollLinks = Array.from(
+    document.querySelectorAll<HTMLAnchorElement>('[data-scroll]')
+  );
   scrollLinks.forEach((link) => {
     const href = link.getAttribute('href') || '';
     if (!href.startsWith('#')) return;
@@ -163,9 +147,14 @@ document.addEventListener('DOMContentLoaded', () => {
       if (link.classList.contains('nav-link')) {
         closeMobileNav();
       }
-      const behavior: ScrollBehavior = prefersReducedMotion.matches ? 'auto' : 'smooth';
+      const behavior: ScrollBehavior = prefersReducedMotion.matches
+        ? 'auto'
+        : 'smooth';
       target.scrollIntoView({ behavior, block: 'start' });
-      window.setTimeout(() => highlightSection(target), prefersReducedMotion.matches ? 0 : 900);
+      window.setTimeout(
+        () => highlightSection(target),
+        prefersReducedMotion.matches ? 0 : 900
+      );
       try {
         target.focus({ preventScroll: true });
       } catch (error) {
@@ -177,5 +166,58 @@ document.addEventListener('DOMContentLoaded', () => {
   const yearTarget = document.querySelector<HTMLElement>('[data-year]');
   if (yearTarget) {
     yearTarget.textContent = String(new Date().getFullYear());
+  }
+
+  const parallaxTarget = document.querySelector<HTMLElement>('[data-parallax]');
+  if (parallaxTarget) {
+    let frame = 0;
+    const applyParallax = () => {
+      frame = 0;
+      if (prefersReducedMotion.matches || mobileQuery.matches) {
+        parallaxTarget.style.removeProperty('--parallax-offset');
+        return;
+      }
+      const rect = parallaxTarget.getBoundingClientRect();
+      const midpoint = window.innerHeight / 2;
+      const distance = rect.top + rect.height / 2 - midpoint;
+      const offset = Math.max(-36, Math.min(36, distance * -0.08));
+      parallaxTarget.style.setProperty('--parallax-offset', `${offset.toFixed(2)}px`);
+    };
+
+    const handleScroll = () => {
+      if (frame === 0) {
+        frame = window.requestAnimationFrame(applyParallax);
+      }
+    };
+
+    applyParallax();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', applyParallax);
+
+    const handleMotionChange = () => {
+      if (prefersReducedMotion.matches) {
+        parallaxTarget.style.removeProperty('--parallax-offset');
+      }
+      applyParallax();
+    };
+
+    if (typeof prefersReducedMotion.addEventListener === 'function') {
+      prefersReducedMotion.addEventListener('change', handleMotionChange);
+    } else if (typeof prefersReducedMotion.addListener === 'function') {
+      prefersReducedMotion.addListener(handleMotionChange);
+    }
+
+    const handleMobileChange = () => {
+      if (mobileQuery.matches) {
+        parallaxTarget.style.removeProperty('--parallax-offset');
+      }
+      applyParallax();
+    };
+
+    if (typeof mobileQuery.addEventListener === 'function') {
+      mobileQuery.addEventListener('change', handleMobileChange);
+    } else if (typeof mobileQuery.addListener === 'function') {
+      mobileQuery.addListener(handleMobileChange);
+    }
   }
 });

@@ -1,53 +1,31 @@
 ---
+import { Image } from "astro:assets";
+import azureIcon from "../assets/icons/azure.svg";
+import terraformIcon from "../assets/icons/HashiCorp-Terraform.svg";
+import powershellIcon from "../assets/icons/powershell.svg";
+import bashIcon from "../assets/icons/Bash.svg";
+import pythonIcon from "../assets/icons/python.svg";
+import githubActionsIcon from "../assets/icons/github-actions.svg";
+import dockerIcon from "../assets/icons/docker.svg";
+import kubernetesIcon from "../assets/icons/kubernetes.svg";
+import windowsIcon from "../assets/icons/Windows-11.svg";
+import sqlIcon from "../assets/icons/Azure-SQL-Database.svg";
+import javaIcon from "../assets/icons/java.svg";
+import javascriptIcon from "../assets/icons/javascript.svg";
+
 const skills = [
-  {
-    label: "Microsoft Azure",
-    icon: "/assets/icons/azure.svg",
-    color: "#0078D4",
-  },
-  {
-    label: "Terraform",
-    icon: "/assets/icons/HashiCorp-Terraform.svg",
-    color: "#7B42BC",
-  },
-  {
-    label: "PowerShell",
-    icon: "/assets/icons/powershell.svg",
-    color: "#5391FE",
-  },
-  {
-    label: "Bash",
-    icon: "/assets/icons/Bash.svg",
-    color: "#5391FE",
-  },
-  { label: "Python", icon: "/assets/icons/python.svg", color: "#3776AB" },
-  {
-    label: "GitHub Actions CI/CD",
-    icon: "/assets/icons/github-actions.svg",
-    color: "#2088FF",
-  },
-  { label: "Docker", icon: "/assets/icons/docker.svg", color: "#2496ED" },
-  {
-    label: "Kubernetes",
-    icon: "/assets/icons/kubernetes.svg",
-    color: "#326CE5",
-  },
-  {
-    label: "Windows Server",
-    icon: "/assets/icons/Windows-11.svg",
-    color: "#00ADEF",
-  },
-  {
-    label: "SQL",
-    icon: "/assets/icons/Azure-SQL-Database.svg",
-    color: "#CC2927",
-  },
-  { label: "Java", icon: "/assets/icons/java.svg", color: "#007396" },
-  {
-    label: "JavaScript",
-    icon: "/assets/icons/javascript.svg",
-    color: "#F7DF1E",
-  },
+  { label: "Microsoft Azure", icon: azureIcon, color: "#0078D4" },
+  { label: "Terraform", icon: terraformIcon, color: "#7B42BC" },
+  { label: "PowerShell", icon: powershellIcon, color: "#5391FE" },
+  { label: "Bash", icon: bashIcon, color: "#5391FE" },
+  { label: "Python", icon: pythonIcon, color: "#3776AB" },
+  { label: "GitHub Actions CI/CD", icon: githubActionsIcon, color: "#2088FF" },
+  { label: "Docker", icon: dockerIcon, color: "#2496ED" },
+  { label: "Kubernetes", icon: kubernetesIcon, color: "#326CE5" },
+  { label: "Windows Server", icon: windowsIcon, color: "#00ADEF" },
+  { label: "SQL", icon: sqlIcon, color: "#CC2927" },
+  { label: "Java", icon: javaIcon, color: "#007396" },
+  { label: "JavaScript", icon: javascriptIcon, color: "#F7DF1E" },
 ];
 ---
 
@@ -60,32 +38,30 @@ const skills = [
   tabindex="-1"
 >
   <div class="container section-content" data-reveal-group>
-    <div class="section-header" data-reveal-item>
+    <div class="section-header prose" data-reveal-item>
       <h2 id="skills-title">Skills</h2>
       <p>
         A snapshot of the technologies and practices I lean on to deliver
         dependable platforms.
       </p>
     </div>
-    <div class="skills-grid" role="list">
+    <div class="skills-grid" role="list" data-reveal-item>
       {
         skills.map((skill) => (
           <article
-            class="skill"
+            class="skill-badge"
             role="listitem"
             aria-label={skill.label}
             style={{ "--skill-color": skill.color }}
-            data-reveal-item
+            data-reveal
           >
-            <img
+            <Image
               class="skill-icon"
               src={skill.icon}
               alt={`${skill.label} logo`}
-              title={skill.label}
-              width="32"
-              height="32"
+              width={32}
+              height={32}
               loading="lazy"
-              decoding="async"
             />
             <span>{skill.label}</span>
           </article>

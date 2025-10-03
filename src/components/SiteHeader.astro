@@ -1,29 +1,34 @@
 ---
+
 interface Props {
   currentPath?: string;
 }
 
 const navLinks = [
-  { href: '#about', label: 'About' },
-  { href: '#skills', label: 'Skills' },
-  { href: '#projects', label: 'Projects' },
-  { href: '#contact', label: 'Contact' },
+  { href: "#about", label: "About" },
+  { href: "#skills", label: "Skills" },
+  { href: "#projects", label: "Projects" },
+  { href: "#contact", label: "Contact" },
 ];
 
-const { currentPath = '/' } = Astro.props as Props;
+const themeOptions = [
+  { value: "light", label: "Light" },
+  { value: "dark", label: "Dark" },
+  { value: "system", label: "Auto" },
+];
+
+const { currentPath = "/" } = Astro.props as Props;
 ---
 <header class="site-header" data-reveal>
   <div class="container header-inner">
     <a class="brand" href="#hero" aria-label="Home" data-scroll>
-      <span class="avatar avatar--nav" data-avatar data-initials="AM">
-        <img
-          src="https://media.licdn.com/dms/image/v2/D4E03AQEXmnoYFvs5OQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1723628031913?e=1761782400&v=beta&t=8F-vTxYfQQ5GASHGkc58dqKEJlj7CACcOMyppw2039w"
-          alt="Ammaar Murshid avatar"
-          width="64"
-          height="64"
-          loading="lazy"
-          decoding="async"
-        />
+      <span
+        class="avatar avatar--nav is-fallback"
+        role="img"
+        aria-label="Ammaar Murshid monogram"
+        data-avatar
+        data-initials="AM"
+      >
         <span class="avatar-fallback" aria-hidden="true">AM</span>
       </span>
       <span class="brand-text">Ammaar Murshid</span>
@@ -50,9 +55,21 @@ const { currentPath = '/' } = Astro.props as Props;
         ))}
       </ul>
     </nav>
-    <button class="theme-toggle" type="button" aria-label="Toggle dark mode" data-theme-toggle>
-      <span class="icon-sun" aria-hidden="true"></span>
-      <span class="icon-moon" aria-hidden="true"></span>
-    </button>
+    <div class="theme-switcher" role="group" aria-label="Theme mode">
+      <span class="theme-switcher-label" data-theme-label>Auto</span>
+      <div class="theme-switcher-controls">
+        {themeOptions.map((option) => (
+          <button
+            type="button"
+            class="theme-switcher-button"
+            data-theme-option={option.value}
+            aria-pressed="false"
+          >
+            <span aria-hidden="true">{option.label}</span>
+            <span class="sr-only">{`Use ${option.label.toLowerCase()} theme`}</span>
+          </button>
+        ))}
+      </div>
+    </div>
   </div>
 </header>
