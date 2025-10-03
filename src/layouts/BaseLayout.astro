@@ -1,0 +1,77 @@
+---
+import "../styles/global.css";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  canonical?: string;
+}
+
+const {
+  title = "Ammaar Murshid · Cloud & Platform Engineer",
+  description = "Ammaar Murshid is a cloud and platform engineer building reliable infrastructure and delightful developer experiences.",
+  ogImage = "/images/social-card.svg",
+  canonical,
+} = Astro.props as Props;
+
+const site = Astro.site?.toString();
+const canonicalUrl =
+  canonical ??
+  (site ? new URL(Astro.url.pathname, site).toString() : undefined);
+const pageTitle = title;
+const imageUrl = ogImage.startsWith("http")
+  ? ogImage
+  : site
+    ? new URL(ogImage, site).toString()
+    : ogImage;
+---
+
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Ammaar Murshid" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    {imageUrl && <meta property="og:image" content={imageUrl} />}
+    {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    {imageUrl && <meta name="twitter:image" content={imageUrl} />}
+    <slot name="head" />
+    <script is:inline>
+      (function () {
+        const storageKey = "theme-preference";
+        try {
+          const stored = localStorage.getItem(storageKey);
+          const systemPrefersDark = window.matchMedia(
+            "(prefers-color-scheme: dark)"
+          ).matches;
+          const mode = stored || (systemPrefersDark ? "dark" : "light");
+          document.documentElement.dataset.theme = mode;
+        } catch (error) {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <SiteHeader currentPath={Astro.url.pathname} />
+    <main id="main">
+      <slot />
+    </main>
+    <SiteFooter />
+    <script type="module" src="../scripts/site.ts"></script>
+  </body>
+</html>

@@ -1,0 +1,13 @@
+---
+title: Platform Observability Kit
+description: Dashboards and alerts that surface platform health signals.
+repo: https://github.com/ammaarM/platform-observability-kit
+tech:
+  - Grafana
+  - Prometheus
+  - Alertmanager
+featured: false
+sortOrder: 5
+---
+A ready-to-run observability stack that standardises dashboards, alert rules, and runbook links across platforms. Helps
+teams make confident, data-informed operational decisions.

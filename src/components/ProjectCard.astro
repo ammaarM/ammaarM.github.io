@@ -1,0 +1,91 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  variant?: 'default' | 'featured';
+}
+
+const { project, variant = 'default' } = Astro.props as Props;
+const data = project.data;
+const { Content } = await project.render();
+
+const classes = ['project-card'];
+if (variant === 'featured') {
+  classes.push('featured-card');
+}
+
+const initials = data.title
+  .split(/[^A-Za-z0-9]+/)
+  .filter(Boolean)
+  .map((chunk) => chunk.charAt(0).toUpperCase())
+  .join('')
+  .slice(0, 3) || 'PR';
+
+const accentPalette = ['#2f6df6', '#7B42BC', '#2496ED', '#68a0ff', '#3f4a60'];
+const fallbackAccent = accentPalette[Math.abs(data.sortOrder ?? 0) % accentPalette.length];
+
+const tech = data.tech ?? [];
+const image = data.image;
+const imageAlt = data.imageAlt ?? `Preview of ${data.title}`;
+const isFeatured = variant === 'featured';
+---
+<article class={classes.join(' ')} role="listitem">
+  <div class="project-media">
+    {image ? (
+      <img
+        class="project-preview"
+        src={image.startsWith('http') || image.startsWith('/') ? image : Astro.resolve(image)}
+        alt={imageAlt}
+        width="640"
+        height="360"
+        loading="lazy"
+        decoding="async"
+      />
+    ) : (
+      <div class="project-fallback" style={{ '--fallback-color': fallbackAccent }} aria-hidden="true">
+        <div class="favicon-wrap">
+          <span>{initials}</span>
+        </div>
+      </div>
+    )}
+  </div>
+  <div class="project-body">
+    <header>
+      <h3 class="project-title">{data.title}</h3>
+      {data.description && <p class="project-meta">{data.description}</p>}
+    </header>
+    <div class="project-description">
+      <Content />
+    </div>
+    {tech.length > 0 && (
+      <div class="project-tags" aria-label="Topics">
+        {tech.map((tag) => (
+          <span>{tag}</span>
+        ))}
+      </div>
+    )}
+    <div class={isFeatured ? 'project-links featured-links' : 'project-links'}>
+      {data.url && (
+        <a
+          class={isFeatured ? 'btn' : 'text-link'}
+          href={data.url}
+          target="_blank"
+          rel="noreferrer"
+        >
+          {isFeatured ? 'Visit site' : 'Demo'}
+        </a>
+      )}
+      {data.repo && (
+        <a
+          class={isFeatured ? 'btn ghost' : 'text-link'}
+          href={data.repo}
+          target="_blank"
+          rel="noreferrer"
+        >
+          {isFeatured ? 'View repo' : 'Repo'}
+        </a>
+      )}
+    </div>
+  </div>
+</article>
