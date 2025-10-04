@@ -1,12 +1,17 @@
+---
+import { Image } from "astro:assets";
+import headshot from "../assets/images/ammaar-headshot.svg";
+---
+
 <section class="hero" id="hero" data-section="hero" data-reveal tabindex="-1">
   <div class="hero-surface">
     <div class="hero-media" data-parallax data-animate>
       <div class="avatar avatar--hero" data-avatar data-initials="AM">
-        <img
-          src="https://media.licdn.com/dms/image/v2/D4E03AQEXmnoYFvs5OQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1723628031913?e=1761782400&v=beta&t=8F-vTxYfQQ5GASHGkc58dqKEJlj7CACcOMyppw2039w"
+        <Image
+          src={headshot}
           alt="Portrait of Ammaar Murshid"
-          width="192"
-          height="192"
+          width={320}
+          height={320}
           loading="lazy"
           decoding="async"
         />
