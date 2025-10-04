@@ -1,0 +1,33 @@
+<svg width="1200" height="720" viewBox="0 0 1200 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Kubernetes deployment templates preview</title>
+  <desc id="desc">Deep blue gradient card with layered hexagonal nodes representing Kubernetes cluster</desc>
+  <defs>
+    <linearGradient id="k8s-bg" x1="0%" y1="0%" x2="100%" y2="80%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="40%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#312e81" />
+    </linearGradient>
+    <linearGradient id="k8s-glow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.65" />
+      <stop offset="100%" stop-color="#818cf8" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="720" rx="48" fill="url(#k8s-bg)" />
+  <circle cx="320" cy="260" r="180" fill="url(#k8s-glow)" />
+  <circle cx="860" cy="460" r="220" fill="url(#k8s-glow)" opacity="0.65" />
+  <g fill="#cbd5f5" fill-opacity="0.9">
+    <path d="M420 214l62-36 62 36v72l-62 36-62-36z" opacity="0.32" />
+    <path d="M520 274l62-36 62 36v72l-62 36-62-36z" opacity="0.5" />
+    <path d="M620 334l62-36 62 36v72l-62 36-62-36z" opacity="0.72" />
+  </g>
+  <g fill="#cbd5f5" fill-opacity="0.85">
+    <rect x="240" y="428" width="280" height="20" rx="10" />
+    <rect x="240" y="470" width="360" height="18" rx="9" />
+    <rect x="240" y="512" width="300" height="18" rx="9" />
+  </g>
+  <g fill="#1d4ed8" fill-opacity="0.8">
+    <circle cx="820" cy="260" r="40" />
+    <circle cx="910" cy="320" r="34" />
+    <circle cx="990" cy="380" r="28" />
+  </g>
+</svg>

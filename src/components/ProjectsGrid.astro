@@ -16,8 +16,8 @@ const featuredProjects = projects.filter((project) => project.data.featured);
 const otherProjects = projects.filter((project) => !project.data.featured);
 ---
 <section class="projects" id="projects" aria-labelledby="projects-title" data-section="projects" data-reveal tabindex="-1">
-  <div class="container section-content" data-reveal-group>
-    <div class="section-header" data-reveal-item>
+  <div class="section-shell" data-reveal-group>
+    <div class="section-header content" data-reveal-item>
       <h2 id="projects-title">Projects</h2>
       <p>Open-source work and collaborations, curated for reliability and developer experience.</p>
     </div>
@@ -25,20 +25,20 @@ const otherProjects = projects.filter((project) => !project.data.featured);
       <div class="featured" data-reveal-item>
         <h3 class="featured-heading">Featured</h3>
         <div class="featured-grid" role="list" data-reveal-group>
-          {featuredProjects.map((project) => (
-            <ProjectCard project={project} variant="featured" />
+          {featuredProjects.map((project, index) => (
+            <ProjectCard project={project} variant="featured" revealIndex={index} />
           ))}
         </div>
       </div>
     )}
     {otherProjects.length > 0 ? (
-      <div class="projects-grid" role="list" data-reveal-item>
-        {otherProjects.map((project) => (
-          <ProjectCard project={project} />
+      <div class="projects-grid" role="list" data-reveal-item data-reveal-group>
+        {otherProjects.map((project, index) => (
+          <ProjectCard project={project} revealIndex={index} />
         ))}
       </div>
     ) : (
-      <p class="projects-empty" data-reveal-item>No additional projects to show right now. Check back soon!</p>
+      <p class="projects-empty content" data-reveal-item>No additional projects to show right now. Check back soon!</p>
     )}
   </div>
 </section>

@@ -1,0 +1,35 @@
+<svg width="1200" height="720" viewBox="0 0 1200 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">RepoMerge preview</title>
+  <desc id="desc">Violet gradient card with branching merge lines representing repository automation</desc>
+  <defs>
+    <linearGradient id="merge-bg" x1="0%" y1="0%" x2="100%" y2="90%">
+      <stop offset="0%" stop-color="#312e81" />
+      <stop offset="50%" stop-color="#7c3aed" />
+      <stop offset="100%" stop-color="#c026d3" />
+    </linearGradient>
+    <linearGradient id="merge-line" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f5d0fe" />
+      <stop offset="100%" stop-color="#f0abfc" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="720" rx="48" fill="url(#merge-bg)" />
+  <g fill="#ede9fe" fill-opacity="0.9">
+    <rect x="220" y="250" width="480" height="22" rx="11" />
+    <rect x="220" y="296" width="360" height="20" rx="10" />
+    <rect x="220" y="342" width="420" height="20" rx="10" />
+    <rect x="220" y="388" width="280" height="20" rx="10" />
+  </g>
+  <g stroke="url(#merge-line)" stroke-width="16" fill="none" stroke-linecap="round" opacity="0.85">
+    <path d="M760 220c60 120 120 120 180 0" />
+    <path d="M760 320c60 120 120 120 180 0" />
+    <path d="M760 420c60 120 120 120 180 0" />
+  </g>
+  <g fill="#f5d0fe" opacity="0.85">
+    <circle cx="760" cy="220" r="22" />
+    <circle cx="940" cy="220" r="22" />
+    <circle cx="760" cy="320" r="22" />
+    <circle cx="940" cy="320" r="22" />
+    <circle cx="760" cy="420" r="22" />
+    <circle cx="940" cy="420" r="22" />
+  </g>
+</svg>

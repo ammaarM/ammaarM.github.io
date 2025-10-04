@@ -10,6 +10,8 @@ tech:
   - TypeScript
 featured: true
 sortOrder: 2
+image: ../../assets/images/projects/repomerge.svg
+imageAlt: Purple gradient preview illustrating repository merges for RepoMerge project
 ---
 RepoMerge indexes repositories from GitHub and GitLab into one searchable surface, making it effortless to share curated
 collections across teams. It handles authentication, sync scheduling, and fast query responses for engineering enablement.

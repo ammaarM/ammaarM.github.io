@@ -2,18 +2,21 @@
 import "../styles/global.css";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
+import ogCard from "../assets/images/social-card.svg";
+import siteScript from "../scripts/site.ts?url";
+import type { ImageMetadata } from "astro:content";
 
 interface Props {
   title?: string;
   description?: string;
-  ogImage?: string;
+  ogImage?: string | ImageMetadata;
   canonical?: string;
 }
 
 const {
   title = "Ammaar Murshid · Cloud & Platform Engineer",
   description = "Ammaar Murshid is a cloud and platform engineer building reliable infrastructure and delightful developer experiences.",
-  ogImage = "/images/social-card.svg",
+  ogImage = ogCard,
   canonical,
 } = Astro.props as Props;
 
@@ -22,11 +25,12 @@ const canonicalUrl =
   canonical ??
   (site ? new URL(Astro.url.pathname, site).toString() : undefined);
 const pageTitle = title;
-const imageUrl = ogImage.startsWith("http")
-  ? ogImage
+const ogSrc = typeof ogImage === "string" ? ogImage : ogImage?.src ?? "";
+const imageUrl = ogSrc.startsWith("http")
+  ? ogSrc
   : site
-    ? new URL(ogImage, site).toString()
-    : ogImage;
+    ? new URL(ogSrc, site).toString()
+    : ogSrc;
 ---
 
 <!doctype html>
@@ -36,6 +40,7 @@ const imageUrl = ogImage.startsWith("http")
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
+    <meta name="theme-color" content="#ffffff" />
     {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta property="og:type" content="website" />
@@ -51,16 +56,20 @@ const imageUrl = ogImage.startsWith("http")
     <slot name="head" />
     <script is:inline>
       (function () {
-        const storageKey = "theme-preference";
         try {
-          const stored = localStorage.getItem(storageKey);
-          const systemPrefersDark = window.matchMedia(
-            "(prefers-color-scheme: dark)"
-          ).matches;
-          const mode = stored || (systemPrefersDark ? "dark" : "light");
-          document.documentElement.dataset.theme = mode;
+          const stored = localStorage.getItem('theme');
+          const mq = typeof window.matchMedia === 'function' ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+          const system = mq && mq.matches ? 'dark' : 'light';
+          const theme = stored === 'dark' || stored === 'light' ? stored : system;
+          document.documentElement.setAttribute('data-theme', theme);
+          document.documentElement.style.setProperty('color-scheme', theme);
+          const meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) {
+            meta.setAttribute('content', theme === 'dark' ? '#0b0b0f' : '#ffffff');
+          }
         } catch (error) {
-          document.documentElement.dataset.theme = "light";
+          document.documentElement.setAttribute('data-theme', 'light');
+          document.documentElement.style.setProperty('color-scheme', 'light');
         }
       })();
     </script>
@@ -72,6 +81,6 @@ const imageUrl = ogImage.startsWith("http")
       <slot />
     </main>
     <SiteFooter />
-    <script type="module" src="../scripts/site.ts"></script>
+    <script type="module" src={siteScript}></script>
   </body>
 </html>
