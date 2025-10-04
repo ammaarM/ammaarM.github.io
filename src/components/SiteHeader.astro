@@ -1,4 +1,6 @@
 ---
+import ThemeToggle from './ThemeToggle.astro';
+
 interface Props {
   currentPath?: string;
 }
@@ -10,10 +12,10 @@ const navLinks = [
   { href: '#contact', label: 'Contact' },
 ];
 
-const { currentPath = '/' } = Astro.props as Props;
+void (Astro.props as Props);
 ---
 <header class="site-header" data-reveal>
-  <div class="container header-inner">
+  <div class="container header-inner" data-animate>
     <a class="brand" href="#hero" aria-label="Home" data-scroll>
       <span class="avatar avatar--nav" data-avatar data-initials="AM">
         <img
@@ -28,31 +30,30 @@ const { currentPath = '/' } = Astro.props as Props;
       </span>
       <span class="brand-text">Ammaar Murshid</span>
     </a>
-    <button
-      class="nav-toggle"
-      type="button"
-      aria-label="Toggle navigation"
-      aria-expanded="false"
-      data-nav-toggle
-    >
-      <span class="nav-toggle-bar" aria-hidden="true"></span>
-      <span class="nav-toggle-bar" aria-hidden="true"></span>
-      <span class="nav-toggle-bar" aria-hidden="true"></span>
-    </button>
-    <nav class="site-nav" aria-label="Primary">
-      <ul>
-        {navLinks.map(({ href, label }) => (
-          <li>
-            <a class="nav-link" href={href} data-scroll>
-              {label}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </nav>
-    <button class="theme-toggle" type="button" aria-label="Toggle dark mode" data-theme-toggle>
-      <span class="icon-sun" aria-hidden="true"></span>
-      <span class="icon-moon" aria-hidden="true"></span>
-    </button>
+    <div class="header-actions">
+      <nav class="site-nav" aria-label="Primary">
+        <ul>
+          {navLinks.map(({ href, label }) => (
+            <li>
+              <a class="nav-link" href={href} data-scroll>
+                {label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+      <ThemeToggle />
+      <button
+        class="nav-toggle"
+        type="button"
+        aria-label="Toggle navigation"
+        aria-expanded="false"
+        data-nav-toggle
+      >
+        <span class="nav-toggle-bar" aria-hidden="true"></span>
+        <span class="nav-toggle-bar" aria-hidden="true"></span>
+        <span class="nav-toggle-bar" aria-hidden="true"></span>
+      </button>
+    </div>
   </div>
 </header>

@@ -1,12 +1,15 @@
 ---
+import { Image, Picture } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
+import fallbackGraphic from '../assets/images/project-fallback.svg';
 
 interface Props {
   project: CollectionEntry<'projects'>;
   variant?: 'default' | 'featured';
+  revealIndex?: number;
 }
 
-const { project, variant = 'default' } = Astro.props as Props;
+const { project, variant = 'default', revealIndex } = Astro.props as Props;
 const data = project.data;
 const { Content } = await project.render();
 
@@ -29,63 +32,77 @@ const tech = data.tech ?? [];
 const image = data.image;
 const imageAlt = data.imageAlt ?? `Preview of ${data.title}`;
 const isFeatured = variant === 'featured';
+const styleMap: Record<string, string | number> = {
+  '--project-accent': fallbackAccent,
+};
+
+if (typeof revealIndex === 'number') {
+  styleMap['--stagger-index'] = revealIndex;
+}
+const projectLink = data.url ?? data.repo;
 ---
-<article class={classes.join(' ')} role="listitem">
-  <div class="project-media">
-    {image ? (
-      <img
-        class="project-preview"
-        src={image.startsWith('http') || image.startsWith('/') ? image : Astro.resolve(image)}
-        alt={imageAlt}
-        width="640"
-        height="360"
-        loading="lazy"
-        decoding="async"
-      />
-    ) : (
-      <div class="project-fallback" style={{ '--fallback-color': fallbackAccent }} aria-hidden="true">
-        <div class="favicon-wrap">
-          <span>{initials}</span>
+<article class={classes.join(' ')} role="listitem" style={styleMap} data-reveal-item>
+  <div class="project-inner">
+    <div class="project-media" data-animate>
+      {image ? (
+        <Picture
+          class="project-preview"
+          src={image}
+          alt={imageAlt}
+          widths={[480, 720, 1080]}
+          sizes="(max-width: 900px) 92vw, 680px"
+          formats={["avif", "webp", "png"]}
+          loading="lazy"
+        />
+      ) : (
+        <div class="project-fallback" aria-hidden="true">
+          <Image
+            class="project-fallback-image"
+            src={fallbackGraphic}
+            alt=""
+            width={200}
+            height={200}
+            loading="lazy"
+            decoding="async"
+          />
+          <span class="favicon-wrap" aria-hidden="true">{initials}</span>
         </div>
-      </div>
-    )}
-  </div>
-  <div class="project-body">
-    <header>
-      <h3 class="project-title">{data.title}</h3>
-      {data.description && <p class="project-meta">{data.description}</p>}
-    </header>
-    <div class="project-description">
-      <Content />
+      )}
     </div>
-    {tech.length > 0 && (
-      <div class="project-tags" aria-label="Topics">
-        {tech.map((tag) => (
-          <span>{tag}</span>
-        ))}
+    <div class="project-body" data-animate>
+      <header class="project-header">
+        <h3 class="project-title">{data.title}</h3>
+        {data.description && <p class="project-meta">{data.description}</p>}
+      </header>
+      <div class="project-description prose">
+        <Content />
       </div>
-    )}
-    <div class={isFeatured ? 'project-links featured-links' : 'project-links'}>
-      {data.url && (
-        <a
-          class={isFeatured ? 'btn' : 'text-link'}
-          href={data.url}
-          target="_blank"
-          rel="noreferrer"
-        >
-          {isFeatured ? 'Visit site' : 'Demo'}
-        </a>
+      {tech.length > 0 && (
+        <ul class="project-tags" aria-label="Topics">
+          {tech.map((tag) => (
+            <li>
+              <span>{tag}</span>
+            </li>
+          ))}
+        </ul>
       )}
-      {data.repo && (
-        <a
-          class={isFeatured ? 'btn ghost' : 'text-link'}
-          href={data.repo}
-          target="_blank"
-          rel="noreferrer"
-        >
-          {isFeatured ? 'View repo' : 'Repo'}
-        </a>
-      )}
+      <div class={isFeatured ? 'project-links featured-links' : 'project-links'}>
+        {data.url && (
+          <a class={isFeatured ? 'btn' : 'text-link'} href={data.url} target="_blank" rel="noreferrer">
+            {isFeatured ? 'Visit site' : 'Demo'}
+          </a>
+        )}
+        {data.repo && (
+          <a class={isFeatured ? 'btn ghost' : 'text-link'} href={data.repo} target="_blank" rel="noreferrer">
+            {isFeatured ? 'View repo' : 'Repo'}
+          </a>
+        )}
+        {!data.url && !data.repo && projectLink && (
+          <a class="text-link" href={projectLink}>
+            Learn more
+          </a>
+        )}
+      </div>
     </div>
   </div>
 </article>

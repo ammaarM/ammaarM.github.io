@@ -1,51 +1,9 @@
-const docEl = document.documentElement;
-const storageKey = 'theme-preference';
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
-
-type Theme = 'light' | 'dark';
-
-const getStoredTheme = (): Theme | null => {
-  try {
-    const value = localStorage.getItem(storageKey);
-    return value === 'dark' || value === 'light' ? value : null;
-  } catch (error) {
-    return null;
-  }
-};
-
-const storeTheme = (theme: Theme) => {
-  try {
-    localStorage.setItem(storageKey, theme);
-  } catch (error) {
-    // ignore storage issues
-  }
-};
-
-const applyTheme = (theme: Theme) => {
-  docEl.dataset.theme = theme;
-};
-
-const updateThemeToggle = (button: HTMLButtonElement | null, theme: Theme) => {
-  if (!button) return;
-  const isDark = theme === 'dark';
-  const label = isDark ? 'Activate light theme' : 'Activate dark theme';
-  button.setAttribute('aria-pressed', String(isDark));
-  button.setAttribute('aria-label', label);
-  button.setAttribute('title', label);
-};
-
-const resolveTheme = (): Theme => {
-  const stored = getStoredTheme();
-  if (stored) return stored;
-  return systemTheme.matches ? 'dark' : 'light';
-};
 
 document.addEventListener('DOMContentLoaded', () => {
   const body = document.body;
   body.classList.add('is-ready');
 
-  const themeToggle = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
   const navToggle = document.querySelector<HTMLButtonElement>('[data-nav-toggle]');
   const nav = document.querySelector<HTMLElement>('.site-nav');
   const navLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('.nav-link'));
@@ -81,31 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
-  const initialTheme = resolveTheme();
-  applyTheme(initialTheme);
-  updateThemeToggle(themeToggle, initialTheme);
-
   initAvatars();
-
-  themeToggle?.addEventListener('click', () => {
-    const nextTheme: Theme = docEl.dataset.theme === 'dark' ? 'light' : 'dark';
-    applyTheme(nextTheme);
-    storeTheme(nextTheme);
-    updateThemeToggle(themeToggle, nextTheme);
-  });
-
-  const handleSystemTheme = (event: MediaQueryListEvent) => {
-    if (getStoredTheme()) return;
-    const nextTheme: Theme = event.matches ? 'dark' : 'light';
-    applyTheme(nextTheme);
-    updateThemeToggle(themeToggle, nextTheme);
-  };
-
-  if (typeof systemTheme.addEventListener === 'function') {
-    systemTheme.addEventListener('change', handleSystemTheme);
-  } else if (typeof systemTheme.addListener === 'function') {
-    systemTheme.addListener(handleSystemTheme);
-  }
 
   navToggle?.addEventListener('click', () => {
     const expanded = navToggle.getAttribute('aria-expanded') === 'true';
