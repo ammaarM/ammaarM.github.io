@@ -1,7 +1,6 @@
 ---
-import { Image } from 'astro:assets';
 import ThemeToggle from './ThemeToggle.astro';
-import headshot from '../assets/images/ammaar-headshot.svg';
+import { profile } from '../data/profile';
 
 interface Props {
   currentPath?: string;
@@ -20,13 +19,14 @@ void (Astro.props as Props);
   <div class="container header-inner" data-animate>
     <a class="brand" href="#hero" aria-label="Home" data-scroll>
       <span class="avatar avatar--nav" data-avatar data-initials="AM">
-        <Image
-          src={headshot}
-          alt="Ammaar Murshid avatar"
+        <img
+          src={profile.headshot.url}
+          alt={profile.headshot.alt}
           width={128}
           height={128}
           loading="lazy"
           decoding="async"
+          data-fallback={profile.fallback.src}
         />
         <span class="avatar-fallback" aria-hidden="true">AM</span>
       </span>

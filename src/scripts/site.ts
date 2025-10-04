@@ -28,13 +28,30 @@ document.addEventListener('DOMContentLoaded', () => {
           img.setAttribute('aria-hidden', 'true');
         }
       };
+      const swapToFallbackGraphic = () => {
+        if (!img) return false;
+        const fallbackSrc = img.dataset.fallback;
+        if (!fallbackSrc) return false;
+        img.src = fallbackSrc;
+        img.removeAttribute('data-fallback');
+        img.hidden = false;
+        img.removeAttribute('aria-hidden');
+        return true;
+      };
       if (!img) {
         showFallback();
         return;
       }
-      img.addEventListener('error', showFallback, { once: true });
-      if (img.complete && img.naturalWidth === 0) {
+      const handleError = () => {
+        if (swapToFallbackGraphic()) {
+          img.addEventListener('error', showFallback, { once: true });
+          return;
+        }
         showFallback();
+      };
+      img.addEventListener('error', handleError, { once: true });
+      if (img.complete && img.naturalWidth === 0) {
+        handleError();
       }
     });
   };

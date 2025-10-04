@@ -1,19 +1,20 @@
 ---
-import { Image } from "astro:assets";
-import headshot from "../assets/images/ammaar-headshot.svg";
+import { profile } from "../data/profile";
 ---
 
 <section class="hero" id="hero" data-section="hero" data-reveal tabindex="-1">
   <div class="hero-surface">
     <div class="hero-media" data-parallax data-animate>
       <div class="avatar avatar--hero" data-avatar data-initials="AM">
-        <Image
-          src={headshot}
-          alt="Portrait of Ammaar Murshid"
-          width={320}
-          height={320}
-          loading="lazy"
+        <img
+          src={profile.headshot.url}
+          alt={profile.headshot.alt}
+          width={profile.headshot.width}
+          height={profile.headshot.height}
+          loading="eager"
           decoding="async"
+          fetchpriority="high"
+          data-fallback={profile.fallback.src}
         />
         <span class="avatar-fallback" aria-hidden="true">AM</span>
       </div>
