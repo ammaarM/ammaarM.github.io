@@ -732,25 +732,8 @@ small {
 [data-animate],
 [data-animate-group] > *,
 [data-reveal-item] {
-  opacity: 0;
-  transform: translateY(24px);
-  animation: fade-up 0.95s var(--ease-spring) forwards;
-  animation-delay: calc(0.08s * var(--stagger-index, 0));
-  animation-play-state: paused;
-}
-
-body.is-ready [data-animate],
-body.is-ready [data-animate-group] > *,
-body.is-ready [data-reveal-item] {
-  animation-play-state: running;
-}
-
-@supports (animation-timeline: view()) {
-  [data-reveal-item] {
-    animation: rise 0.85s var(--ease-spring) both;
-    animation-timeline: view();
-    animation-range: entry 12% cover 40%;
-  }
+  opacity: 1;
+  transform: none;
 }
 
 .hero-media[data-parallax] {
@@ -868,4 +851,5 @@ body.is-ready [data-reveal-item] {
   .skill {
     transform: none !important;
   }
+
 }

@@ -5,7 +5,7 @@ import { profile } from "../data/profile";
 <section class="hero" id="hero" data-section="hero" data-reveal tabindex="-1">
   <div class="hero-surface">
     <div class="hero-media" data-parallax data-animate>
-      <div class="avatar avatar--hero" data-avatar data-initials="AM">
+      <span class="avatar avatar--hero" data-avatar data-initials="AM">
         <img
           src={profile.headshot.url}
           alt={profile.headshot.alt}
@@ -17,7 +17,7 @@ import { profile } from "../data/profile";
           data-fallback={profile.fallback.src}
         />
         <span class="avatar-fallback" aria-hidden="true">AM</span>
-      </div>
+      </span>
       <div class="hero-orb" aria-hidden="true"></div>
     </div>
     <div class="hero-copy content" data-animate-group>

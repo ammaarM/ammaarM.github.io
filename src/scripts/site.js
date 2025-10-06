@@ -4,16 +4,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const body = document.body;
   body.classList.add('is-ready');
 
-  const navToggle = document.querySelector<HTMLButtonElement>('[data-nav-toggle]');
-  const nav = document.querySelector<HTMLElement>('.site-nav');
-  const navLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('.nav-link'));
-  const sections = Array.from(document.querySelectorAll<HTMLElement>('section[data-section]'));
-  const avatars = Array.from(document.querySelectorAll<HTMLElement>('[data-avatar]'));
+  const navToggle = document.querySelector('[data-nav-toggle]');
+  const nav = document.querySelector('.site-nav');
+  const navLinks = Array.from(document.querySelectorAll('.nav-link'));
+  const sections = Array.from(document.querySelectorAll('section[data-section]'));
+  const avatars = Array.from(document.querySelectorAll('[data-avatar]'));
 
   const initAvatars = () => {
     avatars.forEach((avatar) => {
-      const img = avatar.querySelector<HTMLImageElement>('img');
-      const fallback = avatar.querySelector<HTMLElement>('.avatar-fallback');
+      const img = avatar.querySelector('img');
+      const fallback = avatar.querySelector('.avatar-fallback');
       const initials = avatar.dataset.initials || 'AM';
       if (fallback) {
         fallback.textContent = initials;
@@ -69,13 +69,13 @@ document.addEventListener('DOMContentLoaded', () => {
     nav?.classList.remove('open');
   };
 
-  const highlightSection = (target: HTMLElement | null) => {
+  const highlightSection = (target) => {
     if (!target) return;
     target.classList.add('is-anchor-target');
     window.setTimeout(() => target.classList.remove('is-anchor-target'), 1400);
   };
 
-  const updateActiveNav = (id: string) => {
+  const updateActiveNav = (id) => {
     navLinks.forEach((link) => {
       const targetId = (link.getAttribute('href') || '').replace('#', '');
       const isActive = targetId === id;
@@ -102,11 +102,11 @@ document.addEventListener('DOMContentLoaded', () => {
     sections.forEach((section) => observer.observe(section));
   }
 
-  const scrollLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-scroll]'));
+  const scrollLinks = Array.from(document.querySelectorAll('[data-scroll]'));
   scrollLinks.forEach((link) => {
     const href = link.getAttribute('href') || '';
     if (!href.startsWith('#')) return;
-    const target = document.querySelector<HTMLElement>(href);
+    const target = document.querySelector(href);
     if (!target) return;
 
     link.addEventListener('click', (event) => {
@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (link.classList.contains('nav-link')) {
         closeMobileNav();
       }
-      const behavior: ScrollBehavior = prefersReducedMotion.matches ? 'auto' : 'smooth';
+      const behavior = prefersReducedMotion.matches ? 'auto' : 'smooth';
       target.scrollIntoView({ behavior, block: 'start' });
       window.setTimeout(() => highlightSection(target), prefersReducedMotion.matches ? 0 : 900);
       try {
@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  const yearTarget = document.querySelector<HTMLElement>('[data-year]');
+  const yearTarget = document.querySelector('[data-year]');
   if (yearTarget) {
     yearTarget.textContent = String(new Date().getFullYear());
   }
