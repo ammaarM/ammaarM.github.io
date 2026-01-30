@@ -4,7 +4,7 @@
 
 - **Framework**: Astro 4.x with React integration
 - **Language**: TypeScript (strict mode) + JavaScript
-- **Package Manager**: npm
+- **Package Manager**: Bun
 - **Styling**: CSS (global + scoped)
 - **Content**: Markdown (content collections)
 
@@ -12,13 +12,13 @@
 
 ```bash
 # Typecheck
-npx tsc --noEmit
+bunx tsc --noEmit
 
 # Format
-npm run format
+bun run format
 
 # Build check
-npm run build
+bun run build
 ```
 
 No linting or test suite currently configured.
@@ -80,13 +80,13 @@ No linting or test suite currently configured.
 
 ## PR checklist
 
-- [ ] TypeScript compiles with no errors (`npx tsc --noEmit`)
-- [ ] Code formatted (`npm run format`)
-- [ ] Build succeeds (`npm run build`)
+- [ ] TypeScript compiles with no errors (`bunx tsc --noEmit`)
+- [ ] Code formatted (`bun run format`)
+- [ ] Build succeeds (`bun run build`)
 - [ ] No duplicated logic; extracted to appropriate location
 - [ ] File and folder names follow existing conventions
 - [ ] Types added for new functions/data; no `any` without justification
 - [ ] Changes scoped to the feature/fix; no unrelated refactoring
 - [ ] Self-explanatory code; comments added only where necessary
 - [ ] Content/assets added to correct directories
-- [ ] Verified locally in dev mode (`npm run dev`)
+- [ ] Verified locally in dev mode (`bun run dev`)

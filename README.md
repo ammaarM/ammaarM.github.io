@@ -6,8 +6,8 @@ architecture. The design mirrors the previous HTML/CSS version while making it e
 ## Getting started
 
 ```bash
-npm install
-npm run dev
+bun install
+bun run dev
 ```
 
 The site will be available at `http://localhost:4321`. Astro supports hot module reloading so component and content changes are
@@ -30,16 +30,16 @@ Project cards are sourced from the `src/content/projects` collection. Add a new 
 
 ## Commands
 
-| Command           | Description                     |
+| Command           | Description                      |
 | ----------------- | -------------------------------- |
-| `npm run dev`     | Start a local development server |
-| `npm run build`   | Build the static production site |
-| `npm run preview` | Preview the built `dist` output  |
-| `npm run format`  | Format files with Prettier       |
+| `bun run dev`     | Start a local development server |
+| `bun run build`   | Build the static production site |
+| `bun run preview` | Preview the built `dist` output  |
+| `bun run format`  | Format files with Prettier       |
 
 ## Deployment
 
-GitHub Pages deployment is automated via `.github/workflows/deploy.yml`. Pushes to `main` trigger a build with `npm run build`
+GitHub Pages deployment is automated via `.github/workflows/deploy.yml`. Pushes to `main` trigger a build with `bun run build`
 and publish the generated `dist` directory to the `gh-pages` branch.
 
-For Netlify or Vercel, set the build command to `npm run build` and the publish directory to `dist`.
+For Netlify or Vercel, set the build command to `bun run build` and the publish directory to `dist`.
