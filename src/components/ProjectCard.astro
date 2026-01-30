@@ -88,12 +88,12 @@ const projectLink = data.url ?? data.repo;
       )}
       <div class={isFeatured ? 'project-links featured-links' : 'project-links'}>
         {data.url && (
-          <a class={isFeatured ? 'btn' : 'text-link'} href={data.url} target="_blank" rel="noreferrer">
+          <a class={isFeatured ? 'btn' : 'btn ghost'} href={data.url} target="_blank" rel="noreferrer">
             {isFeatured ? 'Visit site' : 'Demo'}
           </a>
         )}
         {data.repo && (
-          <a class={isFeatured ? 'btn ghost' : 'text-link'} href={data.repo} target="_blank" rel="noreferrer">
+          <a class="btn ghost" href={data.repo} target="_blank" rel="noreferrer">
             {isFeatured ? 'View repo' : 'Repo'}
           </a>
         )}

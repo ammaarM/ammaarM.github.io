@@ -1,7 +1,6 @@
 ---
 title: Azure Labs Toolkit
 description: Infrastructure blueprints and scripts for Azure learning environments.
-url: https://ammaarm.github.io/azure-labs-toolkit
 repo: https://github.com/ammaarM/azure-labs-toolkit
 tech:
   - Azure
