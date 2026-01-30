@@ -58,6 +58,7 @@ const imageUrl = ogSrc.startsWith("http")
     <slot name="head" />
     <script is:inline>
       (function () {
+        document.documentElement.classList.add('js');
         try {
           const stored = localStorage.getItem('theme');
           const mq = typeof window.matchMedia === 'function' ? window.matchMedia('(prefers-color-scheme: dark)') : null;
