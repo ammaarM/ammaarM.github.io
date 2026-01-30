@@ -29,7 +29,11 @@
       } catch (error) {
         /* ignore */
       }
-      return document.documentElement.getAttribute('data-theme') || 'light';
+      if (typeof window.matchMedia === 'function') {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        return prefersDark ? 'dark' : 'light';
+      }
+      return 'light';
     };
     const updateMeta = () => {
       const meta = document.querySelector('meta[name="theme-color"]');

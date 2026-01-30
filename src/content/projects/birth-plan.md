@@ -9,8 +9,8 @@ tech:
   - Tailwind CSS
 featured: true
 sortOrder: 1
-image: ../../assets/images/projects/birth-plan.svg
-imageAlt: Structured birth planning interface showing guided workflow for Birth Your Way
+image: ../../assets/images/projects/birthyourway-preview.png
+imageAlt: Screenshot of Birth Your Way app showing the birth planning interface
 ---
 
 **Birth planning, but actually organised.**

@@ -9,8 +9,8 @@ tech:
   - TypeScript
 featured: true
 sortOrder: 2
-image: ../../assets/images/projects/repomerge.svg
-imageAlt: Purple gradient preview illustrating repository merges for RepoMerge project
+image: ../../assets/images/projects/repomerge-preview.png
+imageAlt: Screenshot of RepoMerge app showing the repository aggregator interface
 ---
 
 RepoMerge indexes repositories from GitHub and GitLab into one searchable surface, making it effortless to share curated
