@@ -3,7 +3,6 @@ import "../styles/global.css";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import ogCard from "../assets/images/social-card.svg";
-import siteScript from "../scripts/site.ts?url";
 
 interface Props {
   title?: string;
@@ -83,6 +82,8 @@ const imageUrl = ogSrc.startsWith("http")
       <slot />
     </main>
     <SiteFooter />
-    <script is:inline type="module" src={siteScript}></script>
+    <script>
+      import "../scripts/site.ts";
+    </script>
   </body>
 </html>
