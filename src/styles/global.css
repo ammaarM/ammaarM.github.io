@@ -203,30 +203,13 @@ small {
   border: 1px solid transparent;
   background: var(--accent);
   color: #fff;
-  transition:
-    transform var(--transition-fast),
-    box-shadow var(--transition-fast),
-    background var(--transition-fast);
-}
-
-.btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 14px 30px -18px
-    color-mix(in srgb, var(--accent) 55%, transparent);
-}
-
-.btn:active {
-  transform: translateY(0);
+  /* Enhanced transitions defined in Motion System section */
 }
 
 .btn.ghost {
   background: transparent;
   color: var(--accent);
   border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
-}
-
-.btn.ghost:hover {
-  background: color-mix(in srgb, var(--accent) 12%, transparent);
 }
 
 .text-link {
@@ -555,51 +538,200 @@ small {
   position: relative;
 }
 
+.skills .section-header {
+  max-width: none;
+  padding-inline: 0;
+}
+
 .skills-grid {
-  display: grid;
-  gap: 1rem;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.4rem;
   margin-top: clamp(2rem, 5vw, 3rem);
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  align-items: center;
+  justify-content: start;
+  overflow: visible;
+  padding-bottom: 0.5rem;
 }
 
 .skill {
-  display: flex;
+  position: relative;
+  display: inline-flex;
   align-items: center;
-  gap: 0.85rem;
-  padding: 0.9rem 1.1rem;
-  border-radius: var(--radius-md);
+  justify-content: center;
+  gap: 0;
+  padding: 0.4rem;
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
   border: 1px solid color-mix(in srgb, var(--border) 65%, transparent);
   background: color-mix(in srgb, var(--card) 92%, transparent);
   box-shadow: 0 1px 0 color-mix(in srgb, var(--border) 50%, transparent);
+  overflow: visible;
   transition:
-    transform var(--transition-base),
-    box-shadow var(--transition-base),
-    border-color var(--transition-base);
+    all 1000ms cubic-bezier(0.34, 1.56, 0.64, 1);
   will-change: transform;
+  cursor: pointer;
+}
+
+.skill::after {
+  content: "";
+  position: absolute;
+  inset: -16px;
+  border-radius: calc(var(--radius-sm) + 16px);
+  z-index: 11;
+}
+
+.skill::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 0, 255, 0.25) 0%,
+    rgba(0, 255, 255, 0.25) 25%,
+    rgba(255, 255, 0, 0.25) 50%,
+    rgba(0, 255, 255, 0.25) 75%,
+    rgba(255, 0, 255, 0.25) 100%
+  );
+  background-size: 200% 200%;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 800ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 800ms cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(-100%) rotate(0deg);
+  mix-blend-mode: overlay;
+  z-index: 0;
+}
+
+.skill:hover::before,
+.skill:focus-visible::before {
+  opacity: 0.2;
+  transform: translateY(0) rotate(2deg);
+  animation: holographic-shift 4s ease-in-out infinite;
 }
 
 .skill:hover,
 .skill:focus-visible {
-  transform: translateY(-4px) scale(1.03);
+  width: 240px !important;
+  height: auto !important;
+  padding: 0.65rem 1.1rem !important;
+  gap: 0.65rem !important;
+  margin-inline: -80px !important;
+  justify-content: center !important;
+  transform: translateY(-8px) scale(1.05) !important;
   border-color: color-mix(
     in srgb,
-    var(--skill-color, var(--accent)) 55%,
+    var(--skill-color, var(--accent)) 65%,
     transparent
   );
-  box-shadow: 0 18px 32px -24px
-    color-mix(in srgb, var(--skill-color, var(--accent)) 65%, transparent);
+  box-shadow:
+    0 0 30px color-mix(in srgb, var(--skill-color, var(--accent)) 45%, transparent),
+    0 20px 40px -24px color-mix(in srgb, var(--skill-color, var(--accent)) 70%, transparent);
+  z-index: 10;
+}
+
+/* Ripple effect: push adjacent skills away smoothly */
+.skills-grid:has(.skill:hover) .skill:not(:hover) {
+  transform: scale(0.88);
+  opacity: 0.4;
+  transition: all 1000ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Push left neighbor */
+.skill:has(+ .skill:hover) {
+  transform: translateX(-115px) scale(0.88) !important;
+  opacity: 0.8;
+}
+
+/* Push right neighbor */
+.skill:hover + .skill {
+  transform: translateX(115px) scale(0.88) !important;
+  opacity: 0.8;
+}
+
+/* Push second left neighbor */
+.skill:has(+ .skill + .skill:hover) {
+  transform: translateX(-55px) scale(0.92) !important;
+  opacity: 0.85;
+}
+
+/* Push second right neighbor */
+.skill:hover + .skill + .skill {
+  transform: translateX(55px) scale(0.92) !important;
+  opacity: 0.85;
 }
 
 .skill-icon {
-  width: 2.2rem;
-  height: 2.2rem;
-  border-radius: 12px;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-width: 3.8rem;
+  max-height: 3.8rem;
+  flex-shrink: 0;
+  border-radius: 10px;
   background: color-mix(
     in srgb,
-    var(--skill-color, var(--accent)) 18%,
+    var(--skill-color, var(--accent)) 15%,
     transparent
   );
-  padding: 0.45rem;
+  padding: 0.65rem;
+  z-index: 1;
+  transition: all 700ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.skill:hover .skill-icon,
+.skill:focus-visible .skill-icon {
+  width: 2.4rem;
+  height: 2.4rem;
+  max-width: 2.4rem;
+  max-height: 2.4rem;
+}
+
+.skill-label {
+  position: absolute;
+  left: 50%;
+  z-index: 1;
+  white-space: nowrap;
+  font-weight: 500;
+  font-size: var(--step-sm);
+  opacity: 0;
+  transform: translateX(-50%);
+  pointer-events: none;
+  transition:
+    opacity 200ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 700ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    left 700ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.skill:hover .skill-label,
+.skill:focus-visible .skill-label {
+  opacity: 1;
+  transition-delay: 150ms;
+}
+
+.skill:hover .skill-label,
+.skill:focus-visible .skill-label {
+  opacity: 1;
+  left: auto;
+  position: relative;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+@media (max-width: 900px) {
+  .skills-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .skills-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .projects .featured-heading {
@@ -630,11 +762,36 @@ small {
   box-shadow: 0 1px 0 color-mix(in srgb, var(--border) 45%, transparent);
   overflow: hidden;
   transition:
-    transform 280ms var(--ease-spring),
-    box-shadow 280ms ease,
-    border-color 280ms ease;
+    transform 600ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 600ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 600ms cubic-bezier(0.16, 1, 0.3, 1);
   transform-origin: center;
   isolation: isolate;
+  will-change: transform;
+}
+
+.project-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 0, 255, 0.3) 0%,
+    rgba(0, 255, 255, 0.3) 25%,
+    rgba(255, 255, 0, 0.3) 50%,
+    rgba(0, 255, 255, 0.3) 75%,
+    rgba(255, 0, 255, 0.3) 100%
+  );
+  background-size: 200% 200%;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 800ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 800ms cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(-100%) rotate(0deg);
+  mix-blend-mode: overlay;
+  z-index: 1;
 }
 
 .project-card::after {
@@ -644,23 +801,34 @@ small {
   border-radius: inherit;
   pointer-events: none;
   border: 1px solid transparent;
-  transition: border-color var(--transition-base);
+  transition: border-color 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 2;
 }
 
 .project-card:is(:hover, :focus-within) {
-  transform: translateY(-4px) scale(1.01);
-  box-shadow: var(--shadow-soft);
-  border-color: color-mix(in oklab, var(--project-accent) 40%, transparent);
+  transform: translateY(-8px) scale(1.05) !important;
+  box-shadow:
+    0 0 30px rgba(79, 70, 229, 0.5),
+    0 20px 40px -20px rgba(0, 0, 0, 0.3) !important;
+  border-color: color-mix(in oklab, var(--project-accent) 60%, transparent) !important;
+}
+
+.project-card:is(:hover, :focus-within)::before {
+  opacity: 0.15;
+  transform: translateY(0) rotate(2deg);
+  animation: holographic-shift 4s ease-in-out infinite;
 }
 
 .project-card:is(:hover, :focus-within)::after {
-  border-color: color-mix(in oklab, var(--project-accent) 50%, transparent);
+  border-color: color-mix(in oklab, var(--project-accent) 70%, transparent);
 }
 
 .project-inner {
+  position: relative;
   display: grid;
   gap: clamp(1.5rem, 4vw, 2rem);
   padding: clamp(1.5rem, 4vw, 2.25rem);
+  z-index: 3;
 }
 
 .project-media {
@@ -794,46 +962,105 @@ small {
   text-align: center;
 }
 
-[data-animate],
+/* ============================================
+   Motion System
+   ============================================ */
+
+/* Initial state for reveal animations */
+[data-animate]:not(.hero-media),
 [data-animate-group] > *,
 [data-reveal-item] {
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+/* Hero media should be visible but can still parallax */
+.hero-media[data-animate] {
   opacity: 1;
   transform: none;
 }
 
+/* Revealed state */
+[data-animate].is-revealed,
+[data-animate-group].is-revealed > *,
+[data-reveal-item].is-revealed {
+  animation: reveal-fade-up 600ms cubic-bezier(0.19, 1, 0.22, 1) both;
+}
+
+/* Stagger for hero elements */
+[data-animate-group].is-revealed [data-animate]:nth-child(1) {
+  animation-delay: 0ms;
+}
+
+[data-animate-group].is-revealed [data-animate]:nth-child(2) {
+  animation-delay: 100ms;
+}
+
+[data-animate-group].is-revealed [data-animate]:nth-child(3) {
+  animation-delay: 200ms;
+}
+
+[data-animate-group].is-revealed [data-animate]:nth-child(4) {
+  animation-delay: 300ms;
+}
+
+[data-animate-group].is-revealed [data-animate]:nth-child(5) {
+  animation-delay: 400ms;
+}
+
+/* Parallax-enabled elements */
 .hero-media[data-parallax] {
   transform: translateY(0);
   will-change: transform;
+  transition: transform 0.1s ease-out;
 }
 
-@supports (animation-timeline: scroll()) {
-  .hero-media[data-parallax] {
-    animation: float 1s ease-out both;
-    animation-timeline: scroll();
-    animation-range: 0 40%;
-  }
-}
-
+/* Project card stagger based on index */
 .project-card[data-reveal-item] {
-  animation-delay: calc(0.1s * var(--stagger-index, 1));
+  animation-delay: calc(100ms * var(--stagger-index, 0));
 }
 
-.skill[data-reveal-item] {
-  animation-delay: calc(0.06s * var(--stagger-index, 1));
+/* Enhanced button interactions */
+.btn {
+  transition:
+    transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 200ms cubic-bezier(0.22, 1, 0.36, 1),
+    background 200ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
 }
 
-@keyframes fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(24px);
+.btn:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 14px 30px -18px
+    color-mix(in srgb, var(--accent) 60%, transparent);
+}
+
+.btn:active {
+  transform: translateY(0) scale(0.98);
+  transition-duration: 100ms;
+}
+
+.btn.ghost:hover {
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+/* Skill cards hover enhancement */
+.skill {
+  will-change: transform;
+}
+
+/* Keyframes */
+@keyframes holographic-shift {
+  0%,
+  100% {
+    background-position: 0% 50%;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  50% {
+    background-position: 100% 50%;
   }
 }
 
-@keyframes rise {
+@keyframes reveal-fade-up {
   from {
     opacity: 0;
     transform: translateY(28px);
@@ -841,6 +1068,14 @@ small {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@supports (animation-timeline: scroll()) {
+  .hero-media[data-parallax] {
+    animation: float 1s ease-out both;
+    animation-timeline: scroll();
+    animation-range: 0 40%;
   }
 }
 
@@ -892,11 +1127,11 @@ small {
   }
 }
 
-@media (pointer: coarse) {
+@media (hover: none) and (pointer: coarse) {
   .project-card:hover,
   .skill:hover {
-    transform: none;
-    box-shadow: none;
+    transform: none !important;
+    box-shadow: none !important;
   }
 
   .project-card:active,
@@ -909,13 +1144,22 @@ small {
   *,
   *::before,
   *::after {
-    animation: none !important;
-    transition: none !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  [data-animate],
+  [data-animate-group] > *,
+  [data-reveal-item] {
+    opacity: 1 !important;
+    transform: none !important;
   }
 
   .site-nav,
   .project-card,
-  .skill {
+  .skill,
+  .btn {
     transform: none !important;
   }
 }

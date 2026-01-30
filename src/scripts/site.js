@@ -1,3 +1,5 @@
+import { initReveal, initParallax } from "./motion";
+
 const prefersReducedMotion = window.matchMedia(
   "(prefers-reduced-motion: reduce)",
 );
@@ -5,6 +7,10 @@ const prefersReducedMotion = window.matchMedia(
 document.addEventListener("DOMContentLoaded", () => {
   const body = document.body;
   body.classList.add("is-ready");
+
+  // Initialize motion system
+  initReveal();
+  initParallax();
 
   const navToggle = document.querySelector("[data-nav-toggle]");
   const nav = document.querySelector(".site-nav");
