@@ -1,11 +1,10 @@
 ---
 title: RepoMerge
 description: Git repository aggregator for GitHub and GitLab with unified sharing and code search.
-url: https://www.repomerge.com
-repo: https://github.com/ammaarM/repomerge
+url: https://green-water-00987f303.4.azurestaticapps.net
 tech:
   - Azure Functions
-  - Cosmos DB
+  - Azure SQL Database
   - GitHub Apps
   - TypeScript
 featured: true

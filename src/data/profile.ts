@@ -1,4 +1,4 @@
-import headshotFallback from "../assets/images/ammaar-headshot.svg";
+import headshotFallback from "../assets/images/1723628031938.jpeg";
 
 export const profile = {
   name: "Ammaar Murshid",
