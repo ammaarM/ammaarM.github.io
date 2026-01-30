@@ -24,7 +24,11 @@ const otherProjects = projects.filter((project) => !project.data.featured);
     {featuredProjects.length > 0 && (
       <div class="featured" data-reveal-item>
         <h3 class="featured-heading">Featured</h3>
-        <div class="featured-grid" role="list" data-reveal-group>
+        <div
+          class="mt-[clamp(1.5rem,4vw,2.25rem)] grid gap-[clamp(1.5rem,4vw,2.25rem)] grid-cols-1 md:grid-cols-[repeat(auto-fit,minmax(320px,1fr))]"
+          role="list"
+          data-reveal-group
+        >
           {featuredProjects.map((project, index) => (
             <ProjectCard project={project} variant="featured" revealIndex={index} />
           ))}
@@ -32,7 +36,12 @@ const otherProjects = projects.filter((project) => !project.data.featured);
       </div>
     )}
     {otherProjects.length > 0 ? (
-      <div class="projects-grid" role="list" data-reveal-item data-reveal-group>
+      <div
+        class="mt-[clamp(1.5rem,4vw,2.25rem)] grid gap-[clamp(1.5rem,4vw,2.25rem)] grid-cols-1 md:grid-cols-[repeat(auto-fit,minmax(280px,1fr))]"
+        role="list"
+        data-reveal-item
+        data-reveal-group
+      >
         {otherProjects.map((project, index) => (
           <ProjectCard project={project} revealIndex={index} />
         ))}
