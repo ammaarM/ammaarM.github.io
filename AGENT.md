@@ -7,6 +7,7 @@
 - **Package Manager**: Bun
 - **Styling**: CSS (global + scoped)
 - **Content**: Markdown (content collections)
+- **Icons**: Lucide icons only (`lucide-react`). Do not introduce new icon libraries or inline SVG icons unless there is no Lucide equivalent.
 
 ## Before you commit
 

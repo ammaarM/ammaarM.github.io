@@ -1,3 +1,6 @@
+---
+import { Mail, Github, Linkedin } from 'lucide-react';
+---
 <section class="contact" id="contact" aria-labelledby="contact-title" data-section="contact" data-reveal tabindex="-1">
   <div class="section-shell" data-reveal-group>
     <div class="section-header content" data-reveal-item>
@@ -7,19 +10,19 @@
     <ul class="contact-links content" data-reveal-item>
       <li>
         <a class="text-link contact-link" href="mailto:ammaar720@hotmail.co.uk">
-          <img src="/assets/icons/Email.svg" alt="" class="contact-icon" />
+          <Mail className="contact-icon" aria-hidden="true" size={20} strokeWidth={1.5} client:load />
           Email
         </a>
       </li>
       <li>
         <a class="text-link contact-link" href="https://github.com/ammaarM" target="_blank" rel="noreferrer">
-          <img src="/assets/icons/GitHub.svg" alt="" class="contact-icon" />
+          <Github className="contact-icon" aria-hidden="true" size={20} strokeWidth={1.5} client:load />
           GitHub
         </a>
       </li>
       <li>
         <a class="text-link contact-link" href="https://www.linkedin.com/in/ammaar-murshid-92119218a/" target="_blank" rel="noreferrer">
-          <img src="/assets/icons/LinkedIn.svg" alt="" class="contact-icon" />
+          <Linkedin className="contact-icon" aria-hidden="true" size={20} strokeWidth={1.5} client:load />
           LinkedIn
         </a>
       </li>

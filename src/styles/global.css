@@ -470,8 +470,8 @@ small {
   display: grid;
   place-items: center;
   justify-items: center;
-  padding: clamp(1.5rem, 6vw, 2.5rem);
-  border-radius: clamp(32px, 5vw, 48px);
+  padding: clamp(1rem, 4vw, 1.5rem);
+  border-radius: 50%;
   background:
     radial-gradient(
       circle at top,
@@ -507,6 +507,7 @@ small {
 .hero-copy {
   display: grid;
   gap: clamp(1rem, 2.2vw, 1.75rem);
+  max-width: 42rem;
 }
 
 .hero-copy.content {
@@ -515,21 +516,17 @@ small {
 
 .hero-kicker {
   font-size: var(--step-sm);
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--muted) 62%, var(--text) 38%);
+  color: var(--accent);
   margin: 0;
 }
 
 .hero-tagline {
-  font-size: var(--step-lg);
-  font-weight: 600;
-  margin: 0;
-}
-
-.hero-lede {
   font-size: clamp(1.05rem, 1rem + 0.4vw, 1.25rem);
+  font-weight: 400;
+  line-height: 1.6;
   margin: 0;
   color: color-mix(in srgb, var(--text) 78%, var(--muted) 22%);
 }
@@ -883,7 +880,7 @@ small {
 
 @media (min-width: 960px) {
   .hero-surface {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
   }
 
   .hero-media {
