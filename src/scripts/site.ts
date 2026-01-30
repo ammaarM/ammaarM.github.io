@@ -12,18 +12,20 @@ document.addEventListener("DOMContentLoaded", () => {
   initReveal();
   initParallax();
 
-  const navToggle = document.querySelector("[data-nav-toggle]");
-  const nav = document.querySelector(".site-nav");
-  const navLinks = Array.from(document.querySelectorAll(".nav-link"));
-  const sections = Array.from(
-    document.querySelectorAll("section[data-section]"),
+  const navToggle = document.querySelector<HTMLElement>("[data-nav-toggle]");
+  const nav = document.querySelector<HTMLElement>(".site-nav");
+  const navLinks = Array.from(
+    document.querySelectorAll<HTMLAnchorElement>(".nav-link"),
   );
-  const avatars = Array.from(document.querySelectorAll("[data-avatar]"));
+  const sections = Array.from(
+    document.querySelectorAll<HTMLElement>("section[data-section]"),
+  );
+  const avatars = Array.from(document.querySelectorAll<HTMLElement>("[data-avatar]"));
 
   const initAvatars = () => {
     avatars.forEach((avatar) => {
-      const img = avatar.querySelector("img");
-      const fallback = avatar.querySelector(".avatar-fallback");
+      const img = avatar.querySelector<HTMLImageElement>("img");
+      const fallback = avatar.querySelector<HTMLElement>(".avatar-fallback");
       const initials = avatar.dataset.initials || "AM";
       if (fallback) {
         fallback.textContent = initials;
@@ -52,6 +54,9 @@ document.addEventListener("DOMContentLoaded", () => {
         showFallback();
         return;
       }
+      const handleLoad = () => {
+        img.classList.add("is-loaded");
+      };
       const handleError = () => {
         if (swapToFallbackGraphic()) {
           img.addEventListener("error", showFallback, { once: true });
@@ -59,8 +64,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         showFallback();
       };
+      img.addEventListener("load", handleLoad, { once: true });
       img.addEventListener("error", handleError, { once: true });
-      if (img.complete && img.naturalWidth === 0) {
+      if (img.complete && img.naturalWidth > 0) {
+        handleLoad();
+      } else if (img.complete && img.naturalWidth === 0) {
         handleError();
       }
     });
@@ -79,13 +87,13 @@ document.addEventListener("DOMContentLoaded", () => {
     nav?.classList.remove("open");
   };
 
-  const highlightSection = (target) => {
+  const highlightSection = (target: HTMLElement) => {
     if (!target) return;
     target.classList.add("is-anchor-target");
     window.setTimeout(() => target.classList.remove("is-anchor-target"), 1400);
   };
 
-  const updateActiveNav = (id) => {
+  const updateActiveNav = (id: string) => {
     navLinks.forEach((link) => {
       const targetId = (link.getAttribute("href") || "").replace("#", "");
       const isActive = targetId === id;
@@ -112,11 +120,13 @@ document.addEventListener("DOMContentLoaded", () => {
     sections.forEach((section) => observer.observe(section));
   }
 
-  const scrollLinks = Array.from(document.querySelectorAll("[data-scroll]"));
+  const scrollLinks = Array.from(
+    document.querySelectorAll<HTMLAnchorElement>("[data-scroll]"),
+  );
   scrollLinks.forEach((link) => {
     const href = link.getAttribute("href") || "";
     if (!href.startsWith("#")) return;
-    const target = document.querySelector(href);
+    const target = document.querySelector<HTMLElement>(href);
     if (!target) return;
 
     link.addEventListener("click", (event) => {
@@ -130,10 +140,12 @@ document.addEventListener("DOMContentLoaded", () => {
         () => highlightSection(target),
         prefersReducedMotion.matches ? 0 : 900,
       );
-      try {
-        target.focus({ preventScroll: true });
-      } catch (error) {
-        target.focus();
+      if (target instanceof HTMLElement) {
+        try {
+          target.focus({ preventScroll: true });
+        } catch {
+          target.focus();
+        }
       }
     });
   });

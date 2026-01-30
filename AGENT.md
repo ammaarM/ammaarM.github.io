@@ -12,8 +12,14 @@
 ## Before you commit
 
 ```bash
+# Lint
+bun run lint
+
 # Typecheck
-bunx tsc --noEmit
+bun run typecheck
+
+# Tests
+bun run tests
 
 # Format
 bun run format
@@ -21,8 +27,6 @@ bun run format
 # Build check
 bun run build
 ```
-
-No linting or test suite currently configured.
 
 ## Coding rules
 
@@ -81,7 +85,9 @@ No linting or test suite currently configured.
 
 ## PR checklist
 
-- [ ] TypeScript compiles with no errors (`bunx tsc --noEmit`)
+- [ ] Lint passes (`bun run lint`)
+- [ ] TypeScript compiles with no errors (`bun run typecheck`)
+- [ ] Tests pass (`bun run tests`)
 - [ ] Code formatted (`bun run format`)
 - [ ] Build succeeds (`bun run build`)
 - [ ] No duplicated logic; extracted to appropriate location

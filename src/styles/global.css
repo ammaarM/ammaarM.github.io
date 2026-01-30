@@ -397,6 +397,15 @@ small {
   display: block;
 }
 
+.avatar img {
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.avatar img.is-loaded {
+  opacity: 1;
+}
+
 .avatar::after {
   content: "";
   position: absolute;

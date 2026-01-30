@@ -20,7 +20,7 @@ import { Sun, Moon } from 'lucide-react';
         if (stored === 'light' || stored === 'dark') {
           return stored;
         }
-      } catch (error) {
+      } catch {
         /* ignore */
       }
       if (typeof window.matchMedia === 'function') {
@@ -49,7 +49,7 @@ import { Sun, Moon } from 'lucide-react';
       document.documentElement.style.setProperty('color-scheme', theme);
       try {
         localStorage.setItem(storageKey, theme);
-      } catch (error) {
+      } catch {
         /* ignore */
       }
       applyLabel(theme);
@@ -69,7 +69,7 @@ import { Sun, Moon } from 'lucide-react';
         let stored = null;
         try {
           stored = localStorage.getItem(storageKey);
-        } catch (error) {
+        } catch {
           stored = null;
         }
         if (stored === 'light' || stored === 'dark') return;
@@ -81,8 +81,6 @@ import { Sun, Moon } from 'lucide-react';
       };
       if (typeof media.addEventListener === 'function') {
         media.addEventListener('change', handleMedia);
-      } else if (typeof media.addListener === 'function') {
-        media.addListener(handleMedia);
       }
     }
   })();

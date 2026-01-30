@@ -83,7 +83,6 @@ export function initParallax() {
   if (parallaxElements.length === 0) return;
 
   let rafId: number | null = null;
-  let scrollY = window.scrollY;
 
   const updateParallax = () => {
     parallaxElements.forEach((el) => {
@@ -103,7 +102,6 @@ export function initParallax() {
   };
 
   const onScroll = () => {
-    scrollY = window.scrollY;
     if (rafId === null) {
       rafId = requestAnimationFrame(updateParallax);
     }
