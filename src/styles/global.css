@@ -975,10 +975,10 @@ small {
    Motion System
    ============================================ */
 
-/* Initial state for reveal animations (only when JS is active) */
-html.js [data-animate]:not(.hero-media),
-html.js [data-animate-group] > *,
-html.js [data-reveal-item] {
+/* Initial state for reveal animations (only after JS sets ready state) */
+body.is-ready [data-animate]:not(.hero-media),
+body.is-ready [data-animate-group] > *,
+body.is-ready [data-reveal-item] {
   opacity: 0;
   transform: translateY(28px);
 }
@@ -990,9 +990,9 @@ html.js [data-reveal-item] {
 }
 
 /* Revealed state */
-html.js [data-animate].is-revealed,
-html.js [data-animate-group].is-revealed > *,
-html.js [data-reveal-item].is-revealed {
+body.is-ready [data-animate].is-revealed,
+body.is-ready [data-animate-group].is-revealed > *,
+body.is-ready [data-reveal-item].is-revealed {
   animation: reveal-fade-up 600ms cubic-bezier(0.19, 1, 0.22, 1) both;
 }
 
