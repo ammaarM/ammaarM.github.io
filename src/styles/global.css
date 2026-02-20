@@ -798,7 +798,7 @@ small {
   z-index: 2;
 }
 
-.project-card:is(:hover, :focus-within) {
+.project-card:hover {
   transform: translateY(-8px) scale(1.05) !important;
   box-shadow:
     0 0 30px rgba(79, 70, 229, 0.5),
@@ -810,14 +810,62 @@ small {
   ) !important;
 }
 
-.project-card:is(:hover, :focus-within)::before {
+.project-card:hover::before {
   opacity: 0.15;
   transform: translateY(0) rotate(2deg);
   animation: holographic-shift 4s ease-in-out infinite;
 }
 
-.project-card:is(:hover, :focus-within)::after {
+.project-card:hover::after {
   border-color: color-mix(in oklab, var(--project-accent) 70%, transparent);
+}
+
+@supports selector(.project-card:has(:focus-visible)) {
+  .project-card:has(:focus-visible) {
+    transform: translateY(-8px) scale(1.05) !important;
+    box-shadow:
+      0 0 30px rgba(79, 70, 229, 0.5),
+      0 20px 40px -20px rgba(0, 0, 0, 0.3) !important;
+    border-color: color-mix(
+      in oklab,
+      var(--project-accent) 60%,
+      transparent
+    ) !important;
+  }
+
+  .project-card:has(:focus-visible)::before {
+    opacity: 0.15;
+    transform: translateY(0) rotate(2deg);
+    animation: holographic-shift 4s ease-in-out infinite;
+  }
+
+  .project-card:has(:focus-visible)::after {
+    border-color: color-mix(in oklab, var(--project-accent) 70%, transparent);
+  }
+}
+
+@supports not selector(.project-card:has(:focus-visible)) {
+  .project-card:focus-within {
+    transform: translateY(-8px) scale(1.05) !important;
+    box-shadow:
+      0 0 30px rgba(79, 70, 229, 0.5),
+      0 20px 40px -20px rgba(0, 0, 0, 0.3) !important;
+    border-color: color-mix(
+      in oklab,
+      var(--project-accent) 60%,
+      transparent
+    ) !important;
+  }
+
+  .project-card:focus-within::before {
+    opacity: 0.15;
+    transform: translateY(0) rotate(2deg);
+    animation: holographic-shift 4s ease-in-out infinite;
+  }
+
+  .project-card:focus-within::after {
+    border-color: color-mix(in oklab, var(--project-accent) 70%, transparent);
+  }
 }
 
 .project-inner {
