@@ -1143,6 +1143,8 @@ body.is-ready [data-reveal-item].is-revealed {
 
   .hero-media {
     order: -1;
+    justify-self: center;
+    width: fit-content;
   }
 
   .contact-links {
