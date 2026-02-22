@@ -748,6 +748,16 @@ small {
 .projects .featured-heading {
   font-size: var(--step-lg);
   margin-bottom: 1.25rem;
+  padding-inline: clamp(1rem, 4vw, 2rem);
+}
+
+.projects .featured {
+  margin-top: clamp(2rem, 5vw, 3rem);
+}
+
+/* Gap between the featured block and the other-projects carousel */
+.projects .section-shell > .carousel {
+  margin-top: clamp(3.5rem, 8vw, 5.5rem);
 }
 
 .project-card {
@@ -874,24 +884,32 @@ small {
 .project-inner {
   position: relative;
   display: grid;
-  gap: clamp(1.5rem, 4vw, 2rem);
-  padding: clamp(1.5rem, 4vw, 2.25rem);
+  gap: clamp(0.85rem, 2vw, 1.25rem);
+  padding: clamp(1.25rem, 3vw, 1.75rem);
   z-index: 3;
 }
 
 .project-media {
   position: relative;
-  border-radius: clamp(18px, 4vw, 26px);
+  border-radius: clamp(14px, 3vw, 20px);
   overflow: hidden;
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--border) 40%, transparent);
+  aspect-ratio: 16 / 9;
+}
+
+.project-media > * {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .project-preview,
 .project-preview img,
 .project-preview picture {
   width: 100%;
-  height: auto;
+  height: 100%;
   display: block;
+  object-fit: cover;
 }
 
 .project-preview {
@@ -903,11 +921,13 @@ small {
   position: relative;
   display: grid;
   place-items: center;
-  padding: clamp(2rem, 6vw, 3rem);
+  width: 100%;
+  height: 100%;
+  padding: clamp(1.25rem, 4vw, 2rem);
 }
 
 .project-fallback-image {
-  width: clamp(140px, 28vw, 180px);
+  width: clamp(80px, 16vw, 120px);
   height: auto;
 }
 
@@ -926,6 +946,12 @@ small {
 .project-header {
   display: grid;
   gap: 0.35rem;
+}
+
+.project-body {
+  display: grid;
+  gap: 0.65rem;
+  align-content: start;
 }
 
 .project-meta {
@@ -955,11 +981,56 @@ small {
   color: color-mix(in srgb, var(--accent) 70%, var(--text) 30%);
 }
 
+/* Read more toggle */
+.project-details {
+  border: none;
+}
+
+.project-details[open] .project-read-more {
+  color: color-mix(in srgb, var(--accent) 70%, var(--text) 30%);
+}
+
+.project-read-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  font-size: var(--step-sm);
+  font-weight: 600;
+  color: var(--accent);
+  list-style: none;
+  padding: 0;
+  margin-bottom: 0;
+  user-select: none;
+}
+
+.project-read-more::-webkit-details-marker {
+  display: none;
+}
+
+.project-read-more::after {
+  content: "";
+  display: inline-block;
+  width: 0.5em;
+  height: 0.5em;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translateY(-2px);
+  transition: transform 220ms ease;
+}
+
+.project-details[open] .project-read-more::after {
+  transform: rotate(-135deg) translateY(-2px);
+}
+
+.project-description {
+  margin-top: 0.75rem;
+}
+
 .project-links {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
-  margin-top: 1rem;
 }
 
 .project-links .text-link {
@@ -980,6 +1051,77 @@ small {
   margin-top: clamp(2rem, 5vw, 3rem);
   text-align: center;
   color: color-mix(in srgb, var(--muted) 65%, var(--text) 35%);
+}
+
+/* ── Carousel (mobile project slider) ── */
+.carousel {
+  position: relative;
+}
+
+.carousel-viewport {
+  position: relative;
+}
+
+/* Hidden on desktop — shown only on mobile */
+.carousel-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid color-mix(in srgb, var(--border) 55%, transparent);
+  color: var(--text);
+  cursor: pointer;
+  transition:
+    background 200ms ease,
+    border-color 200ms ease,
+    opacity 200ms ease;
+  flex-shrink: 0;
+}
+
+.carousel-btn:hover {
+  background: color-mix(in srgb, var(--accent) 18%, var(--surface));
+  border-color: color-mix(in srgb, var(--accent) 60%, transparent);
+}
+
+.carousel-btn:disabled {
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.carousel-dots-bar {
+  display: none;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.carousel-dots {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.carousel-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  padding: 0;
+  border-radius: 999px;
+  border: none;
+  background: color-mix(in srgb, var(--border) 80%, transparent);
+  cursor: pointer;
+  transition:
+    background 200ms ease,
+    width 200ms ease;
+  flex-shrink: 0;
+}
+
+.carousel-dot.is-active {
+  background: var(--accent);
+  width: 1.25rem;
 }
 
 .contact-links {
@@ -1147,6 +1289,99 @@ body.is-ready [data-reveal-item].is-revealed {
     width: fit-content;
   }
 
+  /* Disable skill card expand / ripple animations on mobile */
+  .skill,
+  .skill:hover,
+  .skill:focus-visible,
+  .skill:active {
+    width: 80px !important;
+    height: 80px !important;
+    padding: 0.4rem !important;
+    gap: 0 !important;
+    margin-inline: 0 !important;
+    transform: none !important;
+    box-shadow: none !important;
+    border-color: color-mix(in srgb, var(--border) 65%, transparent) !important;
+    transition: none !important;
+  }
+
+  .skill::before,
+  .skill:hover::before {
+    display: none !important;
+  }
+
+  .skill:hover .skill-icon,
+  .skill:focus-visible .skill-icon {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 3.8rem !important;
+    max-height: 3.8rem !important;
+  }
+
+  .skill:hover .skill-label,
+  .skill:focus-visible .skill-label {
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  .skills-grid:has(.skill:hover) .skill:not(:hover),
+  .skill:has(+ .skill:hover),
+  .skill:hover + .skill,
+  .skill:has(+ .skill + .skill:hover),
+  .skill:hover + .skill + .skill {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  /* Project carousel track */
+  .carousel-track {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    gap: 1rem !important;
+    padding-inline: 1.25rem !important;
+    padding-bottom: 0.5rem;
+    /* hide scrollbar */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    margin-top: 0 !important;
+  }
+
+  .carousel-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .carousel-track .project-card {
+    flex: 0 0 calc(100% - 2.5rem);
+    max-width: calc(100% - 2.5rem);
+    scroll-snap-align: center;
+    margin-inline: auto;
+  }
+
+  /* Overlay arrow buttons */
+  .carousel-btn {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+  }
+
+  .carousel-prev {
+    left: 0;
+  }
+
+  .carousel-next {
+    right: 0;
+  }
+
+  /* Dots bar below track */
+  .carousel-dots-bar {
+    display: flex;
+  }
+
   .contact-links {
     flex-direction: column;
     align-items: flex-start;
@@ -1174,9 +1409,12 @@ body.is-ready [data-reveal-item].is-revealed {
     box-shadow: none !important;
   }
 
-  .project-card:active,
-  .skill:active {
+  .project-card:active {
     transform: translateY(-2px);
+  }
+
+  .skill:active {
+    transform: none !important;
   }
 
   /* Skills: switch to a wrapping pill layout so labels are always visible */
@@ -1195,6 +1433,7 @@ body.is-ready [data-reveal-item].is-revealed {
     flex-direction: row !important;
     flex-shrink: 1 !important;
     transform: none !important;
+    transition: none !important;
     cursor: default;
   }
 

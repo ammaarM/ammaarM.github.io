@@ -1,8 +1,8 @@
 ---
-import { getCollection } from 'astro:content';
-import ProjectCard from './ProjectCard.astro';
+import { getCollection } from "astro:content";
+import ProjectCard from "./ProjectCard.astro";
 
-const projects = (await getCollection('projects')).sort((a, b) => {
+const projects = (await getCollection("projects")).sort((a, b) => {
   if (a.data.featured !== b.data.featured) {
     return Number(b.data.featured) - Number(a.data.featured);
   }
@@ -15,39 +15,268 @@ const projects = (await getCollection('projects')).sort((a, b) => {
 const featuredProjects = projects.filter((project) => project.data.featured);
 const otherProjects = projects.filter((project) => !project.data.featured);
 ---
-<section class="projects" id="projects" aria-labelledby="projects-title" data-section="projects" data-reveal tabindex="-1">
+
+<section
+  class="projects"
+  id="projects"
+  aria-labelledby="projects-title"
+  data-section="projects"
+  data-reveal
+  tabindex="-1"
+>
   <div class="section-shell" data-reveal-group>
     <div class="section-header content" data-reveal-item>
       <h2 id="projects-title">Projects</h2>
-      <p>Open-source work and collaborations, curated for reliability and developer experience.</p>
+      <p>
+        Open-source work and collaborations, curated for reliability and
+        developer experience.
+      </p>
     </div>
-    {featuredProjects.length > 0 && (
-      <div class="featured" data-reveal-item>
-        <h3 class="featured-heading">Featured</h3>
-        <div
-          class="mt-[clamp(1.5rem,4vw,2.25rem)] grid gap-[clamp(1.5rem,4vw,2.25rem)] grid-cols-1 md:grid-cols-[repeat(auto-fit,minmax(320px,1fr))]"
-          role="list"
-          data-reveal-group
-        >
-          {featuredProjects.map((project, index) => (
-            <ProjectCard project={project} variant="featured" revealIndex={index} />
-          ))}
+    {
+      featuredProjects.length > 0 && (
+        <div class="featured" data-reveal-item>
+          <h3 class="featured-heading">Featured</h3>
+          <div class="carousel" data-carousel>
+            <div class="carousel-viewport">
+              <div
+                class="carousel-track mt-[clamp(1.5rem,4vw,2.25rem)] grid gap-[clamp(1.5rem,4vw,2.25rem)] grid-cols-1 md:grid-cols-[repeat(auto-fit,minmax(320px,1fr))]"
+                role="list"
+                data-reveal-group
+              >
+                {featuredProjects.map((project, index) => (
+                  <ProjectCard
+                    project={project}
+                    variant="featured"
+                    revealIndex={index}
+                  />
+                ))}
+              </div>
+              <button
+                class="carousel-btn carousel-prev"
+                aria-label="Previous project"
+                type="button"
+              >
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <polyline points="15 18 9 12 15 6" />
+                </svg>
+              </button>
+              <button
+                class="carousel-btn carousel-next"
+                aria-label="Next project"
+                type="button"
+              >
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+              </button>
+            </div>
+            <div class="carousel-dots-bar">
+              <div class="carousel-dots" role="tablist" aria-label="Projects" />
+            </div>
+          </div>
         </div>
-      </div>
-    )}
-    {otherProjects.length > 0 ? (
-      <div
-        class="mt-[clamp(1.5rem,4vw,2.25rem)] grid gap-[clamp(1.5rem,4vw,2.25rem)] grid-cols-1 md:grid-cols-[repeat(auto-fit,minmax(280px,1fr))]"
-        role="list"
-        data-reveal-item
-        data-reveal-group
-      >
-        {otherProjects.map((project, index) => (
-          <ProjectCard project={project} revealIndex={index} />
-        ))}
-      </div>
-    ) : (
-      <p class="projects-empty content" data-reveal-item>No additional projects to show right now. Check back soon!</p>
-    )}
+      )
+    }
+    {
+      otherProjects.length > 0 ? (
+        <div class="carousel" data-carousel data-reveal-item data-reveal-group>
+          <div class="carousel-viewport">
+            <div
+              class="carousel-track mt-[clamp(1.5rem,4vw,2.25rem)] grid gap-[clamp(1.5rem,4vw,2.25rem)] grid-cols-1 md:grid-cols-[repeat(auto-fit,minmax(280px,1fr))]"
+              role="list"
+            >
+              {otherProjects.map((project, index) => (
+                <ProjectCard project={project} revealIndex={index} />
+              ))}
+            </div>
+            <button
+              class="carousel-btn carousel-prev"
+              aria-label="Previous project"
+              type="button"
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
+            <button
+              class="carousel-btn carousel-next"
+              aria-label="Next project"
+              type="button"
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </button>
+          </div>
+          <div class="carousel-dots-bar">
+            <div class="carousel-dots" role="tablist" aria-label="Projects" />
+          </div>
+        </div>
+      ) : (
+        <p class="projects-empty content" data-reveal-item>
+          No additional projects to show right now. Check back soon!
+        </p>
+      )
+    }
   </div>
 </section>
+
+<script>
+  function initCarousels() {
+    const MOBILE_MQ = window.matchMedia("(max-width: 768px)");
+
+    document
+      .querySelectorAll<HTMLElement>("[data-carousel]")
+      .forEach((carousel) => {
+        const track = carousel.querySelector<HTMLElement>(".carousel-track");
+        const dotsContainer =
+          carousel.querySelector<HTMLElement>(".carousel-dots");
+        const prevBtn =
+          carousel.querySelector<HTMLButtonElement>(".carousel-prev");
+        const nextBtn =
+          carousel.querySelector<HTMLButtonElement>(".carousel-next");
+        if (!track || !dotsContainer || !prevBtn || !nextBtn) return;
+
+        const cards = Array.from(
+          track.querySelectorAll<HTMLElement>(".project-card"),
+        );
+        if (cards.length === 0) return;
+
+        // Build dot buttons once
+        dotsContainer.innerHTML = "";
+        cards.forEach((_, i) => {
+          const dot = document.createElement("button");
+          dot.className = "carousel-dot";
+          dot.setAttribute("aria-label", `Go to project ${i + 1}`);
+          dot.setAttribute("role", "tab");
+          dot.setAttribute("aria-selected", i === 0 ? "true" : "false");
+          dot.dataset.index = String(i);
+          dot.addEventListener("click", () => {
+            if (!MOBILE_MQ.matches) return;
+            cards[i].scrollIntoView({
+              behavior: "smooth",
+              block: "nearest",
+              inline: "center",
+            });
+          });
+          dotsContainer.appendChild(dot);
+        });
+
+        const dots = Array.from(
+          dotsContainer.querySelectorAll<HTMLElement>(".carousel-dot"),
+        );
+
+        const getCurrentIndex = (): number => {
+          const containerCenter =
+            track.getBoundingClientRect().left + track.clientWidth / 2;
+          let closestIdx = 0;
+          let closestDist = Infinity;
+          cards.forEach((card, i) => {
+            const rect = card.getBoundingClientRect();
+            const dist = Math.abs(rect.left + rect.width / 2 - containerCenter);
+            if (dist < closestDist) {
+              closestDist = dist;
+              closestIdx = i;
+            }
+          });
+          return closestIdx;
+        };
+
+        const updateState = () => {
+          if (!MOBILE_MQ.matches) return;
+          const idx = Math.max(
+            0,
+            Math.min(getCurrentIndex(), cards.length - 1),
+          );
+          dots.forEach((d, i) => {
+            d.classList.toggle("is-active", i === idx);
+            d.setAttribute("aria-selected", i === idx ? "true" : "false");
+          });
+          prevBtn.disabled = idx === 0;
+          nextBtn.disabled = idx === cards.length - 1;
+        };
+
+        prevBtn.addEventListener("click", () => {
+          if (!MOBILE_MQ.matches) return;
+          const idx = getCurrentIndex();
+          if (idx > 0)
+            cards[idx - 1].scrollIntoView({
+              behavior: "smooth",
+              block: "nearest",
+              inline: "center",
+            });
+        });
+
+        nextBtn.addEventListener("click", () => {
+          if (!MOBILE_MQ.matches) return;
+          const idx = getCurrentIndex();
+          if (idx < cards.length - 1)
+            cards[idx + 1].scrollIntoView({
+              behavior: "smooth",
+              block: "nearest",
+              inline: "center",
+            });
+        });
+
+        let scrollTimer: ReturnType<typeof setTimeout>;
+        track.addEventListener(
+          "scroll",
+          () => {
+            clearTimeout(scrollTimer);
+            scrollTimer = setTimeout(updateState, 60);
+          },
+          { passive: true },
+        );
+
+        // Re-evaluate on resize
+        MOBILE_MQ.addEventListener("change", updateState);
+        updateState();
+      });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initCarousels);
+  } else {
+    initCarousels();
+  }
+</script>

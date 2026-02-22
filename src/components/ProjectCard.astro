@@ -74,9 +74,6 @@ const projectLink = data.url ?? data.repo;
         <h3 class="project-title">{data.title}</h3>
         {data.description && <p class="project-meta">{data.description}</p>}
       </header>
-      <div class="project-description prose">
-        <Content />
-      </div>
       {tech.length > 0 && (
         <ul class="project-tags" aria-label="Topics">
           {tech.map((tag) => (
@@ -86,6 +83,12 @@ const projectLink = data.url ?? data.repo;
           ))}
         </ul>
       )}
+      <details class="project-details">
+        <summary class="project-read-more">Read more</summary>
+        <div class="project-description prose">
+          <Content />
+        </div>
+      </details>
       <div class={isFeatured ? 'project-links featured-links' : 'project-links'}>
         {data.url && (
           <a class={isFeatured ? 'btn' : 'btn ghost'} href={data.url} target="_blank" rel="noreferrer">
