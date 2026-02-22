@@ -1,24 +1,25 @@
 ---
-import ThemeToggle from './ThemeToggle.astro';
-import { profile } from '../data/profile';
+import ThemeToggle from "./ThemeToggle.astro";
+import { profile } from "../data/profile";
 
 interface Props {
   currentPath?: string;
 }
 
 const navLinks = [
-  { href: '#about', label: 'About' },
-  { href: '#skills', label: 'Skills' },
-  { href: '#projects', label: 'Projects' },
-  { href: '#contact', label: 'Contact' },
+  { href: "#about", label: "About" },
+  { href: "#skills", label: "Skills" },
+  { href: "#projects", label: "Projects" },
+  { href: "#contact", label: "Contact" },
 ];
 
 void (Astro.props as Props);
 ---
+
 <header class="site-header" data-reveal>
   <div class="container header-inner" data-animate>
     <a class="brand" href="#hero" aria-label="Home" data-scroll>
-      <span class="avatar avatar--nav" data-avatar data-initials="AM">
+      <!-- <span class="avatar avatar--nav" data-avatar data-initials="AM">
         <img
           src={profile.headshot.url}
           alt={profile.headshot.alt}
@@ -29,19 +30,21 @@ void (Astro.props as Props);
           data-fallback={profile.fallback.src}
         />
         <span class="avatar-fallback" aria-hidden="true">AM</span>
-      </span>
+      </span> -->
       <span class="brand-text">Ammaar Murshid</span>
     </a>
     <div class="header-actions">
       <nav class="site-nav" aria-label="Primary">
         <ul>
-          {navLinks.map(({ href, label }) => (
-            <li>
-              <a class="nav-link" href={href} data-scroll>
-                {label}
-              </a>
-            </li>
-          ))}
+          {
+            navLinks.map(({ href, label }) => (
+              <li>
+                <a class="nav-link" href={href} data-scroll>
+                  {label}
+                </a>
+              </li>
+            ))
+          }
         </ul>
       </nav>
       <ThemeToggle />
