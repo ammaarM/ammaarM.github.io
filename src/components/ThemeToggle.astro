@@ -23,11 +23,7 @@ import { Sun, Moon } from 'lucide-react';
       } catch {
         /* ignore */
       }
-      if (typeof window.matchMedia === 'function') {
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        return prefersDark ? 'dark' : 'light';
-      }
-      return 'light';
+      return 'dark';
     };
     const updateMeta = () => {
       const meta = document.querySelector('meta[name="theme-color"]');
@@ -63,26 +59,6 @@ import { Sun, Moon } from 'lucide-react';
       const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       setTheme(next);
     });
-    if (typeof window.matchMedia === 'function') {
-      const media = window.matchMedia('(prefers-color-scheme: dark)');
-      const handleMedia = (event) => {
-        let stored = null;
-        try {
-          stored = localStorage.getItem(storageKey);
-        } catch {
-          stored = null;
-        }
-        if (stored === 'light' || stored === 'dark') return;
-        const next = event.matches ? 'dark' : 'light';
-        document.documentElement.setAttribute('data-theme', next);
-        document.documentElement.style.setProperty('color-scheme', next);
-        applyLabel(next);
-        updateMeta();
-      };
-      if (typeof media.addEventListener === 'function') {
-        media.addEventListener('change', handleMedia);
-      }
-    }
   })();
 </script>
 <style>

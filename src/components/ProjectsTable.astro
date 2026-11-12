@@ -1,0 +1,139 @@
+---
+import { Picture } from "astro:assets";
+import { getCollection } from "astro:content";
+import { ArrowUpRight } from "lucide-react";
+import Pane from "./Pane.astro";
+import { compareProjects, projectSlug, projectStatus } from "../data/projects";
+
+const entries = (await getCollection("projects")).sort(compareProjects);
+const projects = await Promise.all(
+  entries.map(async (entry) => {
+    const { Content } = await entry.render();
+    return {
+      entry,
+      Content,
+      slug: projectSlug(entry.data.title),
+      status: projectStatus(entry.data),
+    };
+  }),
+);
+
+const liveCount = projects.filter((p) => p.status === "live").length;
+const repoCount = projects.length - liveCount;
+// First featured project is selected by default (the list is sorted featured-first).
+const initial = projects[0]?.slug;
+---
+
+<section class="tmux-window window--projects" id="projects" data-section="projects" aria-labelledby="projects-title" tabindex="-1" data-projects>
+  <Pane title="kubectl get projects" index="3" heading="Projects" headingId="projects-title" class="pane--table">
+    <div class="ktable-wrap">
+      <p class="ktable-context">
+        {projects.length} projects · {liveCount} live · {repoCount} repo-only
+        <span class="ktable-hint" aria-hidden="true" data-js-only hidden>↑↓ move · enter select</span>
+      </p>
+      <div class="ktable-head" aria-hidden="true">
+        <span>NAME</span><span>KIND</span><span>STATUS</span><span>STACK</span>
+      </div>
+      <ul class="ktable" data-project-list>
+        {
+          projects.map(({ entry, slug, status }) => (
+            <li class="ktable-item" data-project-item>
+              <button
+                class="ktable-row"
+                type="button"
+                aria-controls={`project-${slug}`}
+                aria-expanded={slug === initial ? "true" : "false"}
+                data-project-row={slug}
+              >
+                <span class="ktable-name">
+                  <span class="ktable-marker" aria-hidden="true">▸</span>
+                  {slug}
+                </span>
+                <span class="ktable-kind">{entry.data.kind}</span>
+                <span class={`ktable-status is-${status}`}>
+                  <span class="ktable-dot" aria-hidden="true">{status === "live" ? "●" : "○"}</span>
+                  {status}
+                </span>
+                <span class="ktable-stack">{entry.data.tech.join(" ")}</span>
+              </button>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </Pane>
+
+  <Pane
+    title="describe projects"
+    class="pane--detail"
+    titleAttrs={{ "data-project-title": "" }}
+  >
+    <div class="kdetail" data-project-details>
+      {
+        projects.map(({ entry, Content, slug, status }) => {
+          const { data } = entry;
+          return (
+            <article class="kdetail-item" id={`project-${slug}`} aria-labelledby={`project-${slug}-title`} data-project-detail={slug}>
+              <header class="kdetail-head">
+                <h3 id={`project-${slug}-title`}>{data.title}</h3>
+                <span class={`ktable-status is-${status}`}>
+                  <span class="ktable-dot" aria-hidden="true">{status === "live" ? "●" : "○"}</span>
+                  {status} · {data.kind}
+                </span>
+              </header>
+              <div class="kdetail-media">
+                {data.terminal ? (
+                  <div class="terminal kdetail-terminal">
+                    <div class="terminal-bar" aria-hidden="true">
+                      <span></span><span></span><span></span>
+                      <p class="terminal-title">{slug}</p>
+                    </div>
+                    <div class="terminal-body">
+                      {data.terminal.map((line) => (
+                        <p class="terminal-line">
+                          <span class="prompt" aria-hidden="true">$</span>
+                          <span>{line}</span>
+                        </p>
+                      ))}
+                    </div>
+                  </div>
+                ) : data.image ? (
+                  <Picture
+                    class="kdetail-preview"
+                    src={data.image}
+                    alt={data.imageAlt ?? `Preview of ${data.title}`}
+                    widths={[480, 720, 1080]}
+                    sizes="(max-width: 767px) 92vw, 480px"
+                    formats={["avif", "webp"]}
+                    loading="lazy"
+                  />
+                ) : null}
+              </div>
+              <p class="kdetail-lead">{data.description}</p>
+              <div class="kdetail-body prose">
+                <Content />
+              </div>
+              <ul class="kdetail-tags" aria-label="Stack">
+                {data.tech.map((tag) => <li>{tag}</li>)}
+              </ul>
+              <div class="kdetail-links">
+                {data.url && (
+                  <a class="btn" href={data.url} target="_blank" rel="noreferrer">
+                    Open site
+                    <ArrowUpRight aria-hidden="true" size={16} strokeWidth={2} />
+                  </a>
+                )}
+                {data.repo && (
+                  <a class={data.url ? "btn ghost" : "btn"} href={data.repo} target="_blank" rel="noreferrer">
+                    Source
+                    <ArrowUpRight aria-hidden="true" size={16} strokeWidth={2} />
+                  </a>
+                )}
+              </div>
+            </article>
+          );
+        })
+      }
+    </div>
+  </Pane>
+</section>

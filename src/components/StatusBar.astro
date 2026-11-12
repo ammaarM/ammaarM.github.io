@@ -1,0 +1,44 @@
+---
+import { Search } from "lucide-react";
+import ThemeToggle from "./ThemeToggle.astro";
+import { profile } from "../data/profile";
+import { windows } from "../data/sections";
+---
+
+<div class="statusbar" data-statusbar>
+  <a class="sb-session" href="#hero" data-scroll>
+    <span aria-hidden="true">[{profile.handle}]</span><span class="sr-only">Back to top</span>
+  </a>
+  <nav class="sb-nav" aria-label="Sections">
+    <ol class="sb-windows">
+      {
+        windows.map(({ key, id, name, label }) => (
+          <li>
+            <a class="sb-window" href={`#${id}`} data-window={id} data-scroll>
+              <span class="sb-key">{key}</span>
+              <span class="sb-name"><span aria-hidden="true">:</span>{name}</span>
+              <span class="sb-flag" aria-hidden="true">*</span>
+              <span class="sr-only">{label}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+  </nav>
+  <p class="sb-msg" role="status" aria-live="polite" data-sb-msg></p>
+  <div class="sb-right">
+    <button class="sb-btn" type="button" data-open-palette data-js-only hidden aria-keyshortcuts="Control+K Meta+K">
+      <Search className="sb-btn-icon" aria-hidden="true" size={16} strokeWidth={2} />
+      <span class="sb-btn-keys" aria-hidden="true"><kbd data-mod-key>ctrl</kbd><kbd>k</kbd></span>
+      <span class="sr-only">Open command palette</span>
+    </button>
+    <button class="sb-btn sb-btn--help" type="button" data-open-help data-js-only hidden aria-keyshortcuts="?">
+      <kbd>?</kbd><span class="sr-only">Keyboard shortcuts</span>
+    </button>
+    <ThemeToggle />
+    <span class="sb-clock" data-js-only hidden>
+      <span class="sb-clock-place">London</span>
+      <time data-clock aria-hidden="true"></time>
+    </span>
+  </div>
+</div>

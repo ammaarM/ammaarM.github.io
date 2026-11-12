@@ -26,7 +26,7 @@ reflected immediately.
 ```
 
 Project cards are sourced from the `src/content/projects` collection. Add a new Markdown file with the required frontmatter
-(`title`, `description`, optional `url`, `repo`, `tech`, `featured`, `sortOrder`) and Markdown body to feature another project.
+(`title`, `description`, optional `url`, `repo`, `tech`, `featured`, `sortOrder`, `image`, or `terminal`: a list of shell commands shown instead of a screenshot) and Markdown body to feature another project.
 
 ## Commands
 

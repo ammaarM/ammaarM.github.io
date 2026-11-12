@@ -7,8 +7,9 @@ tech:
   - Azure SQL Database
   - GitHub Apps
   - TypeScript
+kind: web app
 featured: true
-sortOrder: 2
+sortOrder: 4
 image: ../../assets/images/projects/repomerge-preview.png
 imageAlt: Screenshot of RepoMerge app showing the repository aggregator interface
 ---

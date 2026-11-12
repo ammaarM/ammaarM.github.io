@@ -3,17 +3,19 @@ title: Birth Your Way
 description: Birth planning, but actually organised. A structured guided flow that generates a personalised, downloadable birth plan.
 url: https://www.birthplan.co.uk
 tech:
-  - Next.js
-  - Azure Static Web Apps
-  - Playwright
-  - Tailwind CSS
+  - React
+  - TypeScript
+  - Go
+  - MongoDB
+  - Azure
+kind: web app
 featured: true
 sortOrder: 1
 image: ../../assets/images/projects/birthyourway-preview.png
 imageAlt: Screenshot of Birth Your Way app showing the birth planning interface
 ---
 
-**Birth planning, but actually organised.**
+**Birth planning, but actually organised.** A Sabr Labs product I co-founded and built full-stack.
 
 Birth Your Way replaces scattered notes, screenshots, and generic templates with a structured guided flow. Instead of piecing together information from random websites, you get:
 

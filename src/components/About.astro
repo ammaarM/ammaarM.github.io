@@ -1,17 +1,56 @@
-<section class="about" id="about" aria-labelledby="about-title" data-section="about" data-reveal tabindex="-1">
-  <div class="section-shell" data-reveal-group>
-    <div class="section-header content" data-reveal-item>
-      <h2 id="about-title">About</h2>
-      <p>
-        I’m a platform-focused engineer shaping secure, scalable, and observable infrastructure. I enjoy mentoring teams,
-        codifying best practices, and partnering with developers to ship reliable experiences.
-      </p>
+---
+import Pane from "./Pane.astro";
+import Skills from "./Skills.astro";
+import { experience, profile } from "../data/profile";
+---
+
+<section class="tmux-window window--log" id="about" data-section="about" aria-label="Experience and about" tabindex="-1">
+  <Pane title="git log --oneline" index="1" heading="Experience" class="pane--log">
+    <ol class="gitlog">
+      {
+        experience.map((item, index) => (
+          <li class="gitlog-entry">
+            <span class="gitlog-node" aria-hidden="true" />
+            <p class="gitlog-meta">
+              {index === 0 && <span class="gitlog-ref">HEAD → main</span>}
+              <span class="gitlog-date">{item.date}</span>
+            </p>
+            <h3 class="gitlog-title">
+              {item.title} <span class="gitlog-org">@ {item.org}</span>
+            </h3>
+            {item.summary && <p class="gitlog-summary">{item.summary}</p>}
+          </li>
+        ))
+      }
+    </ol>
+  </Pane>
+
+  <Pane title="cat about.md" class="pane--about">
+    <div class="about-head">
+      <span class="avatar avatar--about" data-avatar data-initials="AM">
+        <img
+          src={profile.headshot.url}
+          alt={profile.headshot.alt}
+          width={profile.headshot.width}
+          height={profile.headshot.height}
+          loading="lazy"
+          decoding="async"
+          data-fallback={profile.fallback.src}
+        />
+        <span class="avatar-fallback" aria-hidden="true">AM</span>
+      </span>
+      <h2 id="about-title">Infra by day, apps by night.</h2>
     </div>
-    <div class="section-body content" data-reveal-item>
-      <p>
-        My toolkit spans Azure cloud, infrastructure as code, automation, and service reliability. I translate strategic business
-        needs into resilient platforms that help teams deliver with confidence.
-      </p>
-    </div>
-  </div>
+    <p>
+      I'm a DevOps Platform Engineer at CGI in London, specialising in Azure, Terraform and CI/CD governance. I'm the
+      technical authority for the infrastructure code on a mission-critical billing platform, and I push for agentic AI
+      tooling that speeds delivery up without loosening the guardrails.
+    </p>
+    <p>
+      I like the whole path from <code>terraform plan</code> to a product someone actually uses. That's why I co-founded
+      Sabr Labs, and why I run a home lab of self-hosted services to try new tools on.
+    </p>
+  </Pane>
+
+  <Skills />
 </section>
