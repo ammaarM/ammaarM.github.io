@@ -51,7 +51,7 @@ export const experience = [
     title: "DevOps Platform Engineer III",
     org: "CGI",
     summary:
-      "Primary maintainer of the IaC and deployed infrastructure (controlled jointly with the solution architect) and primary engineer for all DevOps pipelines and release optimisation on a mission-critical, 24/7 global oil & gas fuel card billing system: mostly batch processing, alongside always-on services. I review and approve infrastructure changes from CGI and client engineers, lead Kubernetes workload orchestration, and champion safe, governed use of agentic AI in delivery.",
+      "Primary maintainer of the IaC and deployed infrastructure and primary engineer for all DevOps pipelines and release optimisation on a mission-critical, 24/7 global oil & gas fuel card billing system: mostly batch processing, alongside always-on services. I review and approve infrastructure changes from CGI and client engineers, lead Kubernetes workload orchestration, and champion safe, governed use of agentic AI in delivery.",
   },
   {
     date: "Nov 2025 – Mar 2026",
