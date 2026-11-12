@@ -33,12 +33,14 @@ export const profile = {
     "Microsoft Azure Data Fundamentals",
   ],
   stats: [
+    { value: "24/7", label: "Mission-critical IaC & pipelines" },
     {
-      value: "24/7",
-      label: "billing platform where I'm primary on IaC and pipelines",
+      value: "7",
+      label: "Certifications, incl. AZ-104, CKA & AWS SAA",
+      /** Shown on phones, where the full label can't fit on one line. */
+      shortLabel: "Certs, incl. AZ-104, CKA & AWS SAA",
     },
-    { value: "7", label: "certifications, incl. CKA and AWS SAA" },
-    { value: "3+", label: "years in industry" },
+    { value: "3+", label: "Years in industry" },
   ],
 } as const;
 
@@ -49,7 +51,7 @@ export const experience = [
     title: "DevOps Platform Engineer III",
     org: "CGI",
     summary:
-      "Primary maintainer of the IaC and deployed infrastructure (controlled jointly with the solution architect) and primary engineer for all DevOps pipelines and release optimisation on a global oil & gas fuel card billing system: 24/7, batch-based, mission-critical. I review and approve infrastructure changes from CGI and client engineers, lead Kubernetes workload orchestration, and champion safe, governed use of agentic AI in delivery.",
+      "Primary maintainer of the IaC and deployed infrastructure (controlled jointly with the solution architect) and primary engineer for all DevOps pipelines and release optimisation on a mission-critical, 24/7 global oil & gas fuel card billing system: mostly batch processing, alongside always-on services. I review and approve infrastructure changes from CGI and client engineers, lead Kubernetes workload orchestration, and champion safe, governed use of agentic AI in delivery.",
   },
   {
     date: "Nov 2025 – Mar 2026",

@@ -505,7 +505,8 @@ kbd + kbd {
 
 .hero-stats {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  /* Content-sized columns so the longer certifications label gets more room. */
+  grid-template-columns: repeat(3, auto);
   height: 100%;
   margin: 0;
 }
@@ -515,7 +516,7 @@ kbd + kbd {
   flex-direction: column-reverse;
   justify-content: flex-end;
   gap: 0.35rem;
-  padding: clamp(1rem, 2.5vw, 1.4rem) clamp(1.1rem, 3vw, 2rem);
+  padding: clamp(1rem, 2.5vw, 1.4rem) clamp(1rem, 2vw, 2rem);
 }
 
 .stat + .stat {
@@ -529,6 +530,26 @@ kbd + kbd {
   font-weight: 700;
   line-height: 1;
   color: var(--accent);
+}
+
+.stat-label-short {
+  display: none;
+}
+
+/* Phones: swap to the short label; the full one stays for screen readers. */
+@media (max-width: 520px) {
+  .stat-label-short {
+    display: inline;
+  }
+
+  .stat-label-full {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
 }
 
 .stat dt {
@@ -550,7 +571,8 @@ kbd + kbd {
   }
 }
 
-@media (max-width: 520px) {
+/* Below 1024px three columns are too narrow for one-line labels: stack them. */
+@media (max-width: 1023px) {
   .hero-stats {
     grid-template-columns: 1fr;
   }

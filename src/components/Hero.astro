@@ -47,7 +47,7 @@ const shellData: ShellData = {
         {profile.name}<span class="cursor" aria-hidden="true">_</span>
       </h1>
       <p class="hero-tagline" data-animate>
-        I'm the primary maintainer of the IaC and DevOps pipelines behind a 24/7 global billing system at
+        I'm the primary maintainer of the IaC and DevOps pipelines for mission-critical, 24/7 cloud platforms at
         {profile.employer}: Azure, Terraform, Kubernetes and CI/CD. After hours I co-build products and run a home lab.
       </p>
       <div class="hero-actions" data-animate>
@@ -107,7 +107,18 @@ const shellData: ShellData = {
       {
         profile.stats.map((stat) => (
           <div class="stat">
-            <dt>{stat.label}</dt>
+            <dt>
+              {"shortLabel" in stat ? (
+                <>
+                  <span class="stat-label-full">{stat.label}</span>
+                  <span class="stat-label-short" aria-hidden="true">
+                    {stat.shortLabel}
+                  </span>
+                </>
+              ) : (
+                stat.label
+              )}
+            </dt>
             <dd>{stat.value}</dd>
           </div>
         ))
