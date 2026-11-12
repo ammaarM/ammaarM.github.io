@@ -2,10 +2,16 @@ const prefersReducedMotion = window.matchMedia(
   "(prefers-reduced-motion: reduce)",
 );
 
+/** Fired on `window` when the visitor jumps to a section (key, link or palette). */
+export const SECTION_NAVIGATE_EVENT = "section:navigate";
+
 /** Scrolls to an in-page section and moves focus there, respecting reduced motion. */
 export function goToSection(id: string) {
   const target = document.getElementById(id);
   if (!target) return;
+  window.dispatchEvent(
+    new CustomEvent<string>(SECTION_NAVIGATE_EVENT, { detail: id }),
+  );
   target.scrollIntoView({
     behavior: prefersReducedMotion.matches ? "auto" : "smooth",
     block: "start",

@@ -1,4 +1,5 @@
 import { windows } from "../data/sections";
+import { SECTION_NAVIGATE_EVENT } from "./navigate";
 
 /**
  * Status-bar behaviour: scroll-spy over the numbered windows, tmux's
@@ -19,6 +20,12 @@ export function initStatusBar() {
 
   let currentWindow = "";
   let currentPane: HTMLElement | null = null;
+  /**
+   * Section the visitor explicitly jumped to. Short sections near the end of
+   * the page can't scroll to the top, so plain scroll-spy would mark the last
+   * window instead; the jump target stays active until the visitor scrolls.
+   */
+  let pinned: HTMLElement | null = null;
 
   const setWindow = (id: string) => {
     if (id === currentWindow) return;
@@ -50,6 +57,11 @@ export function initStatusBar() {
   };
 
   const update = () => {
+    if (pinned) {
+      setWindow(pinned.id);
+      setPane(pinned.querySelector<HTMLElement>("[data-pane]"));
+      return;
+    }
     const line = window.innerHeight * 0.3;
     let active = targets[0];
     for (const target of targets) {
@@ -84,6 +96,33 @@ export function initStatusBar() {
     });
   };
   window.addEventListener("scroll", schedule, { passive: true });
+
+  window.addEventListener(SECTION_NAVIGATE_EVENT, (event) => {
+    if (!(event instanceof CustomEvent) || typeof event.detail !== "string") {
+      return;
+    }
+    pinned = document.getElementById(event.detail);
+    schedule();
+  });
+  const SCROLL_KEYS = new Set([
+    "ArrowUp",
+    "ArrowDown",
+    "PageUp",
+    "PageDown",
+    "Home",
+    "End",
+    " ",
+  ]);
+  const unpin = () => {
+    if (!pinned) return;
+    pinned = null;
+    schedule();
+  };
+  window.addEventListener("wheel", unpin, { passive: true });
+  window.addEventListener("touchmove", unpin, { passive: true });
+  window.addEventListener("keydown", (event) => {
+    if (SCROLL_KEYS.has(event.key)) unpin();
+  });
 
   const strip = document.querySelector<HTMLElement>(".sb-nav");
   if (strip) {
