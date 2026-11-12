@@ -62,28 +62,31 @@ const groups = [
 ];
 ---
 
-<Pane title="tree ~/stack" index="2" heading="Stack" id="skills" class="pane--stack">
-  <p class="tree-root" aria-hidden="true">~/stack</p>
-  <ul class="tree">
-    {
-      groups.map((group) => (
-        <li class="tree-branch">
-          <h3 class="tree-dir">
-            <span class="tree-name">{group.name}<span aria-hidden="true">/</span></span>
-            <span class="tree-comment"><span aria-hidden="true"># </span>{group.blurb}</span>
-          </h3>
-          <ul class="tree">
-            {group.skills.map((skill) => (
-              <li class="tree-leaf">
-                <span class="tree-icon">
-                  <Image src={skill.icon} alt="" width={20} height={20} loading="lazy" />
-                </span>
-                {skill.label}
-              </li>
-            ))}
-          </ul>
-        </li>
-      ))
-    }
-  </ul>
-</Pane>
+<section class="tmux-window window--stack" id="skills" data-section="skills" aria-labelledby="skills-title" tabindex="-1">
+  <Pane title="tree ~/stack" index="3" heading="Stack" headingId="skills-title" class="pane--stack">
+    <p class="tree-root" aria-hidden="true">~/stack</p>
+    <ul class="stack-cols">
+      {
+        groups.map((group) => (
+          <li class="stack-col">
+            <h3 class="tree-dir">{group.name}<span aria-hidden="true">/</span></h3>
+            <p class="tree-comment">
+              <span aria-hidden="true"># </span>
+              {group.blurb}
+            </p>
+            <ul class="tree">
+              {group.skills.map((skill) => (
+                <li class="tree-leaf">
+                  <span class="tree-icon">
+                    <Image src={skill.icon} alt="" width={20} height={20} loading="lazy" />
+                  </span>
+                  {skill.label}
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))
+      }
+    </ul>
+  </Pane>
+</section>

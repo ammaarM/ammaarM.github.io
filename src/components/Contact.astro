@@ -1,5 +1,5 @@
 ---
-import { Mail, Code, Briefcase, FileText, Copy } from 'lucide-react';
+import { Mail, Code, Briefcase, FileText, Copy, Check } from 'lucide-react';
 import Pane from './Pane.astro';
 import { profile } from '../data/profile';
 
@@ -17,28 +17,38 @@ const links = [
         <h2 id="contact-title">Got a platform that needs a hand?</h2>
         <p>Cloud and DevOps roles, Azure or Terraform questions, or just to say hi. Email gets the fastest reply.</p>
       </div>
-      <ul class="contact-links">
-        <li class="contact-email">
-          <a class="btn contact-link" href={profile.links.email}>
+      <div class="contact-actions">
+        <div class="contact-primary">
+          <a class="btn contact-email" href={profile.links.email}>
             <Mail className="contact-icon" aria-hidden="true" size={18} strokeWidth={1.75} />
-            Email
+            <span class="contact-address">{email}</span>
           </a>
-          <button class="btn ghost contact-copy-btn" type="button" data-copy={email} data-js-only hidden>
-            <Copy className="contact-icon" aria-hidden="true" size={16} strokeWidth={1.75} />
-            <span data-copy-label>Copy address</span>
+          <button
+            class="btn ghost contact-copy-btn"
+            type="button"
+            aria-label="Copy email address"
+            title="Copy email address"
+            data-copy={email}
+            data-js-only
+            hidden
+          >
+            <Copy className="contact-icon icon-copy" aria-hidden="true" size={18} strokeWidth={1.75} />
+            <Check className="contact-icon icon-check" aria-hidden="true" size={18} strokeWidth={2} />
           </button>
-        </li>
-        {
-          links.map(({ href, label, icon: Icon }) => (
-            <li>
-              <a class="btn ghost contact-link" href={href} target="_blank" rel="noreferrer">
-                <Icon className="contact-icon" aria-hidden="true" size={18} strokeWidth={1.75} />
-                {label}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
+        </div>
+        <ul class="contact-links">
+          {
+            links.map(({ href, label, icon: Icon }) => (
+              <li>
+                <a class="btn ghost contact-link" href={href} target="_blank" rel="noreferrer">
+                  <Icon className="contact-icon" aria-hidden="true" size={18} strokeWidth={1.75} />
+                  {label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
     </div>
   </Pane>
 </section>

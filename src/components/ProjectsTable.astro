@@ -3,7 +3,7 @@ import { Picture } from "astro:assets";
 import { getCollection } from "astro:content";
 import { ArrowUpRight } from "lucide-react";
 import Pane from "./Pane.astro";
-import { compareProjects, projectSlug, projectStatus } from "../data/projects";
+import { compareProjects, firstSentence, projectSlug, projectStatus, stackSummary } from "../data/projects";
 
 const entries = (await getCollection("projects")).sort(compareProjects);
 const projects = await Promise.all(
@@ -14,18 +14,20 @@ const projects = await Promise.all(
       Content,
       slug: projectSlug(entry.data.title),
       status: projectStatus(entry.data),
+      tagline: firstSentence(entry.data.description),
+      stack: stackSummary(entry.data.tech),
     };
   }),
 );
 
 const liveCount = projects.filter((p) => p.status === "live").length;
 const repoCount = projects.length - liveCount;
-// First featured project is selected by default (the list is sorted featured-first).
+// First featured project is selected by default on desktop (the list is sorted featured-first).
 const initial = projects[0]?.slug;
 ---
 
 <section class="tmux-window window--projects" id="projects" data-section="projects" aria-labelledby="projects-title" tabindex="-1" data-projects>
-  <Pane title="kubectl get projects" index="3" heading="Projects" headingId="projects-title" class="pane--table">
+  <Pane title="kubectl get projects" index="2" heading="Projects" headingId="projects-title" class="pane--table">
     <div class="ktable-wrap">
       <p class="ktable-context">
         {projects.length} projects · {liveCount} live · {repoCount} repo-only
@@ -36,7 +38,7 @@ const initial = projects[0]?.slug;
       </div>
       <ul class="ktable" data-project-list>
         {
-          projects.map(({ entry, slug, status }) => (
+          projects.map(({ entry, slug, status, tagline, stack }) => (
             <li class="ktable-item" data-project-item>
               <button
                 class="ktable-row"
@@ -46,7 +48,7 @@ const initial = projects[0]?.slug;
                 data-project-row={slug}
               >
                 <span class="ktable-name">
-                  <span class="ktable-marker" aria-hidden="true">▸</span>
+                  <span class="ktable-marker" aria-hidden="true" />
                   {slug}
                 </span>
                 <span class="ktable-kind">{entry.data.kind}</span>
@@ -54,7 +56,11 @@ const initial = projects[0]?.slug;
                   <span class="ktable-dot" aria-hidden="true">{status === "live" ? "●" : "○"}</span>
                   {status}
                 </span>
-                <span class="ktable-stack">{entry.data.tech.join(" ")}</span>
+                <span class="ktable-stack">
+                  {stack.shown.join(" ")}
+                  {stack.more > 0 && <span class="ktable-more">+{stack.more}</span>}
+                </span>
+                <span class="ktable-tagline">{tagline}</span>
               </button>
             </li>
           ))
@@ -63,17 +69,18 @@ const initial = projects[0]?.slug;
     </div>
   </Pane>
 
-  <Pane
-    title="describe projects"
-    class="pane--detail"
-    titleAttrs={{ "data-project-title": "" }}
-  >
+  <Pane title="describe projects" class="pane--detail" titleAttrs={{ "data-project-title": "" }}>
     <div class="kdetail" data-project-details>
       {
         projects.map(({ entry, Content, slug, status }) => {
           const { data } = entry;
           return (
-            <article class="kdetail-item" id={`project-${slug}`} aria-labelledby={`project-${slug}-title`} data-project-detail={slug}>
+            <article
+              class="kdetail-item"
+              id={`project-${slug}`}
+              aria-labelledby={`project-${slug}-title`}
+              data-project-detail={slug}
+            >
               <header class="kdetail-head">
                 <h3 id={`project-${slug}-title`}>{data.title}</h3>
                 <span class={`ktable-status is-${status}`}>
@@ -89,12 +96,16 @@ const initial = projects[0]?.slug;
                       <p class="terminal-title">{slug}</p>
                     </div>
                     <div class="terminal-body">
-                      {data.terminal.map((line) => (
-                        <p class="terminal-line">
-                          <span class="prompt" aria-hidden="true">$</span>
-                          <span>{line}</span>
-                        </p>
-                      ))}
+                      {data.terminal.map((line) =>
+                        line.startsWith("#") ? (
+                          <p class="terminal-comment">{line}</p>
+                        ) : (
+                          <p class="terminal-line">
+                            <span class="prompt" aria-hidden="true">$</span>
+                            <span>{line}</span>
+                          </p>
+                        ),
+                      )}
                     </div>
                   </div>
                 ) : data.image ? (
@@ -110,11 +121,17 @@ const initial = projects[0]?.slug;
                 ) : null}
               </div>
               <p class="kdetail-lead">{data.description}</p>
-              <div class="kdetail-body prose">
-                <Content />
-              </div>
+              {data.highlights.length > 0 && (
+                <ul class="kdetail-highlights">
+                  {data.highlights.map((point) => (
+                    <li>{point}</li>
+                  ))}
+                </ul>
+              )}
               <ul class="kdetail-tags" aria-label="Stack">
-                {data.tech.map((tag) => <li>{tag}</li>)}
+                {data.tech.map((tag) => (
+                  <li>{tag}</li>
+                ))}
               </ul>
               <div class="kdetail-links">
                 {data.url && (
@@ -130,6 +147,12 @@ const initial = projects[0]?.slug;
                   </a>
                 )}
               </div>
+              <details class="kdetail-more">
+                <summary>cat README.md</summary>
+                <div class="kdetail-body prose">
+                  <Content />
+                </div>
+              </details>
             </article>
           );
         })

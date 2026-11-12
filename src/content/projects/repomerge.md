@@ -8,6 +8,10 @@ tech:
   - GitHub Apps
   - TypeScript
 kind: web app
+highlights:
+  - "Indexes GitHub and GitLab repositories into one searchable surface"
+  - "Share curated collections of repositories across teams"
+  - "Handles authentication, sync scheduling and fast queries"
 featured: true
 sortOrder: 4
 image: ../../assets/images/projects/repomerge-preview.png

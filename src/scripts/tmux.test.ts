@@ -1,7 +1,12 @@
 import { describe, it, expect } from "vitest";
 import { fuzzyMatch, scoreCommand } from "./fuzzy";
 import { completeCommand, runCommand, type ShellData } from "./shell-commands";
-import { projectSlug, projectStatus } from "../data/projects";
+import {
+  firstSentence,
+  projectSlug,
+  projectStatus,
+  stackSummary,
+} from "../data/projects";
 
 const shell: ShellData = {
   whoami: "devops platform engineer @ CGI · London, UK",
@@ -28,6 +33,25 @@ describe("projects data helpers", () => {
   it("derives status only from the url field", () => {
     expect(projectStatus({ url: "https://draw.ammaarm.com" })).toBe("live");
     expect(projectStatus({ url: undefined })).toBe("repo");
+  });
+});
+
+describe("table cells", () => {
+  it("takes the first sentence for the tagline", () => {
+    expect(
+      firstSentence(
+        "Birth planning, but actually organised. A structured guided flow.",
+      ),
+    ).toBe("Birth planning, but actually organised.");
+    expect(firstSentence("No full stop here")).toBe("No full stop here");
+  });
+
+  it("summarises the stack as two entries plus a count", () => {
+    expect(stackSummary(["React", "TypeScript", "Go", "MongoDB"])).toEqual({
+      shown: ["React", "TypeScript"],
+      more: 2,
+    });
+    expect(stackSummary(["Go"])).toEqual({ shown: ["Go"], more: 0 });
   });
 });
 
@@ -65,6 +89,7 @@ describe("shell commands", () => {
     expect(runCommand("open lifevault", shell).effect).toEqual({
       type: "open",
       href: "https://lifevault.example",
+      project: "lifevault",
     });
     expect(runCommand("open nope", shell).effect).toBeUndefined();
   });

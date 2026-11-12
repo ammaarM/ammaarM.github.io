@@ -12,11 +12,12 @@ import { windows } from "../data/sections";
   <nav class="sb-nav" aria-label="Sections">
     <ol class="sb-windows">
       {
-        windows.map(({ key, id, name, label }) => (
+        windows.map(({ key, id, name, short, label }) => (
           <li>
             <a class="sb-window" href={`#${id}`} data-window={id} data-scroll>
               <span class="sb-key">{key}</span>
               <span class="sb-name"><span aria-hidden="true">:</span>{name}</span>
+              <span class="sb-short" aria-hidden="true">:{short}</span>
               <span class="sb-flag" aria-hidden="true">*</span>
               <span class="sr-only">{label}</span>
             </a>

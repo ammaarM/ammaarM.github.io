@@ -12,7 +12,12 @@ const projects = defineCollection({
       /** Short form factor shown in the projects table, e.g. "web app" or "cli". */
       kind: z.enum(["web app", "desktop app", "pwa", "cli"]),
       image: image().optional(),
-      /** Shell commands shown in place of a screenshot for CLI projects. */
+      /** Up to three short points for the projects detail, taken from the body text. */
+      highlights: z.array(z.string().max(70)).max(3).default([]),
+      /**
+       * Shell session shown in place of a screenshot for CLI projects. Lines
+       * starting with `#` render as comments; the rest get a `$` prompt.
+       */
       terminal: z.array(z.string()).optional(),
       imageAlt: z.string().optional(),
       featured: z.boolean().default(false),

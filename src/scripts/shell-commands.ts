@@ -16,7 +16,7 @@ export interface ShellData {
 
 export type ShellEffect =
   | { type: "clear" }
-  | { type: "open"; href: string }
+  | { type: "open"; href: string; project?: string }
   | { type: "scroll"; id: string };
 
 export interface ShellResult {
@@ -81,7 +81,7 @@ export function runCommand(raw: string, data: ShellData): ShellResult {
       }
       return {
         lines: [`opening ${project.href}`],
-        effect: { type: "open", href: project.href },
+        effect: { type: "open", href: project.href, project: project.slug },
       };
     }
     case "cv":

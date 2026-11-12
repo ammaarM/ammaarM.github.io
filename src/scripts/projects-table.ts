@@ -1,18 +1,26 @@
 /**
- * `kubectl get projects` master/detail. Desktop: rows select which detail the
- * side pane shows. Mobile: each detail moves under its row as an accordion.
- * Without JS every detail is simply rendered, stacked, in the side pane.
+ * `kubectl get projects` master/detail.
+ * - Desktop: rows choose which detail the side pane shows. Every detail stays
+ *   laid out in one grid cell, so the pane keeps the height of the tallest one
+ *   and nothing below it moves while browsing.
+ * - Mobile: each detail moves under its row as an accordion, all collapsed at
+ *   first; the tapped row stays where the finger was.
+ * - Without JS every detail is rendered, stacked, in the side pane.
  */
 
 const MOBILE = window.matchMedia("(max-width: 767px)");
 const HOVER = window.matchMedia("(hover: hover) and (pointer: fine)");
 const HOVER_INTENT_MS = 140;
 
-let selectFn: ((slug: string, focusRow?: boolean) => void) | null = null;
+type SelectOptions = { reveal?: boolean };
+let selectFn: ((slug: string, options?: SelectOptions) => void) | null = null;
 
-/** Selects a project from elsewhere (e.g. the command palette) and brings it into view. */
-export function showProject(slug: string) {
-  selectFn?.(slug, true);
+/**
+ * Selects a project from elsewhere. With `reveal`, scrolls it into view and
+ * focuses its row (command palette); without, just updates the table (shell).
+ */
+export function showProject(slug: string, options: SelectOptions = {}) {
+  selectFn?.(slug, options);
 }
 
 export function initProjectsTable() {
@@ -30,40 +38,48 @@ export function initProjectsTable() {
   );
   const title = root.querySelector<HTMLElement>("[data-project-title]");
   const slugOf = (row: HTMLButtonElement) => row.dataset.projectRow ?? "";
+  const firstSlug = rows[0] ? slugOf(rows[0]) : null;
 
-  let selected: string | null =
-    rows.find((row) => row.getAttribute("aria-expanded") === "true")?.dataset
-      .projectRow ?? (rows[0] ? slugOf(rows[0]) : null);
+  let selected: string | null = MOBILE.matches
+    ? null
+    : (rows.find((row) => row.getAttribute("aria-expanded") === "true")?.dataset
+        .projectRow ?? firstSlug);
 
   const render = () => {
+    const inline = MOBILE.matches;
     rows.forEach((row) => {
       const slug = slugOf(row);
       const isSelected = slug === selected;
       row.setAttribute("aria-expanded", String(isSelected));
-      row.classList.toggle("is-selected", isSelected);
       const detail = details.get(slug);
-      if (detail) detail.hidden = !isSelected;
+      if (!detail) return;
+      detail.classList.toggle("is-current", isSelected);
+      // Mobile collapses with `hidden`; desktop keeps every detail laid out
+      // and hides the others with `inert` + CSS visibility.
+      detail.hidden = inline && !isSelected;
+      detail.inert = !inline && !isSelected;
     });
     if (title && selected) title.textContent = `describe ${selected}`;
   };
 
-  // Mobile: detail lives directly after its row. Desktop: back in the side pane.
   const layout = () => {
-    root.classList.toggle("is-inline", MOBILE.matches);
+    const inline = MOBILE.matches;
+    root.classList.toggle("is-inline", inline);
+    root.classList.toggle("is-stacked", !inline);
     rows.forEach((row) => {
       const detail = details.get(slugOf(row));
       if (!detail) return;
-      if (MOBILE.matches) row.after(detail);
+      if (inline) row.after(detail);
       else container.append(detail);
     });
-    if (!MOBILE.matches && !selected && rows[0]) selected = slugOf(rows[0]);
+    if (!inline && !selected) selected = firstSlug;
     render();
   };
 
-  const select = (slug: string, focusRow = false) => {
+  const select = (slug: string, { reveal = false }: SelectOptions = {}) => {
     selected = slug;
     render();
-    if (!focusRow) return;
+    if (!reveal) return;
     const row = rows.find((r) => slugOf(r) === slug);
     const target = MOBILE.matches ? row : root;
     target?.scrollIntoView({
@@ -76,16 +92,22 @@ export function initProjectsTable() {
   };
   selectFn = select;
 
+  /** Mobile accordion toggle that keeps the tapped row fixed on screen. */
+  const toggleInline = (row: HTMLButtonElement) => {
+    const before = row.getBoundingClientRect().top;
+    const slug = slugOf(row);
+    selected = selected === slug ? null : slug;
+    render();
+    const shift = row.getBoundingClientRect().top - before;
+    if (shift !== 0) window.scrollBy({ top: shift, behavior: "instant" });
+  };
+
   let hoverTimer = 0;
   rows.forEach((row, index) => {
     const slug = slugOf(row);
     row.addEventListener("click", () => {
-      if (MOBILE.matches && selected === slug) {
-        selected = null;
-        render();
-        return;
-      }
-      select(slug);
+      if (MOBILE.matches) toggleInline(row);
+      else select(slug);
     });
     row.addEventListener("focus", () => {
       if (!MOBILE.matches) select(slug);

@@ -86,7 +86,7 @@ export function initPalette(openHelp: HelpOpener) {
         if (target) goToSection(target);
         break;
       case "project":
-        if (target) showProject(target);
+        if (target) showProject(target, { reveal: true });
         break;
       case "link":
         if (!href) break;

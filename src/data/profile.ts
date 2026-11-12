@@ -27,8 +27,16 @@ export const profile = {
     "HashiCorp Terraform Associate",
     "Kubernetes and Cloud Native Associate (KCNA)",
   ],
+  /** Fundamentals-level certifications; with the five above they make the "7 certifications" stat. */
+  fundamentals: [
+    "Microsoft Azure Fundamentals",
+    "Microsoft Azure Data Fundamentals",
+  ],
   stats: [
-    { value: "24/7", label: "mission-critical billing platform I govern" },
+    {
+      value: "24/7",
+      label: "billing platform where I'm primary on IaC and pipelines",
+    },
     { value: "7", label: "certifications, incl. CKA and AWS SAA" },
     { value: "2022", label: "at CGI since" },
   ],
@@ -41,7 +49,7 @@ export const experience = [
     title: "DevOps Platform Engineer III",
     org: "CGI",
     summary:
-      "Technical authority for the cloud platform behind a global oil & gas fuel card billing system: 24/7, batch-based, mission-critical. I review and approve infrastructure changes from CGI and client engineers, lead CI/CD hardening and Kubernetes workload orchestration, and champion safe, governed use of agentic AI in delivery.",
+      "Primary maintainer of the IaC and deployed infrastructure (controlled jointly with the solution architect) and primary engineer for all DevOps pipelines and release optimisation on a global oil & gas fuel card billing system: 24/7, batch-based, mission-critical. I review and approve infrastructure changes from CGI and client engineers, lead Kubernetes workload orchestration, and champion safe, governed use of agentic AI in delivery.",
   },
   {
     date: "Nov 2025 – Mar 2026",
