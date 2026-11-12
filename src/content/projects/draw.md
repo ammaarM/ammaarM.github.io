@@ -8,6 +8,10 @@ tech:
   - TypeScript
   - Vite PWA
 kind: pwa
+highlights:
+  - "Min/max ranges, 1–100 numbers per draw, optional unique values"
+  - "Output as tiles, a summed total, or digits joined into one code"
+  - "One-tap presets and a 50-draw history; no analytics, no server"
 featured: true
 sortOrder: 3
 image: ../../assets/images/projects/draw-preview.png

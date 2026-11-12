@@ -7,7 +7,10 @@ import type { ShellData } from "../scripts/shell-commands";
 
 const shipped = ["birthplan.co.uk", "lifevault", "draw.ammaarm.com", "repomerge"];
 const whoami = `${profile.role.toLowerCase()} @ ${profile.employer} · ${profile.location}`;
-const certs = profile.certifications.map((cert) => `✓ ${cert}`);
+const certs = [
+  ...profile.certifications.map((cert) => `✓ ${cert}`),
+  `+ ${profile.fundamentals.map((cert) => cert.replace(/^Microsoft /, "")).join(", ")}`,
+];
 
 /** Terminal session shown in the hero. `cmd` lines are typed out; `out` lines appear after. */
 const session = [
@@ -44,11 +47,13 @@ const shellData: ShellData = {
         {profile.name}<span class="cursor" aria-hidden="true">_</span>
       </h1>
       <p class="hero-tagline" data-animate>
-        I govern the cloud platform behind a 24/7 global billing system at {profile.employer}: Azure, Terraform,
-        Kubernetes and CI/CD. After hours I co-build products and run a home lab.
+        I'm the primary maintainer of the IaC and DevOps pipelines behind a 24/7 global billing system at
+        {profile.employer}: Azure, Terraform, Kubernetes and CI/CD. After hours I co-build products and run a home lab.
       </p>
       <div class="hero-actions" data-animate>
-        <a class="btn" href="#projects" data-scroll>See what I've shipped</a>
+        <a class="btn" href="#projects" data-scroll>
+          <span class="label-long">See what I've shipped</span><span class="label-short">See projects</span>
+        </a>
         <a class="btn ghost" href={profile.cvUrl} target="_blank" rel="noreferrer">Download CV</a>
       </div>
     </div>

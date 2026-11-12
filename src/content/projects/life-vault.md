@@ -9,6 +9,10 @@ tech:
   - Bun
   - Cloudflare
 kind: desktop app
+highlights:
+  - "A Sabr Labs product I co-built with a small team"
+  - "Passports, payslips, bills and certificates in one place"
+  - "Whether files live on your machine or in the cloud"
 featured: true
 sortOrder: 2
 image: ../../assets/images/projects/lifevault-preview.png

@@ -9,13 +9,17 @@ tech:
   - MongoDB
   - Azure
 kind: web app
+highlights:
+  - "A Sabr Labs product I co-founded and built full-stack"
+  - "Guided step-by-step prompts through the important decisions"
+  - "Export your plan as a clean PDF to share with your care team"
 featured: true
 sortOrder: 1
 image: ../../assets/images/projects/birthyourway-preview.png
-imageAlt: Screenshot of Birth Your Way app showing the birth planning interface
+imageAlt: Screenshot of the Birth Your Way homepage, headed "Create Your Perfect Birth Plan"
 ---
 
-**Birth planning, but actually organised.** A Sabr Labs product I co-founded and built full-stack.
+A Sabr Labs product I co-founded and built full-stack.
 
 Birth Your Way replaces scattered notes, screenshots, and generic templates with a structured guided flow. Instead of piecing together information from random websites, you get:
 

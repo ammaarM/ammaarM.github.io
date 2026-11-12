@@ -30,3 +30,20 @@ export function projectSlug(title: string): string {
 export function projectStatus(data: Pick<ProjectData, "url">): ProjectStatus {
   return data.url ? "live" : "repo";
 }
+
+/** First sentence of a description, used as the one-line tagline in the table. */
+export function firstSentence(text: string): string {
+  const match = text.match(/^.*?[.!?](?=\s|$)/);
+  return (match ? match[0] : text).trim();
+}
+
+/** STACK cell: the first `count` technologies plus how many more there are. */
+export function stackSummary(
+  tech: readonly string[],
+  count = 2,
+): { shown: string[]; more: number } {
+  return {
+    shown: tech.slice(0, count),
+    more: Math.max(0, tech.length - count),
+  };
+}

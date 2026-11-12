@@ -1,5 +1,6 @@
 import { completeCommand, runCommand, type ShellData } from "./shell-commands";
 import { goToSection } from "./navigate";
+import { showProject } from "./projects-table";
 
 /**
  * Optional prompt in the hero terminal, enabled once the typewriter finishes.
@@ -74,6 +75,8 @@ export function initShell() {
       terminal.classList.add("is-cleared");
     } else if (effect.type === "open") {
       window.open(effect.href, "_blank", "noopener");
+      // Keep the on-page table in step with the tab that just opened.
+      if (effect.project) showProject(effect.project);
     } else if (effect.type === "scroll") {
       goToSection(effect.id);
     }

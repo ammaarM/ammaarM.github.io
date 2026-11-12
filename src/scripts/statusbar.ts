@@ -29,6 +29,17 @@ export function initStatusBar() {
       if (active) link.setAttribute("aria-current", "location");
       else link.removeAttribute("aria-current");
     });
+    // On phones the window list scrolls sideways: keep the active one in view.
+    const link = links.get(id);
+    const strip = link?.closest<HTMLElement>(".sb-nav");
+    if (link && strip && strip.scrollWidth > strip.clientWidth) {
+      const left = link.offsetLeft;
+      const right = left + link.offsetWidth;
+      if (left < strip.scrollLeft) strip.scrollLeft = left;
+      else if (right > strip.scrollLeft + strip.clientWidth) {
+        strip.scrollLeft = right - strip.clientWidth;
+      }
+    }
   };
 
   const setPane = (pane: HTMLElement | null) => {
@@ -50,22 +61,16 @@ export function initStatusBar() {
     if (atBottom) active = targets[targets.length - 1];
     if (active) setWindow(active.id);
 
-    // Active pane: the one showing the most of itself around the middle of the viewport.
-    const bandTop = window.innerHeight * 0.25;
-    const bandBottom = window.innerHeight * 0.65;
-    let best: HTMLElement | null = null;
-    let bestArea = 0;
-    for (const pane of panes) {
-      const rect = pane.getBoundingClientRect();
-      const visible =
-        Math.max(
-          0,
-          Math.min(rect.bottom, bandBottom) - Math.max(rect.top, bandTop),
-        ) * rect.width;
-      if (visible > bestArea) {
-        bestArea = visible;
-        best = pane;
-      }
+    // Active pane (exactly one): the first pane crossing 40% of the viewport
+    // height, or the last pane once the page can't scroll further.
+    const probe = window.innerHeight * 0.4;
+    let best: HTMLElement | null = atBottom ? (panes.at(-1) ?? null) : null;
+    if (!best) {
+      best =
+        panes.find((pane) => {
+          const rect = pane.getBoundingClientRect();
+          return rect.top <= probe && rect.bottom >= probe;
+        }) ?? null;
     }
     setPane(best);
   };
@@ -79,6 +84,18 @@ export function initStatusBar() {
     });
   };
   window.addEventListener("scroll", schedule, { passive: true });
+
+  const strip = document.querySelector<HTMLElement>(".sb-nav");
+  if (strip) {
+    const markOverflow = () =>
+      strip.classList.toggle(
+        "has-more",
+        strip.scrollLeft + strip.clientWidth < strip.scrollWidth - 2,
+      );
+    strip.addEventListener("scroll", markOverflow, { passive: true });
+    window.addEventListener("resize", markOverflow);
+    markOverflow();
+  }
   window.addEventListener("resize", schedule);
   update();
 

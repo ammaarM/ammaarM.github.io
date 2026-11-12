@@ -60,18 +60,19 @@ function initCopyButtons() {
   document
     .querySelectorAll<HTMLButtonElement>("button[data-copy]")
     .forEach((button) => {
-      const label = button.querySelector<HTMLElement>("[data-copy-label]");
-      const original = label?.textContent ?? "";
+      let timer = 0;
       button.addEventListener("click", async () => {
         const value = button.dataset.copy ?? "";
         const ok = await copyText(value);
         displayMessage(ok ? `copied ${value}` : `couldn't copy: ${value}`);
-        if (label && ok) {
-          label.textContent = "Copied";
-          window.setTimeout(() => {
-            label.textContent = original;
-          }, 1800);
-        }
+        if (!ok) return;
+        // Swap the copy icon for a tick briefly; the status bar announces it.
+        button.classList.add("is-copied");
+        window.clearTimeout(timer);
+        timer = window.setTimeout(
+          () => button.classList.remove("is-copied"),
+          1800,
+        );
       });
     });
 }

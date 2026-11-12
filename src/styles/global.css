@@ -362,8 +362,7 @@ kbd + kbd {
   transition: box-shadow var(--transition-base);
 }
 
-.pane.is-active,
-.pane:focus-within {
+.pane.is-active {
   z-index: 1;
   box-shadow: 0 0 0 1px var(--pane-active);
 }
@@ -390,8 +389,7 @@ kbd + kbd {
   transition: color var(--transition-base);
 }
 
-.pane.is-active > .pane-title,
-.pane:focus-within > .pane-title {
+.pane.is-active > .pane-title {
   color: var(--text);
 }
 
@@ -463,6 +461,48 @@ kbd + kbd {
   padding-top: 0.25rem;
 }
 
+.label-short {
+  display: none;
+}
+
+/* Phones: tighter type and side-by-side CTAs pull the terminal's first
+   command above the fold, so the typing is visible on load. */
+@media (max-width: 767px) {
+  .hero-copy {
+    gap: 0.9rem;
+  }
+
+  .hero-copy h1 {
+    font-size: clamp(2.4rem, 11vw, 3rem);
+  }
+
+  .hero-tagline {
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+
+  .hero-actions {
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+  }
+
+  .hero-actions .btn {
+    flex: 1;
+    min-width: 0;
+    padding-inline: 0.75rem;
+    font-size: 0.9375rem;
+    white-space: nowrap;
+  }
+
+  .label-long {
+    display: none;
+  }
+
+  .label-short {
+    display: inline;
+  }
+}
+
 .hero-stats {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -515,15 +555,22 @@ kbd + kbd {
     grid-template-columns: 1fr;
   }
 
+  /* Values in one fixed column so every label starts at the same x. */
   .stat {
-    flex-direction: row-reverse;
+    display: grid;
+    grid-template-columns: 4.75rem minmax(0, 1fr);
     align-items: baseline;
-    gap: 0.9rem;
+    gap: 0.75rem;
     padding-block: 0.85rem;
   }
 
   .stat dd {
-    min-width: 3.2ch;
+    grid-row: 1;
+    grid-column: 1;
+  }
+
+  .stat dt {
+    grid-column: 2;
   }
 
   .stat + .stat {
@@ -624,6 +671,12 @@ kbd + kbd {
   color: var(--muted) !important;
 }
 
+/* Wrapped output (long cert names on phones) hangs after the "✓ ". */
+.terminal-step .terminal-out {
+  padding-left: calc(1.25em + 2ch);
+  text-indent: -2ch;
+}
+
 .terminal.is-typing .terminal-step.is-pending,
 .terminal.is-typing .terminal-step.is-active .terminal-out {
   visibility: hidden;
@@ -701,7 +754,7 @@ kbd + kbd {
 }
 
 /* ============================================
-   1: git log + about, 2: tree ~/stack
+   1: git log + about
    ============================================ */
 
 .window--log {
@@ -711,22 +764,12 @@ kbd + kbd {
 @media (min-width: 1024px) {
   .window--log {
     grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-    grid-template-rows: auto 1fr;
-    grid-template-areas:
-      "log about"
-      "log stack";
   }
 
-  .pane--log {
-    grid-area: log;
-  }
-
-  .pane--about {
-    grid-area: about;
-  }
-
-  .pane--stack {
-    grid-area: stack;
+  /* The about card rides along while the longer git log scrolls past. */
+  .pane--about > .about-sticky {
+    position: sticky;
+    top: 2rem;
   }
 }
 
@@ -822,11 +865,11 @@ kbd + kbd {
   line-height: 1.1;
 }
 
-.pane--about > p:not(.pane-title) {
+.about-sticky > p {
   font-size: var(--step-sm);
 }
 
-.pane--about > p:last-child {
+.about-sticky > p:last-child {
   margin-bottom: 0;
 }
 
@@ -884,7 +927,9 @@ kbd + kbd {
     0 0 0 4px color-mix(in srgb, var(--accent) 60%, transparent);
 }
 
-/* tree ~/stack: rules are drawn with borders, so they line up exactly */
+/* ============================================
+   3: tree ~/stack, one column per group
+   ============================================ */
 
 .pane--stack {
   --tree-row: 2rem;
@@ -892,14 +937,49 @@ kbd + kbd {
   --tree-line: color-mix(in srgb, var(--muted) 45%, transparent);
   font-family: var(--font-mono);
   font-size: 0.85rem;
-  scroll-margin-top: 1.5rem;
 }
 
 .tree-root {
-  margin: 0;
-  line-height: var(--tree-row);
+  margin: 0 0 0.75rem;
   font-weight: 700;
   color: var(--accent);
+}
+
+.stack-cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem 2rem;
+}
+
+@media (min-width: 640px) {
+  .stack-cols {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .stack-cols {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.tree-dir {
+  margin: 0;
+  font-size: inherit;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--text);
+}
+
+.tree-comment {
+  margin: 0.15rem 0 0.4rem;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--muted);
+  /* Wrapped comment text hangs after the "# ". */
+  padding-left: 2ch;
+  text-indent: -2ch;
 }
 
 .tree li {
@@ -927,25 +1007,6 @@ kbd + kbd {
   bottom: 0;
 }
 
-.tree-dir {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  column-gap: 0.9rem;
-  margin: 0;
-  padding-block: calc((var(--tree-row) - 1.4em) / 2);
-  font-size: inherit;
-  font-weight: 700;
-  line-height: 1.4;
-  letter-spacing: 0;
-  color: var(--text);
-}
-
-.tree-comment {
-  font-weight: 400;
-  color: var(--muted);
-}
-
 .tree-leaf {
   display: flex;
   align-items: center;
@@ -970,7 +1031,7 @@ kbd + kbd {
 }
 
 /* ============================================
-   3: kubectl get projects
+   2: kubectl get projects
    ============================================ */
 
 .window--projects {
@@ -979,7 +1040,7 @@ kbd + kbd {
 
 @media (min-width: 768px) {
   .window--projects {
-    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
   }
 
   .ktable-wrap {
@@ -1002,10 +1063,10 @@ kbd + kbd {
 .ktable-head,
 .ktable-row {
   display: grid;
-  grid-template-columns: minmax(0, 14rem) 6.5rem 4.5rem minmax(0, 1fr);
-  gap: 1rem;
-  align-items: center;
-  padding: 0.55rem 0.65rem;
+  grid-template-columns: minmax(0, 13.5rem) 6rem 4.5rem minmax(0, 1fr);
+  column-gap: 1rem;
+  align-items: baseline;
+  padding: 0.6rem 0.65rem;
 }
 
 .ktable-head {
@@ -1020,6 +1081,7 @@ kbd + kbd {
 
 .ktable-row {
   width: 100%;
+  row-gap: 0.2rem;
   font-family: var(--font-mono);
   font-size: 0.85rem;
   text-align: left;
@@ -1050,7 +1112,7 @@ kbd + kbd {
 
 .ktable-name {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   min-width: 0;
   font-weight: 500;
   overflow: hidden;
@@ -1063,15 +1125,15 @@ kbd + kbd {
   width: 1.1em;
   color: var(--accent);
   opacity: 0;
-  transform: translateX(-3px);
-  transition:
-    opacity var(--transition-fast),
-    transform var(--transition-fast);
+  transition: opacity var(--transition-fast);
+}
+
+.ktable-marker::before {
+  content: "▸";
 }
 
 .ktable-row[aria-expanded="true"] .ktable-marker {
   opacity: 1;
-  transform: none;
 }
 
 .ktable-row[aria-expanded="true"] .ktable-name {
@@ -1097,12 +1159,33 @@ kbd + kbd {
   margin-right: 0.4em;
 }
 
+/* Two technologies plus a count: wraps rather than truncating. */
 .ktable-stack {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.ktable-more {
+  margin-left: 0.5em;
+  color: color-mix(in srgb, var(--muted) 70%, transparent);
+}
+
+.ktable-tagline {
+  grid-column: 1 / -1;
+  padding-left: 1.1em;
   overflow: hidden;
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: var(--muted);
   white-space: nowrap;
   text-overflow: ellipsis;
-  color: var(--muted);
-  font-size: 0.8rem;
+}
+
+@media (hover: none) {
+  .ktable-hint {
+    display: none !important;
+  }
 }
 
 /* Detail ("describe") pane */
@@ -1110,6 +1193,16 @@ kbd + kbd {
 .kdetail {
   display: grid;
   gap: 2.5rem;
+}
+
+/* Desktop with JS: every detail shares one grid cell, so the pane is as tall
+   as the tallest detail and switching projects never moves the page. */
+[data-projects].is-stacked .kdetail-item {
+  grid-area: 1 / 1;
+}
+
+[data-projects].is-stacked .kdetail-item:not(.is-current) {
+  visibility: hidden;
 }
 
 .kdetail-item {
@@ -1131,6 +1224,7 @@ kbd + kbd {
 }
 
 .kdetail-media {
+  width: 100%;
   aspect-ratio: 16 / 10;
   overflow: hidden;
   border: 1px solid var(--pane-border);
@@ -1160,8 +1254,16 @@ kbd + kbd {
 
 .kdetail-terminal .terminal-body {
   flex: 1;
-  align-content: center;
-  gap: 0.5rem;
+  align-content: start;
+  gap: 0.35rem;
+}
+
+.terminal-comment {
+  color: var(--muted) !important;
+}
+
+.terminal-line + .terminal-comment {
+  margin-top: 0.6rem !important;
 }
 
 .kdetail-lead {
@@ -1171,7 +1273,61 @@ kbd + kbd {
   color: var(--text);
 }
 
+.kdetail-highlights,
+.kdetail-body :where(ul) {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.kdetail-highlights {
+  font-size: var(--step-sm);
+  color: color-mix(in srgb, var(--text) 80%, var(--muted));
+}
+
+.kdetail-highlights li,
+.kdetail-body :where(li) {
+  position: relative;
+  padding-left: 1.2em;
+}
+
+.kdetail-highlights li::before,
+.kdetail-body :where(li)::before {
+  content: "-";
+  position: absolute;
+  left: 0;
+  font-family: var(--font-mono);
+  color: var(--accent);
+}
+
+.kdetail-more summary {
+  display: inline-flex;
+  gap: 0.5em;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--muted);
+  cursor: pointer;
+  list-style: none;
+}
+
+.kdetail-more summary::-webkit-details-marker {
+  display: none;
+}
+
+.kdetail-more summary::before {
+  content: "▸";
+  color: var(--accent);
+}
+
+.kdetail-more[open] summary::before {
+  content: "▾";
+}
+
+.kdetail-more summary:hover {
+  color: var(--text);
+}
+
 .kdetail-body {
+  margin-top: 0.75rem;
   font-size: var(--step-sm);
   color: color-mix(in srgb, var(--text) 78%, var(--muted));
 }
@@ -1181,22 +1337,7 @@ kbd + kbd {
 }
 
 .kdetail-body :where(ul) {
-  display: grid;
-  gap: 0.35rem;
   margin-bottom: 0.75em;
-}
-
-.kdetail-body :where(li) {
-  position: relative;
-  padding-left: 1.2em;
-}
-
-.kdetail-body :where(li)::before {
-  content: "-";
-  position: absolute;
-  left: 0;
-  font-family: var(--font-mono);
-  color: var(--accent);
 }
 
 .kdetail-body > :last-child {
@@ -1229,7 +1370,7 @@ kbd + kbd {
   .ktable-head,
   .ktable-row {
     grid-template-columns: minmax(0, 1fr) 5.75rem 4rem;
-    gap: 0.75rem;
+    column-gap: 0.75rem;
   }
 
   .ktable-row {
@@ -1242,8 +1383,8 @@ kbd + kbd {
   }
 }
 
-/* Phone: NAME + STATUS rows; the detail expands under its row (JS) or
-   follows the list (no JS). */
+/* Phone: name, status and tagline per row, all collapsed at first; the
+   detail expands under its row (JS) or follows the list (no JS). */
 @media (max-width: 767px) {
   .ktable-head,
   .ktable-row {
@@ -1259,7 +1400,28 @@ kbd + kbd {
   }
 
   .ktable-row {
-    min-height: 2.75rem;
+    min-height: 3.5rem;
+    padding-block: 0.7rem;
+  }
+
+  .ktable-marker {
+    opacity: 1;
+    color: var(--muted);
+  }
+
+  .ktable-row[aria-expanded="true"] .ktable-marker {
+    color: var(--accent);
+  }
+
+  .ktable-row[aria-expanded="true"] .ktable-marker::before {
+    content: "▾";
+  }
+
+  .ktable-tagline {
+    display: -webkit-box;
+    white-space: normal;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
   }
 
   [data-projects].is-inline .pane--detail {
@@ -1267,7 +1429,7 @@ kbd + kbd {
   }
 
   [data-projects].is-inline .kdetail-item {
-    padding: 0.75rem 0.5rem 1.5rem;
+    padding: 0.9rem 0.5rem 1.5rem;
   }
 }
 
@@ -1290,15 +1452,54 @@ kbd + kbd {
   color: var(--muted);
 }
 
-.contact-links {
+.contact-actions {
+  display: grid;
+  gap: 0.6rem;
+}
+
+/* The address itself is the mailto button, so recruiters can read and copy it. */
+.contact-primary {
   display: flex;
-  flex-wrap: wrap;
   gap: 0.6rem;
 }
 
 .contact-email {
-  display: flex;
+  flex: 1;
+  min-width: 0;
+  justify-content: flex-start;
+}
+
+.contact-address {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.contact-copy-btn {
+  flex: 0 0 auto;
+  width: 2.75rem;
+  padding: 0;
+}
+
+.contact-copy-btn .icon-check,
+.contact-copy-btn.is-copied .icon-copy {
+  display: none;
+}
+
+.contact-copy-btn.is-copied .icon-check {
+  display: block;
+}
+
+.contact-links {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.6rem;
+}
+
+.contact-link {
+  width: 100%;
+  padding-inline: 0.5rem;
+  white-space: nowrap;
 }
 
 .contact-icon {
@@ -1309,13 +1510,14 @@ kbd + kbd {
 
 @media (min-width: 1024px) {
   .contact-body {
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 2.5rem;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 27rem);
+    gap: 3rem;
   }
+}
 
-  .contact-links {
-    justify-content: flex-end;
-    max-width: 30rem;
+@media (max-width: 400px) {
+  .contact-link .contact-icon {
+    display: none;
   }
 }
 
@@ -1349,6 +1551,8 @@ kbd + kbd {
   font-size: 0.75rem;
 }
 
+.footer-inner,
+.footer-inner small,
 .footer-build {
   color: var(--muted);
 }
@@ -1398,6 +1602,7 @@ kbd + kbd {
 }
 
 .sb-nav {
+  position: relative;
   min-width: 0;
 }
 
@@ -1416,10 +1621,15 @@ kbd + kbd {
   background: color-mix(in srgb, var(--sb-fg) 12%, var(--sb-bg));
 }
 
+/* Dark ink chip with emerald text, the same in both themes. */
 .sb-window.is-active {
   font-weight: 700;
-  color: var(--sb-bg);
-  background: var(--sb-fg);
+  color: #10b981;
+  background: #0b1210;
+}
+
+.sb-short {
+  display: none;
 }
 
 .sb-flag {
@@ -1500,17 +1710,44 @@ kbd + kbd {
     font-size: 0.85rem;
   }
 
-  .sb-session {
-    padding: 0 0.65rem;
+  /* Every window keeps a short word label; the strip scrolls sideways if
+     it has to, while search and theme stay pinned on the right. */
+  .statusbar .sb-session {
+    display: none;
+  }
+
+  .sb-nav {
+    flex: 1;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+  }
+
+  .sb-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Fade the right edge while more windows are hidden off to the side. */
+  .sb-nav.has-more {
+    mask-image: linear-gradient(
+      to right,
+      #000 calc(100% - 1.75rem),
+      transparent
+    );
   }
 
   .sb-window {
-    padding: 0 0.7rem;
+    padding: 0 0.6rem;
+    scroll-snap-align: start;
   }
 
-  /* Only the active window keeps its name; the rest are numbers. */
-  .sb-window:not(.is-active) .sb-name {
+  .sb-name {
     display: none;
+  }
+
+  .sb-short {
+    display: inline;
   }
 
   .sb-btn-keys,
@@ -1520,7 +1757,7 @@ kbd + kbd {
   }
 
   .sb-btn {
-    padding: 0 0.85rem;
+    padding: 0 0.75rem;
   }
 
   .sb-btn-icon {
@@ -1528,7 +1765,7 @@ kbd + kbd {
   }
 
   .statusbar button.theme-toggle {
-    padding: 0 0.85rem;
+    padding: 0 0.75rem;
   }
 
   /* Messages float just above the bar instead of squeezing it. */
