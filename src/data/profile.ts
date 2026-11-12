@@ -38,7 +38,7 @@ export const profile = {
       label: "billing platform where I'm primary on IaC and pipelines",
     },
     { value: "7", label: "certifications, incl. CKA and AWS SAA" },
-    { value: "2022", label: "at CGI since" },
+    { value: "3+", label: "years in industry" },
   ],
 } as const;
 
