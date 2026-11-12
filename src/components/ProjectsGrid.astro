@@ -25,21 +25,22 @@ const otherProjects = projects.filter((project) => !project.data.featured);
   tabindex="-1"
 >
   <div class="section-shell" data-reveal-group>
-    <div class="section-header content" data-reveal-item>
-      <h2 id="projects-title">Projects</h2>
+    <div class="section-header" data-reveal-item>
+      <p class="eyebrow">03 · projects</p>
+      <h2 id="projects-title">Things I've shipped</h2>
       <p>
-        Open-source work and collaborations, curated for reliability and
-        developer experience.
+        Four side projects you can open right now, plus a couple of Go CLIs
+        for the kind of jobs I do at work.
       </p>
     </div>
     {
       featuredProjects.length > 0 && (
         <div class="featured" data-reveal-item>
-          <h3 class="featured-heading">Featured</h3>
+          <h3 class="featured-heading"><span class="status-dot" aria-hidden="true"></span>Live</h3>
           <div class="carousel" data-carousel>
             <div class="carousel-viewport">
               <div
-                class="carousel-track mt-[clamp(1.5rem,4vw,2.25rem)] grid gap-[clamp(1.5rem,4vw,2.25rem)] grid-cols-1 md:grid-cols-[repeat(auto-fit,minmax(320px,1fr))]"
+                class="carousel-track mt-[clamp(1.5rem,4vw,2.25rem)] grid gap-[clamp(1.5rem,4vw,2.25rem)] grid-cols-1 md:grid-cols-2"
                 role="list"
                 data-reveal-group
               >
@@ -100,6 +101,7 @@ const otherProjects = projects.filter((project) => !project.data.featured);
     {
       otherProjects.length > 0 ? (
         <div class="carousel" data-carousel data-reveal-item data-reveal-group>
+          <h3 class="featured-heading">CLI tools</h3>
           <div class="carousel-viewport">
             <div
               class="carousel-track mt-[clamp(1.5rem,4vw,2.25rem)] grid gap-[clamp(1.5rem,4vw,2.25rem)] grid-cols-1 md:grid-cols-[repeat(auto-fit,minmax(280px,1fr))]"

@@ -1,4 +1,5 @@
 import { initReveal, initParallax } from "./motion";
+import { initTypewriter } from "./typewriter";
 
 const prefersReducedMotion = window.matchMedia(
   "(prefers-reduced-motion: reduce)",
@@ -11,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initialize motion system
   initReveal();
   initParallax();
+  initTypewriter();
 
   const navToggle = document.querySelector<HTMLElement>("[data-nav-toggle]");
   const nav = document.querySelector<HTMLElement>(".site-nav");

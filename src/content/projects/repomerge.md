@@ -8,7 +8,7 @@ tech:
   - GitHub Apps
   - TypeScript
 featured: true
-sortOrder: 2
+sortOrder: 4
 image: ../../assets/images/projects/repomerge-preview.png
 imageAlt: Screenshot of RepoMerge app showing the repository aggregator interface
 ---

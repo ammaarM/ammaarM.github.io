@@ -11,98 +11,82 @@ import kubernetesIcon from '../assets/icons/kubernetes.svg';
 import windowsIcon from '../assets/icons/Windows-11.svg';
 import sqlIcon from '../assets/icons/Azure-SQL-Database.svg';
 import javaIcon from '../assets/icons/java.svg';
-import javascriptIcon from '../assets/icons/javascript.svg';
+import goIcon from '../assets/icons/Go.svg';
+import typescriptIcon from '../assets/icons/TypeScript.svg';
+import reactIcon from '../assets/icons/React.svg';
+import linuxIcon from '../assets/icons/Linux.svg';
+import awsIcon from '../assets/icons/AWS.svg';
 
-const skills = [
+const groups = [
   {
-    label: 'Microsoft Azure',
-    icon: azureIcon,
-    color: '#0078D4',
+    name: 'cloud & iac',
+    blurb: 'Where most of my day goes.',
+    skills: [
+      { label: 'Microsoft Azure', icon: azureIcon },
+      { label: 'AWS', icon: awsIcon },
+      { label: 'Terraform', icon: terraformIcon },
+      { label: 'Kubernetes (CKA)', icon: kubernetesIcon },
+      { label: 'Docker & Compose', icon: dockerIcon },
+    ],
   },
   {
-    label: 'Terraform',
-    icon: terraformIcon,
-    color: '#7B42BC',
+    name: 'pipelines & automation',
+    blurb: 'If I do it twice, it becomes a script.',
+    skills: [
+      { label: 'GitHub Actions', icon: githubActionsIcon },
+      { label: 'PowerShell', icon: powershellIcon },
+      { label: 'Python', icon: pythonIcon },
+      { label: 'Bash', icon: bashIcon },
+    ],
   },
   {
-    label: 'PowerShell',
-    icon: powershellIcon,
-    color: '#5391FE',
+    name: 'platform',
+    blurb: 'The estate underneath.',
+    skills: [
+      { label: 'Windows Server & AD', icon: windowsIcon },
+      { label: 'Linux', icon: linuxIcon },
+      { label: 'SQL', icon: sqlIcon },
+    ],
   },
   {
-    label: 'Bash',
-    icon: bashIcon,
-    color: '#5391FE',
-  },
-  { label: 'Python', icon: pythonIcon, color: '#3776AB' },
-  {
-    label: 'GitHub Actions CI/CD',
-    icon: githubActionsIcon,
-    color: '#2088FF',
-  },
-  { label: 'Docker', icon: dockerIcon, color: '#2496ED' },
-  {
-    label: 'Kubernetes',
-    icon: kubernetesIcon,
-    color: '#326CE5',
-  },
-  {
-    label: 'Windows Server',
-    icon: windowsIcon,
-    color: '#00ADEF',
-  },
-  {
-    label: 'SQL',
-    icon: sqlIcon,
-    color: '#CC2927',
-  },
-  { label: 'Java', icon: javaIcon, color: '#007396' },
-  {
-    label: 'JavaScript',
-    icon: javascriptIcon,
-    color: '#F7DF1E',
+    name: 'building',
+    blurb: 'What the side projects run on.',
+    skills: [
+      { label: 'TypeScript', icon: typescriptIcon },
+      { label: 'React', icon: reactIcon },
+      { label: 'Go', icon: goIcon },
+      { label: 'Java', icon: javaIcon },
+    ],
   },
 ];
 ---
 
-<section
-  class="skills"
-  id="skills"
-  aria-labelledby="skills-title"
-  data-section="skills"
-  data-reveal
-  tabindex="-1"
->
+<section class="skills" id="skills" aria-labelledby="skills-title" data-section="skills" data-reveal tabindex="-1">
   <div class="section-shell" data-reveal-group>
-    <div class="section-header content" data-reveal-item>
-      <h2 id="skills-title">Skills</h2>
-      <p>
-        A snapshot of the technologies and practices I lean on to deliver
-        dependable platforms.
-      </p>
+    <div class="section-header" data-reveal-item>
+      <p class="eyebrow">02 · stack</p>
+      <h2 id="skills-title">Tools I reach for</h2>
     </div>
-    <div class="skills-grid" role="list">
+    <div class="skill-groups">
       {
-        skills.map((skill, index) => (
-          <article
-            class="skill"
-            role="listitem"
-            aria-label={skill.label}
-            style={{ '--skill-color': skill.color, '--stagger-index': index }}
-            data-reveal-item
-          >
-            <Image
-              class="skill-icon"
-              src={skill.icon}
-              alt=""
-              aria-hidden="true"
-              title={skill.label}
-              width={40}
-              height={40}
-              loading="lazy"
-            />
-            <span class="skill-label">{skill.label}</span>
-          </article>
+        groups.map((group, index) => (
+          <div class="skill-group" style={{ '--stagger-index': index }} data-reveal-item>
+            <h3 class="skill-group-name">
+              <span aria-hidden="true">./</span>
+              {group.name}
+            </h3>
+            <p class="skill-group-blurb">{group.blurb}</p>
+            <ul class="skill-list">
+              {group.skills.map((skill) => (
+                <li class="skill-chip">
+                  <span class="skill-chip-icon">
+                    <Image src={skill.icon} alt="" width={22} height={22} loading="lazy" />
+                  </span>
+                  {skill.label}
+                </li>
+              ))}
+            </ul>
+          </div>
         ))
       }
     </div>

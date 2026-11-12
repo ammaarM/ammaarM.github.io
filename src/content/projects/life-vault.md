@@ -1,17 +1,18 @@
 ---
 title: LifeVault
-description: Personal file organizer for keeping important documents and records structured and accessible.
+description: A cross-platform desktop app for organising personal and family documents across local and cloud storage.
 url: https://lifevault.sabrlabs.co.uk/
 tech:
+  - Electron
   - React
   - TypeScript
-  - Tailwind CSS
-  - File Management UX
+  - Bun
+  - Cloudflare
 featured: true
-sortOrder: 3
+sortOrder: 2
 image: ../../assets/images/projects/lifevault-preview.png
 imageAlt: Screenshot of LifeVault dashboard showing organized personal files
 ---
 
-LifeVault is a personal file organizer for storing and managing important documents in one place.
-It focuses on structure and speed, so records stay easy to find when you need them.
+A Sabr Labs product I co-built with a small team. LifeVault keeps passports, payslips, bills and certificates organised
+in one place, whether they live on your machine or in the cloud, so records are easy to find when you need them.

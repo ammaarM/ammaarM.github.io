@@ -1,35 +1,70 @@
 ---
 import { profile } from "../data/profile";
+
+const shipped = ["birthplan.co.uk", "lifevault", "draw.ammaarm.com", "repomerge"];
+
+/** Terminal session shown in the hero. `cmd` lines are typed out; `out` lines appear after. */
+const session = [
+  { cmd: "whoami", out: [`${profile.role.toLowerCase()} @ ${profile.employer} · ${profile.location}`] },
+  { cmd: "cat certs.txt", out: profile.certifications.map((cert) => `✓ ${cert}`) },
+  { cmd: "ls ~/shipped", out: [shipped.join("  ")] },
+];
 ---
 
 <section class="hero" id="hero" data-section="hero" data-reveal tabindex="-1">
-  <div class="hero-surface">
-    <div class="hero-media" data-parallax data-animate>
-      <span class="avatar avatar--hero" data-avatar data-initials="AM">
-        <img
-          src={profile.headshot.url}
-          alt={profile.headshot.alt}
-          width={profile.headshot.width}
-          height={profile.headshot.height}
-          loading="eager"
-          decoding="async"
-          fetchpriority="high"
-          data-fallback={profile.fallback.src}
-        />
-        <span class="avatar-fallback" aria-hidden="true">AM</span>
-      </span>
-      <div class="hero-orb" aria-hidden="true"></div>
-    </div>
-    <div class="hero-copy content" data-animate-group>
-      <p class="hero-kicker" data-animate>Cloud &amp; Platform Engineer</p>
-      <h1 data-animate>{profile.name}</h1>
-      <p class="hero-tagline" data-animate>
-        Building reliable platforms that empower teams to ship with confidence.
+  <div class="hero-grid">
+    <div class="hero-copy" data-animate-group>
+      <p class="hero-kicker" data-animate>
+        <span class="status-dot" aria-hidden="true"></span>
+        {profile.role} · {profile.location}
       </p>
-      <div class="flex w-full flex-wrap gap-4 md:w-auto" data-animate>
-        <a class="btn" href="#projects" data-scroll>View Featured Work</a>
-        <a class="btn ghost" href="#contact" data-scroll>Let's Collaborate</a>
+      <h1 data-animate>
+        {profile.name}<span class="cursor" aria-hidden="true">_</span>
+      </h1>
+      <p class="hero-tagline" data-animate>
+        I govern the cloud platform behind a 24/7 global billing system at {profile.employer}: Azure, Terraform,
+        Kubernetes and CI/CD. After hours I co-build products and run a home lab.
+      </p>
+      <div class="hero-actions" data-animate>
+        <a class="btn" href="#projects" data-scroll>See what I've shipped</a>
+        <a class="btn ghost" href={profile.cvUrl} target="_blank" rel="noreferrer">Download CV</a>
+      </div>
+    </div>
+
+    <div class="terminal hero-terminal" data-animate data-typewriter>
+      <div class="terminal-bar" aria-hidden="true">
+        <span></span><span></span><span></span>
+        <p class="terminal-title">{profile.handle}@cloud: ~</p>
+      </div>
+      <div class="terminal-body">
+        {
+          session.map(({ cmd, out }) => (
+            <div class="terminal-step">
+              <p class="terminal-line">
+                <span class="prompt" aria-hidden="true">$</span>
+                <span class="terminal-cmd" data-type>{cmd}</span>
+              </p>
+              {out.map((line) => (
+                <p class="terminal-out">{line}</p>
+              ))}
+            </div>
+          ))
+        }
+        <p class="terminal-line" aria-hidden="true">
+          <span class="prompt">$</span><span class="cursor cursor--block"></span>
+        </p>
       </div>
     </div>
   </div>
+
+  <dl class="hero-stats">
+    {
+      profile.stats.map((stat) => (
+        <div class="stat" data-reveal-item>
+          <dt>{stat.label}</dt>
+          <dd>{stat.value}</dd>
+        </div>
+      ))
+    }
+  </dl>
 </section>

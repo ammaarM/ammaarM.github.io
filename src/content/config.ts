@@ -9,7 +9,9 @@ const projects = defineCollection({
       url: z.string().url().optional(),
       repo: z.string().url().optional(),
       tech: z.array(z.string()).default([]),
-      image: image(),
+      image: image().optional(),
+      /** Shell commands shown in place of a screenshot for CLI projects. */
+      terminal: z.array(z.string()).optional(),
       imageAlt: z.string().optional(),
       featured: z.boolean().default(false),
       sortOrder: z.number().default(0),
