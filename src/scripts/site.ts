@@ -1,156 +1,97 @@
-import { initReveal, initParallax } from "./motion";
+import { initReveal } from "./motion";
 import { initTypewriter } from "./typewriter";
+import { initScrollLinks } from "./navigate";
+import { initStatusBar } from "./statusbar";
+import { initProjectsTable } from "./projects-table";
+import { initPalette } from "./palette";
+import { initShortcuts, openHelp } from "./shortcuts";
+import { initShell } from "./shell";
+import { copyText } from "./clipboard";
+import { displayMessage } from "./display-message";
 
-const prefersReducedMotion = window.matchMedia(
-  "(prefers-reduced-motion: reduce)",
-);
-
-document.addEventListener("DOMContentLoaded", () => {
-  const body = document.body;
-  body.classList.add("is-ready");
-
-  // Initialize motion system
-  initReveal();
-  initParallax();
-  initTypewriter();
-
-  const navToggle = document.querySelector<HTMLElement>("[data-nav-toggle]");
-  const nav = document.querySelector<HTMLElement>(".site-nav");
-  const navLinks = Array.from(
-    document.querySelectorAll<HTMLAnchorElement>(".nav-link"),
-  );
-  const sections = Array.from(
-    document.querySelectorAll<HTMLElement>("section[data-section]"),
-  );
-  const avatars = Array.from(document.querySelectorAll<HTMLElement>("[data-avatar]"));
-
-  const initAvatars = () => {
-    avatars.forEach((avatar) => {
-      const img = avatar.querySelector<HTMLImageElement>("img");
-      const fallback = avatar.querySelector<HTMLElement>(".avatar-fallback");
-      const initials = avatar.dataset.initials || "AM";
-      if (fallback) {
-        fallback.textContent = initials;
+function initAvatars() {
+  document.querySelectorAll<HTMLElement>("[data-avatar]").forEach((avatar) => {
+    const img = avatar.querySelector<HTMLImageElement>("img");
+    const fallback = avatar.querySelector<HTMLElement>(".avatar-fallback");
+    const initials = avatar.dataset.initials || "AM";
+    if (fallback) {
+      fallback.textContent = initials;
+    }
+    const showFallback = () => {
+      avatar.classList.add("is-fallback");
+      fallback?.removeAttribute("aria-hidden");
+      if (img) {
+        img.hidden = true;
+        img.setAttribute("aria-hidden", "true");
       }
-      const showFallback = () => {
-        avatar.classList.add("is-fallback");
-        if (fallback) {
-          fallback.removeAttribute("aria-hidden");
-        }
-        if (img) {
-          img.hidden = true;
-          img.setAttribute("aria-hidden", "true");
-        }
-      };
-      const swapToFallbackGraphic = () => {
-        if (!img) return false;
-        const fallbackSrc = img.dataset.fallback;
-        if (!fallbackSrc) return false;
-        img.src = fallbackSrc;
-        img.removeAttribute("data-fallback");
-        img.hidden = false;
-        img.removeAttribute("aria-hidden");
-        return true;
-      };
-      if (!img) {
-        showFallback();
+    };
+    const swapToFallbackGraphic = () => {
+      const fallbackSrc = img?.dataset.fallback;
+      if (!img || !fallbackSrc) return false;
+      img.src = fallbackSrc;
+      img.removeAttribute("data-fallback");
+      img.hidden = false;
+      img.removeAttribute("aria-hidden");
+      return true;
+    };
+    if (!img) {
+      showFallback();
+      return;
+    }
+    const handleLoad = () => img.classList.add("is-loaded");
+    const handleError = () => {
+      if (swapToFallbackGraphic()) {
+        img.addEventListener("error", showFallback, { once: true });
         return;
       }
-      const handleLoad = () => {
-        img.classList.add("is-loaded");
-      };
-      const handleError = () => {
-        if (swapToFallbackGraphic()) {
-          img.addEventListener("error", showFallback, { once: true });
-          return;
-        }
-        showFallback();
-      };
-      img.addEventListener("load", handleLoad, { once: true });
-      img.addEventListener("error", handleError, { once: true });
-      if (img.complete && img.naturalWidth > 0) {
-        handleLoad();
-      } else if (img.complete && img.naturalWidth === 0) {
-        handleError();
-      }
-    });
-  };
+      showFallback();
+    };
+    img.addEventListener("load", handleLoad, { once: true });
+    img.addEventListener("error", handleError, { once: true });
+    if (img.complete && img.naturalWidth > 0) {
+      handleLoad();
+    } else if (img.complete && img.naturalWidth === 0) {
+      handleError();
+    }
+  });
+}
 
+function initCopyButtons() {
+  document
+    .querySelectorAll<HTMLButtonElement>("button[data-copy]")
+    .forEach((button) => {
+      const label = button.querySelector<HTMLElement>("[data-copy-label]");
+      const original = label?.textContent ?? "";
+      button.addEventListener("click", async () => {
+        const value = button.dataset.copy ?? "";
+        const ok = await copyText(value);
+        displayMessage(ok ? `copied ${value}` : `couldn't copy: ${value}`);
+        if (label && ok) {
+          label.textContent = "Copied";
+          window.setTimeout(() => {
+            label.textContent = original;
+          }, 1800);
+        }
+      });
+    });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.body.classList.add("is-ready");
+  // Controls that only work with JS ship hidden so the no-JS page stays honest.
+  document
+    .querySelectorAll<HTMLElement>("[data-js-only]")
+    .forEach((el) => (el.hidden = false));
+
+  initReveal();
   initAvatars();
-
-  navToggle?.addEventListener("click", () => {
-    const expanded = navToggle.getAttribute("aria-expanded") === "true";
-    navToggle.setAttribute("aria-expanded", String(!expanded));
-    nav?.classList.toggle("open", !expanded);
-  });
-
-  const closeMobileNav = () => {
-    navToggle?.setAttribute("aria-expanded", "false");
-    nav?.classList.remove("open");
-  };
-
-  const highlightSection = (target: HTMLElement) => {
-    if (!target) return;
-    target.classList.add("is-anchor-target");
-    window.setTimeout(() => target.classList.remove("is-anchor-target"), 1400);
-  };
-
-  const updateActiveNav = (id: string) => {
-    navLinks.forEach((link) => {
-      const targetId = (link.getAttribute("href") || "").replace("#", "");
-      const isActive = targetId === id;
-      link.classList.toggle("is-active", isActive);
-      if (isActive) {
-        link.setAttribute("aria-current", "page");
-      } else {
-        link.removeAttribute("aria-current");
-      }
-    });
-  };
-
-  if ("IntersectionObserver" in window && sections.length > 0) {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            updateActiveNav(entry.target.id);
-          }
-        });
-      },
-      { threshold: 0.45, rootMargin: "-35% 0px -45% 0px" },
-    );
-    sections.forEach((section) => observer.observe(section));
-  }
-
-  const scrollLinks = Array.from(
-    document.querySelectorAll<HTMLAnchorElement>("[data-scroll]"),
-  );
-  scrollLinks.forEach((link) => {
-    const href = link.getAttribute("href") || "";
-    if (!href.startsWith("#")) return;
-    const target = document.querySelector<HTMLElement>(href);
-    if (!target) return;
-
-    link.addEventListener("click", (event) => {
-      event.preventDefault();
-      if (link.classList.contains("nav-link")) {
-        closeMobileNav();
-      }
-      const behavior = prefersReducedMotion.matches ? "auto" : "smooth";
-      target.scrollIntoView({ behavior, block: "start" });
-      window.setTimeout(
-        () => highlightSection(target),
-        prefersReducedMotion.matches ? 0 : 900,
-      );
-      if (target instanceof HTMLElement) {
-        try {
-          target.focus({ preventScroll: true });
-        } catch {
-          target.focus();
-        }
-      }
-    });
-  });
+  initScrollLinks();
+  initStatusBar();
+  initProjectsTable();
+  initPalette(openHelp);
+  initShortcuts();
+  initCopyButtons();
+  void initTypewriter().then(initShell);
 
   const yearTarget = document.querySelector("[data-year]");
   if (yearTarget) {

@@ -1,18 +1,40 @@
 ---
+import { getCollection } from "astro:content";
+import Pane from "./Pane.astro";
 import { profile } from "../data/profile";
+import { compareProjects, projectSlug } from "../data/projects";
+import type { ShellData } from "../scripts/shell-commands";
 
 const shipped = ["birthplan.co.uk", "lifevault", "draw.ammaarm.com", "repomerge"];
+const whoami = `${profile.role.toLowerCase()} @ ${profile.employer} · ${profile.location}`;
+const certs = profile.certifications.map((cert) => `✓ ${cert}`);
 
 /** Terminal session shown in the hero. `cmd` lines are typed out; `out` lines appear after. */
 const session = [
-  { cmd: "whoami", out: [`${profile.role.toLowerCase()} @ ${profile.employer} · ${profile.location}`] },
-  { cmd: "cat certs.txt", out: profile.certifications.map((cert) => `✓ ${cert}`) },
-  { cmd: "ls ~/shipped", out: [shipped.join("  ")] },
+  { cmd: "whoami", out: [whoami] },
+  { cmd: "cat certs.txt", out: certs },
+  { cmd: "ls -1 ~/shipped", out: shipped },
 ];
+
+const projects = (await getCollection("projects")).sort(compareProjects);
+
+/** Everything the optional interactive prompt can print, taken from the same data as the page. */
+const shellData: ShellData = {
+  whoami,
+  certs,
+  shipped,
+  cvUrl: profile.cvUrl,
+  email: profile.links.email.replace(/^mailto:/, ""),
+  links: { github: profile.links.github, linkedin: profile.links.linkedin },
+  projects: projects.map(({ data }) => ({
+    slug: projectSlug(data.title),
+    href: data.url ?? data.repo ?? "",
+  })),
+};
 ---
 
-<section class="hero" id="hero" data-section="hero" data-reveal tabindex="-1">
-  <div class="hero-grid">
+<section class="tmux-window window--hero" id="hero" data-section="hero" data-reveal aria-label="Intro" tabindex="-1">
+  <Pane title="whoami" index="0" class="pane--intro">
     <div class="hero-copy" data-animate-group>
       <p class="hero-kicker" data-animate>
         <span class="status-dot" aria-hidden="true"></span>
@@ -30,8 +52,10 @@ const session = [
         <a class="btn ghost" href={profile.cvUrl} target="_blank" rel="noreferrer">Download CV</a>
       </div>
     </div>
+  </Pane>
 
-    <div class="terminal hero-terminal" data-animate data-typewriter>
+  <div class="pane pane--terminal" data-pane>
+    <div class="terminal hero-terminal" data-typewriter data-shell>
       <div class="terminal-bar" aria-hidden="true">
         <span></span><span></span><span></span>
         <p class="terminal-title">{profile.handle}@cloud: ~</p>
@@ -50,21 +74,39 @@ const session = [
             </div>
           ))
         }
-        <p class="terminal-line" aria-hidden="true">
+        <div class="terminal-log" role="log" aria-live="polite" aria-label="Terminal output" data-shell-log></div>
+        <p class="terminal-line terminal-prompt" aria-hidden="true" data-shell-idle>
           <span class="prompt">$</span><span class="cursor cursor--block"></span>
         </p>
+        <form class="terminal-line terminal-prompt" data-shell-form hidden>
+          <label class="prompt" for="shell-input">$<span class="sr-only">Terminal: type help</span></label>
+          <input
+            id="shell-input"
+            class="terminal-input"
+            type="text"
+            autocomplete="off"
+            autocapitalize="off"
+            spellcheck="false"
+            enterkeyhint="go"
+            placeholder="type help"
+            data-shell-input
+          />
+        </form>
       </div>
     </div>
+    <script is:inline type="application/json" data-shell-data set:html={JSON.stringify(shellData)} />
   </div>
 
-  <dl class="hero-stats">
-    {
-      profile.stats.map((stat) => (
-        <div class="stat" data-reveal-item>
-          <dt>{stat.label}</dt>
-          <dd>{stat.value}</dd>
-        </div>
-      ))
-    }
-  </dl>
+  <div class="pane pane--stats" data-pane>
+    <dl class="hero-stats">
+      {
+        profile.stats.map((stat) => (
+          <div class="stat">
+            <dt>{stat.label}</dt>
+            <dd>{stat.value}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
 </section>

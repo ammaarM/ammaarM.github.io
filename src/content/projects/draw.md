@@ -7,6 +7,7 @@ tech:
   - React
   - TypeScript
   - Vite PWA
+kind: pwa
 featured: true
 sortOrder: 3
 image: ../../assets/images/projects/draw-preview.png

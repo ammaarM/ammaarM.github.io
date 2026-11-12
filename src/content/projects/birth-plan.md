@@ -8,6 +8,7 @@ tech:
   - Go
   - MongoDB
   - Azure
+kind: web app
 featured: true
 sortOrder: 1
 image: ../../assets/images/projects/birthyourway-preview.png

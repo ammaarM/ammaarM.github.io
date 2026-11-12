@@ -8,6 +8,7 @@ tech:
   - TypeScript
   - Bun
   - Cloudflare
+kind: desktop app
 featured: true
 sortOrder: 2
 image: ../../assets/images/projects/lifevault-preview.png

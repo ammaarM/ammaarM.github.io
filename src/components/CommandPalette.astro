@@ -1,0 +1,164 @@
+---
+import { getCollection } from "astro:content";
+import { ArrowRight, Copy, Mail, FileText, Code, Briefcase, SunMoon, Keyboard, SquareTerminal } from "lucide-react";
+import { profile } from "../data/profile";
+import { windows } from "../data/sections";
+import { compareProjects, projectSlug } from "../data/projects";
+
+const projects = (await getCollection("projects")).sort(compareProjects);
+const email = profile.links.email.replace(/^mailto:/, "");
+
+type Item = {
+  id: string;
+  label: string;
+  meta: string;
+  icon: typeof ArrowRight;
+  keywords?: string;
+  data: Record<string, string>;
+};
+
+const groups: { name: string; items: Item[] }[] = [
+  {
+    name: "Go to",
+    items: windows.map(({ key, id, name, label, alias }) => ({
+      id: `go-${id}`,
+      label,
+      meta: `${key}:${name}`,
+      icon: ArrowRight,
+      keywords: `window ${name} ${id} ${alias}`,
+      data: { "data-action": "go", "data-target": id },
+    })),
+  },
+  {
+    name: "Projects",
+    items: projects.map(({ data }) => {
+      const slug = projectSlug(data.title);
+      return {
+        id: `project-${slug}`,
+        label: data.title,
+        meta: `describe ${slug}`,
+        icon: SquareTerminal,
+        keywords: `${slug} ${data.kind} ${data.tech.join(" ")}`,
+        data: { "data-action": "project", "data-target": slug },
+      };
+    }),
+  },
+  {
+    name: "Actions",
+    items: [
+      {
+        id: "copy-email",
+        label: "Copy email address",
+        meta: email,
+        icon: Copy,
+        keywords: "contact mail clipboard",
+        data: { "data-action": "copy", "data-value": email },
+      },
+      {
+        id: "email",
+        label: "Send an email",
+        meta: "mailto",
+        icon: Mail,
+        keywords: "contact",
+        data: { "data-action": "link", "data-href": profile.links.email },
+      },
+      {
+        id: "cv",
+        label: "Download CV",
+        meta: "pdf",
+        icon: FileText,
+        keywords: "resume",
+        data: { "data-action": "link", "data-href": profile.cvUrl, "data-external": "" },
+      },
+      {
+        id: "github",
+        label: "Open GitHub",
+        meta: "github.com",
+        icon: Code,
+        keywords: "source code repos",
+        data: { "data-action": "link", "data-href": profile.links.github, "data-external": "" },
+      },
+      {
+        id: "linkedin",
+        label: "Open LinkedIn",
+        meta: "linkedin.com",
+        icon: Briefcase,
+        data: { "data-action": "link", "data-href": profile.links.linkedin, "data-external": "" },
+      },
+      {
+        id: "theme",
+        label: "Toggle light / dark theme",
+        meta: "theme",
+        icon: SunMoon,
+        keywords: "colour color mode",
+        data: { "data-action": "theme" },
+      },
+      {
+        id: "help",
+        label: "Keyboard shortcuts",
+        meta: "?",
+        icon: Keyboard,
+        keywords: "keys help list-keys",
+        data: { "data-action": "help" },
+      },
+    ],
+  },
+];
+---
+
+<dialog class="tmux-dialog palette" aria-label="Command palette" data-palette>
+  <div class="pane dialog-pane">
+    <p class="pane-title" aria-hidden="true">command-prompt</p>
+    <div class="palette-field">
+      <span class="palette-colon" aria-hidden="true">:</span>
+      <input
+        class="palette-input"
+        type="text"
+        role="combobox"
+        aria-label="Search commands"
+        aria-expanded="true"
+        aria-controls="palette-list"
+        aria-autocomplete="list"
+        autocomplete="off"
+        autocapitalize="off"
+        spellcheck="false"
+        placeholder="search commands…"
+        data-palette-input
+      />
+    </div>
+    <ul class="palette-list" id="palette-list" role="listbox" aria-label="Commands" data-palette-list>
+      {
+        groups.map(({ name, items }) => (
+          <>
+            <li class="palette-group" role="presentation" data-palette-group={name}>
+              {name}
+            </li>
+            {items.map(({ id, label, meta, icon: Icon, keywords, data }) => (
+              <li
+                class="palette-item"
+                role="option"
+                id={`palette-${id}`}
+                aria-selected="false"
+                data-palette-item
+                data-group={name}
+                data-label={label}
+                data-keywords={keywords ?? ""}
+                {...data}
+              >
+                <Icon className="palette-icon" aria-hidden="true" size={16} strokeWidth={1.75} />
+                <span class="palette-label">{label}</span>
+                <span class="palette-meta">{meta}</span>
+              </li>
+            ))}
+          </>
+        ))
+      }
+    </ul>
+    <p class="palette-empty" data-palette-empty hidden>no matching command</p>
+    <p class="palette-foot" aria-hidden="true">
+      <span><kbd>↑</kbd><kbd>↓</kbd> move</span>
+      <span><kbd>enter</kbd> run</span>
+      <span><kbd>esc</kbd> close</span>
+    </p>
+  </div>
+</dialog>

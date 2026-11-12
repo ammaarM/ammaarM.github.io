@@ -9,6 +9,8 @@ const projects = defineCollection({
       url: z.string().url().optional(),
       repo: z.string().url().optional(),
       tech: z.array(z.string()).default([]),
+      /** Short form factor shown in the projects table, e.g. "web app" or "cli". */
+      kind: z.enum(["web app", "desktop app", "pwa", "cli"]),
       image: image().optional(),
       /** Shell commands shown in place of a screenshot for CLI projects. */
       terminal: z.array(z.string()).optional(),

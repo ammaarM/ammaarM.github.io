@@ -15,7 +15,9 @@ const prefersReducedMotion = window.matchMedia(
 export function initReveal() {
   if (!("IntersectionObserver" in window)) {
     document
-      .querySelectorAll("[data-reveal], [data-reveal-item], [data-animate], [data-animate-group]")
+      .querySelectorAll(
+        "[data-reveal], [data-reveal-item], [data-animate], [data-animate-group]",
+      )
       .forEach((el) => {
         (el as HTMLElement).classList.add("is-revealed");
       });

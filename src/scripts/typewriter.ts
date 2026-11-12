@@ -37,11 +37,13 @@ async function play(terminal: HTMLElement) {
   terminal.classList.remove("is-typing");
 }
 
-export function initTypewriter() {
+/** Resolves once every terminal has finished typing (immediately under reduced motion). */
+export async function initTypewriter(): Promise<void> {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  document
-    .querySelectorAll<HTMLElement>("[data-typewriter]")
-    .forEach((terminal) => {
-      void play(terminal);
-    });
+  await Promise.all(
+    Array.from(
+      document.querySelectorAll<HTMLElement>("[data-typewriter]"),
+      (terminal) => play(terminal),
+    ),
+  );
 }

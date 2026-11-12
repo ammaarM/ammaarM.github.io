@@ -6,6 +6,7 @@ tech:
   - Go
   - Azure SDK
   - Cobra
+kind: cli
 featured: false
 sortOrder: 1
 terminal:

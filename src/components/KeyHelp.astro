@@ -1,0 +1,42 @@
+---
+import { windows } from "../data/sections";
+
+const keys = [
+  ...windows.map(({ key, label }) => ({ keys: [key], what: `Go to ${label.toLowerCase()}` })),
+  { keys: ["ctrl", "k"], what: "Command palette (⌘K on Mac)" },
+  { keys: [":"], what: "Command palette" },
+  { keys: ["/"], what: "Command palette" },
+  { keys: ["↑", "↓"], what: "Move through projects and palette results" },
+  { keys: ["?"], what: "This help" },
+  { keys: ["esc"], what: "Close" },
+];
+---
+
+<dialog class="tmux-dialog help-dialog" aria-labelledby="help-title" data-help>
+  <div class="pane dialog-pane">
+    <h2 class="pane-title" id="help-title">
+      <span aria-hidden="true">list-keys</span><span class="sr-only">Keyboard shortcuts</span>
+    </h2>
+    <dl class="help-keys">
+      {
+        keys.map(({ keys: combo, what }) => (
+          <div class="help-row">
+            <dt>
+              {combo.map((k) => (
+                <kbd>{k}</kbd>
+              ))}
+            </dt>
+            <dd>{what}</dd>
+          </div>
+        ))
+      }
+    </dl>
+    <label class="help-toggle">
+      <input type="checkbox" data-shortcuts-toggle checked />
+      Single-key shortcuts (0–4, :, /, ?)
+    </label>
+    <form method="dialog" class="dialog-actions">
+      <button class="btn ghost" type="submit">Close <kbd>esc</kbd></button>
+    </form>
+  </div>
+</dialog>

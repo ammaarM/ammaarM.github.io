@@ -5,6 +5,7 @@ repo: https://github.com/ammaarM/todo-cli
 tech:
   - Go
   - CLI
+kind: cli
 featured: false
 sortOrder: 2
 terminal:

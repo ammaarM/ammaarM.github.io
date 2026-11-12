@@ -1,0 +1,43 @@
+---
+/**
+ * One tmux pane: content framed by a hairline border with its title set into
+ * the top edge, lazygit style (`─[1] git log──`).
+ *
+ * `title` is what a terminal user sees; `heading` is the plain-English name a
+ * screen reader hears. When `heading` is omitted the title is decorative.
+ */
+interface Props {
+  title: string;
+  /** Window number shown as `[n]`, matching the keyboard shortcut. */
+  index?: string;
+  heading?: string;
+  headingId?: string;
+  id?: string;
+  class?: string;
+  /** Extra attributes for the title, e.g. a hook for scripts to update it. */
+  titleAttrs?: Record<string, string>;
+}
+
+const { title, index, heading, headingId, id, class: className, titleAttrs = {} } = Astro.props;
+const classes = ["pane", className].filter(Boolean).join(" ");
+---
+
+<div class={classes} id={id} data-pane>
+  {
+    heading ? (
+      <h2 class="pane-title" id={headingId}>
+        <span aria-hidden="true">
+          {index && <span class="pane-index">[{index}]</span>}
+          <span {...titleAttrs}>{title}</span>
+        </span>
+        <span class="sr-only">{heading}</span>
+      </h2>
+    ) : (
+      <p class="pane-title" aria-hidden="true">
+        {index && <span class="pane-index">[{index}]</span>}
+        <span {...titleAttrs}>{title}</span>
+      </p>
+    )
+  }
+  <slot />
+</div>
